@@ -29,9 +29,10 @@
       <div class="save-slot-loading">Loading…</div>
     </div>
   </div>
+</div>
 
-  <!-- Character creation modal — 6 steps with live preview -->
-  <div class="char-create-modal" id="char-create-modal" hidden>
+<!-- Character creation modal — lives at body level so z-index works correctly -->
+<div class="char-create-modal" id="char-create-modal" hidden>
     <div class="char-create-panel">
 
       <!-- Step progress dots — always visible at top -->
@@ -319,8 +320,7 @@
       <div class="char-create-error" id="cc-error" hidden></div>
 
     </div><!-- /char-create-panel -->
-  </div><!-- /char-create-modal -->
-</div>
+</div><!-- /char-create-modal -->
 
 <!-- =========================================================================
      Two-panel game layout
