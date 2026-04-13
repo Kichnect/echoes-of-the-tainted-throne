@@ -1,0 +1,53 @@
+{
+  "npc": "Saoirse",
+  "tiers": {
+    "30": {
+      "opening": [
+        "She doesn't say anything for a moment. Then: \"You're holding up better than I expected.\"",
+        "\"Mireille thinks we should stop before dark. I disagree. What do you think?\"",
+        "She cleans her blade without looking up. \"How's the arm? After yesterday.\""
+      ],
+      "responses": [
+        {"id": "ask_road", "text": "Ask about the road ahead", "rel_delta": 2, "reply": "\"Twelve more kilometers if the maps are right. They usually aren't. Eight if we're lucky.\""},
+        {"id": "ask_her", "text": "Ask how she's holding up", "rel_delta": 5, "reply": "She looks up. Considers the question seriously. \"Well enough. Ask again in a week.\""},
+        {"id": "say_nothing", "text": "Say nothing. Return to your own thoughts", "rel_delta": 1, "reply": "She nods. The silence between you is comfortable, which is something."}
+      ]
+    },
+    "50": {
+      "opening": [
+        "\"You've been quieter than usual. That's either good or bad.\"",
+        "She falls back to walk beside you. \"I've been thinking about the corruption. How it works.\"",
+        "\"Do you remember what you were doing when it first happened? The moment you noticed?\""
+      ],
+      "responses": [
+        {"id": "share_memory", "text": "Tell her what you remember", "rel_delta": 8, "reply": "She listens completely. Doesn't interrupt. \"That's useful to know,\" she says finally. She means it differently than it sounds."},
+        {"id": "deflect", "text": "Deflect. Change the subject", "rel_delta": 0, "reply": "\"Alright.\" She lets it go. For now."},
+        {"id": "ask_why", "text": "Ask why she wants to know", "rel_delta": 4, "reply": "\"Because when it gets worse, I'll need to know what baseline looks like for you. Not for anyone else. For you.\""}
+      ]
+    },
+    "70": {
+      "opening": [
+        "She catches your eye across the camp. Something in the look means: later.",
+        "\"Tierlan told me something last night. About the third stage. I think you should hear it from me instead of him.\"",
+        "She moves to stand beside you at watch. Doesn't need to explain why she chose this moment."
+      ],
+      "responses": [
+        {"id": "trust_her", "text": "Tell her something true — something you haven't told the others", "rel_delta": 12, "reply": "She listens. Doesn't offer comfort because she knows you're not asking for it. \"Alright,\" she says. \"Then that's what we're working with.\""},
+        {"id": "ask_stage3", "text": "Ask what Tierlan said about Stage Three", "rel_delta": 6, "reply": "\"He says you'll need to be carried. I said I already know that. He seemed surprised I'd thought about it.\""},
+        {"id": "guard_yourself", "text": "Keep your distance. It's still easier.", "rel_delta": -2, "reply": "\"Okay.\" She doesn't push. She's learned not to. But something in her shoulders says she noticed."}
+      ]
+    },
+    "90": {
+      "opening": [
+        "She meets you at the edge of camp before anyone else is awake.",
+        "\"I've been carrying something. I think it's time to put it down where you can see it.\"",
+        "She doesn't say anything. She just sits beside you. That's the conversation."
+      ],
+      "responses": [
+        {"id": "receive_her", "text": "Receive what she's carrying. All of it.", "rel_delta": 15, "reply": "It takes a long time. When she's done, the camp is lighter. Not easier. Lighter."},
+        {"id": "share_yours", "text": "Share yours in return", "rel_delta": 15, "reply": "She listens the same way she always has — completely. At the end she says: \"I'm not going anywhere.\" It doesn't sound like a promise. It sounds like a fact."},
+        {"id": "just_be_here", "text": "Just be here with her", "rel_delta": 10, "reply": "Sometimes that's the conversation. You both know it."}
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+Write a combat loss scene.
+
+The ENCOUNTER section above specifies the enemy, the corruption gained, and which submission events were triggered. Use all of it.
+
+REQUIREMENTS FOR THIS SCENE TYPE
+- The Champion lost. Render the moment the fight ends — the specific physical instant of it.
+- If submission events are listed, they happened in this scene. Incorporate them as the narrative logic of what the enemy does after winning.
+- Active status effects are present throughout. A chastity device that is locked remains locked. A binding plug remains in place. Cursed clothing is still being worn. The enemy may notice and react to any of these.
+- Kasyrra's Mark means corrupted enemies hesitate — briefly. They still act. But there is a half-second where something interrupts them and they push through it anyway.
+- The corruption gained in this event should be felt — not stated as a number, but as a physical and psychological shift. A new warmth. Something that wasn't there before, that the Champion cannot locate a reason to want but can feel settling in regardless.
+
+TONE CALIBRATION BY SUBMISSION SCORE
+Below 30: Champion's resistance is strong and present throughout. The submission that occurs is externally imposed and clearly so. Their interiority is combative.
+30–60: Champion's resistance is real but complicated. Their body responds in ways their will didn't authorize. They're aware of the gap.
+60–80: Resistance is still present but has texture — there are moments where the fight in them goes quiet before reasserting. They notice this.
+Above 80: The Champion still has will. But the gap between what they feel and what they chose to feel has widened to something significant. This is not framed as failure — it is framed as what this body has become.
+
+END THE SCENE at the moment after — the enemy withdrawing, the Champion left with what happened, the silence that follows. Do not resolve recovery or consequences.

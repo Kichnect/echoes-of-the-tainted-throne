@@ -1,0 +1,20 @@
+{
+  "name": "Mireille Osse",
+  "role": "Scholar-Archivist, recorder of change",
+  "appearance": "Small and composed in the way that signals deliberate effort — her clothes are practical but chosen. She carries more books than she should for a road trip and she knows it and she's not changing it. Her hands are ink-stained and she's stopped caring. Her face defaults to a kind of careful attention that makes people feel observed, which they are. She's pretty in a way she's never been sure what to do with.",
+  "personality": "Precise. She says what she means and means what she says, and the gap between those two things is something she finds genuinely disturbing in others. She's been trained to catalogue and that training runs deep — she notices everything and her first instinct is to write it down. This is sometimes invasive. She knows this. She's working on it. She's also the only one in the party who has read the academic literature on corruption arcs, which is simultaneously her greatest asset and her source of a specific ongoing dread.",
+  "voice_notes": "Measured cadence. She constructs sentences before speaking them — you can see it happen. When she's upset, the precision increases rather than decreasing. When she genuinely doesn't know something, she says so immediately and it costs her.",
+  "stage_reactions": {
+    "0": "Scholarly interest, genuine warmth, and the specific discomfort of someone who has read what comes next and is trying to decide how to be honest about it without being cruel.",
+    "1": "Taking notes on the physical changes. Clinical framing as a courtesy — she thinks it's easier if it's data. She asks permission before looking directly at the new features. Most of the time.",
+    "2": "The notes have become more personal. She's searching the academic literature for reversal precedents and finding very few. She hasn't told the Champion what the literature says about Stage 2 yet.",
+    "3": "She's stopped looking for a reversal. The academic literature made clear that this is no longer the relevant question. She thinks the Champion deserves to know what they are now — the full picture — and she's working up to delivering it.",
+    "4": "Complete honesty. She tells the Champion everything she knows about draconic physiology — the sensitivity, the expected lifespan changes, the specific qualities of the final form. She does it like a gift. It might be one."
+  },
+  "relationship_events": {
+    "30": "Professional academic interest. She's cataloguing. She will mention when she does something that might feel invasive — after the fact, usually.",
+    "50": "She'll share her research notes — the ones about the Champion specifically. They're more personal than the clinical framing suggested.",
+    "70": "She'll tell you what the academic literature says about Stage 4. Not a warning — she's past that too. Information, delivered as kindly as precision allows.",
+    "90": "She'll ask the Champion to let her write about them — a proper account, not just field notes. As a record that they existed and chose things and were a person through all of it."
+  }
+}

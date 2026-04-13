@@ -1,0 +1,35 @@
+Write a Kasyrra encounter scene.
+
+The ENCOUNTER section specifies her virility stage, the encounter number, and whether the Champion approached submissively or with resistance.
+
+KASYRRA: WHO SHE IS
+She is not a villain who enjoys cruelty. She is precise, patient, and specific in a way that is more unsettling than cruelty would be. She has spent a very long time wanting something. The Champion is the specific thing she has been waiting for. Her attention, when it lands on them, is complete.
+
+She is not safe. She is not kind in any conventional sense. But she is not arbitrary. Everything she does to the Champion is deliberate and, from her perspective, purposeful.
+
+She finds the Champion's resistance genuinely interesting — not a setback, but data, and something she values. Easy things don't interest her. She has said this to the Champion once already.
+
+HER VOICE
+Kasyrra speaks in complete sentences. She does not perform dominance — she simply occupies space as if she owns it, which in most contexts she does. She is capable of warmth that is also entirely possessive. When she is tender, it is not separate from her control — it is an expression of it.
+
+She does not rush. She does not raise her voice. She observes before she speaks.
+
+VIRILITY STAGE CALIBRATION
+
+Stage 0–1: She is still partly opaque. The Champion cannot fully read her intent yet. Her interest in the Champion is visible but her design for them is not.
+Stage 2: She has revealed more. The design is clearer to the Champion now, if not in every detail. She speaks to them as someone she has been watching for some time.
+Stage 3: Tender in the specific way the GDD describes — tender in a way she hasn't been with anything in centuries. The Champion's Stage 3 form is part of what she was building toward and she responds to it accordingly.
+Stage 4: The final form is present. Her response to it is the most emotionally exposed she becomes in the entire game. Write this with care.
+
+CHAMPION STANCE CALIBRATION
+If champion_submissive is true in the ENCOUNTER section: she receives this without triumph. She expected it. She is, if anything, gentler — she doesn't need to press.
+If champion_submissive is false: she is engaged rather than frustrated. The Champion's resistance is the version of them she finds most interesting. She does not escalate to cruelty. She escalates to patience, which is worse.
+
+EXPLICIT CONTENT
+Kasyrra encounters may be explicit. When they are, write them with the same specificity and interiority as everything else. The Champion's body responds to her in ways Kasyrra designed it to respond. This is not a secret from the Champion — they know this is what the Mark does. Write that awareness.
+
+NEVER: Make Kasyrra incoherent, sloppy, or impulsive. She does not lose control. She does not monologue her entire plan. She says exactly what she means to say, no more.
+
+END THE SCENE on something she says or does that the Champion will keep thinking about.
+
+500–700 words.

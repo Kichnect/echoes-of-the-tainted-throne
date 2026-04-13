@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echoes of the Tainted Throne</title>
+
+  <!-- Narrative serif + display serif -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/corruption_bar.css">
+  <link rel="stylesheet" href="css/save_screen.css">
+</head>
+<body>
+
+<!-- =========================================================================
+     Save Screen Overlay (shown before game loads)
+     ========================================================================= -->
+<div class="save-screen" id="save-screen">
+  <div class="save-screen-inner">
+    <div class="save-screen-title">Echoes of the Tainted Throne</div>
+    <div class="save-screen-subtitle">The road does not wait.</div>
+
+    <div class="save-slots" id="save-slots">
+      <!-- Populated by save_screen.js -->
+      <div class="save-slot-loading">Loading…</div>
+    </div>
+  </div>
+
+  <!-- Character creation modal — 6 steps -->
+  <div class="char-create-modal" id="char-create-modal" hidden>
+    <div class="char-create-panel">
+
+      <!-- Step progress dots -->
+      <div class="cc-step-dots" id="cc-step-dots">
+        <span class="cc-dot active" data-step="1"></span>
+        <span class="cc-dot" data-step="2"></span>
+        <span class="cc-dot" data-step="3"></span>
+        <span class="cc-dot" data-step="4"></span>
+        <span class="cc-dot" data-step="5"></span>
+        <span class="cc-dot" data-step="6"></span>
+      </div>
+
+      <!-- STEP 1 — Identity -->
+      <div class="cc-step active" id="cc-step-1">
+        <div class="char-create-title">Your Champion</div>
+
+        <div class="char-create-field">
+          <label class="char-create-label" for="cc-name">Name</label>
+          <input class="char-create-input" type="text" id="cc-name"
+                 placeholder="Your champion's name" maxlength="32" autocomplete="off">
+        </div>
+
+        <div class="char-create-field">
+          <div class="char-create-label">Gender</div>
+          <div class="cc-choice-row" id="cc-gender-choices">
+            <button class="cc-pill active" data-val="male">Male</button>
+            <button class="cc-pill" data-val="female">Female</button>
+            <button class="cc-pill" data-val="other">Other</button>
+          </div>
+          <div class="char-create-hint">The Champion's own gender. The arc does not care about this.</div>
+        </div>
+
+        <div class="char-create-field">
+          <div class="char-create-label">Hair</div>
+          <div class="cc-choice-row" id="cc-hair-choices">
+            <button class="cc-pill active" data-val="black">Black</button>
+            <button class="cc-pill" data-val="dark brown">Dark Brown</button>
+            <button class="cc-pill" data-val="brown">Brown</button>
+            <button class="cc-pill" data-val="auburn">Auburn</button>
+            <button class="cc-pill" data-val="red">Red</button>
+            <button class="cc-pill" data-val="blonde">Blonde</button>
+            <button class="cc-pill" data-val="silver">Silver</button>
+            <button class="cc-pill" data-val="white">White</button>
+          </div>
+        </div>
+
+        <div class="char-create-field">
+          <div class="char-create-label">Eyes</div>
+          <div class="cc-choice-row" id="cc-eye-choices">
+            <button class="cc-pill active" data-val="brown">Brown</button>
+            <button class="cc-pill" data-val="green">Green</button>
+            <button class="cc-pill" data-val="blue">Blue</button>
+            <button class="cc-pill" data-val="grey">Grey</button>
+            <button class="cc-pill" data-val="amber">Amber</button>
+            <button class="cc-pill" data-val="violet">Violet</button>
+          </div>
+        </div>
+
+        <div class="char-create-field">
+          <div class="char-create-label">Build</div>
+          <div class="background-choices" id="cc-build-choices">
+            <button class="bg-choice" data-val="lean">
+              <div class="bg-choice-name">Lean</div>
+              <div class="bg-choice-bonus">+2 Grace</div>
+              <div class="bg-choice-desc">Quick and precise. Built for speed over power.</div>
+            </button>
+            <button class="bg-choice active" data-val="average">
+              <div class="bg-choice-name">Average</div>
+              <div class="bg-choice-bonus">Balanced</div>
+              <div class="bg-choice-desc">Neither extreme. Room to grow in any direction.</div>
+            </button>
+            <button class="bg-choice" data-val="broad">
+              <div class="bg-choice-name">Broad</div>
+              <div class="bg-choice-bonus">+2 Force</div>
+              <div class="bg-choice-desc">Built for combat. The corruption will reshape this.</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 — Background -->
+      <div class="cc-step" id="cc-step-2" hidden>
+        <div class="char-create-title">Your History</div>
+        <div class="char-create-field">
+          <div class="background-choices" id="background-choices">
+            <button class="bg-choice active" data-bg="warrior">
+              <div class="bg-choice-name">Warrior</div>
+              <div class="bg-choice-bonus">Force +2, HP +15</div>
+              <div class="bg-choice-desc">Military deployment gone wrong. You know how to fight. This is not a fight you know how to win.</div>
+            </button>
+            <button class="bg-choice" data-bg="scholar">
+              <div class="bg-choice-name">Scholar</div>
+              <div class="bg-choice-bonus">Presence +2, Essence +20</div>
+              <div class="bg-choice-desc">Academic expedition. You have notes on this phenomenon. They are insufficient.</div>
+            </button>
+            <button class="bg-choice" data-bg="scout">
+              <div class="bg-choice-name">Scout</div>
+              <div class="bg-choice-bonus">Grace +2</div>
+              <div class="bg-choice-desc">Recon mission into the Marches. You read terrain well. This terrain reads back.</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 — Sin -->
+      <div class="cc-step" id="cc-step-3" hidden>
+        <div class="char-create-title">Your Sin</div>
+        <div class="char-create-hint" style="margin-bottom:0.8rem">This flavors the corruption arc. Choose honestly.</div>
+        <div class="char-create-field">
+          <div class="cc-sin-grid" id="cc-sin-choices">
+            <button class="cc-sin-card active" data-val="pride">
+              <div class="cc-sin-symbol">♦</div>
+              <div class="cc-sin-name">Pride</div>
+              <div class="cc-sin-desc">Resists longer. Falls harder.</div>
+            </button>
+            <button class="cc-sin-card" data-val="lust">
+              <div class="cc-sin-symbol">♥</div>
+              <div class="cc-sin-name">Lust</div>
+              <div class="cc-sin-desc">Arousal rises faster. Encounters more intense.</div>
+            </button>
+            <button class="cc-sin-card" data-val="sloth">
+              <div class="cc-sin-symbol">♠</div>
+              <div class="cc-sin-name">Sloth</div>
+              <div class="cc-sin-desc">Corruption spreads faster. Companions compensate.</div>
+            </button>
+            <button class="cc-sin-card" data-val="wrath">
+              <div class="cc-sin-symbol">♣</div>
+              <div class="cc-sin-name">Wrath</div>
+              <div class="cc-sin-desc">Wins pay more. Losses cost more.</div>
+            </button>
+            <button class="cc-sin-card" data-val="envy">
+              <div class="cc-sin-symbol">★</div>
+              <div class="cc-sin-name">Envy</div>
+              <div class="cc-sin-desc">The attraction arc advances through observation.</div>
+            </button>
+            <button class="cc-sin-card" data-val="greed">
+              <div class="cc-sin-symbol">$</div>
+              <div class="cc-sin-name">Greed</div>
+              <div class="cc-sin-desc">Discoveries more common. Items more potent.</div>
+            </button>
+            <button class="cc-sin-card" data-val="gluttony">
+              <div class="cc-sin-symbol">●</div>
+              <div class="cc-sin-name">Gluttony</div>
+              <div class="cc-sin-desc">Everything amplifies — corruption and resistance.</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 — Attraction -->
+      <div class="cc-step" id="cc-step-4" hidden>
+        <div class="char-create-title">Attraction Starting Point</div>
+        <div class="char-create-hint" style="margin-bottom:0.8rem">All paths converge. The corruption has its own arc.</div>
+        <div class="char-create-field">
+          <div class="attraction-choices" id="attraction-choices">
+            <button class="attr-choice active" data-attr="female-leaning">
+              <div class="attr-choice-name">Drawn to women</div>
+              <div class="attr-choice-desc">Conventional. The arc will test this from the outside in.</div>
+            </button>
+            <button class="attr-choice" data-attr="bisexual-leaning-female">
+              <div class="attr-choice-name">Drawn to both</div>
+              <div class="attr-choice-desc">The arc already has something to work with.</div>
+            </button>
+            <button class="attr-choice" data-attr="uncertain">
+              <div class="attr-choice-name">Uncertain</div>
+              <div class="attr-choice-desc">Already questioning. The arc will clarify it.</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5 — The Secret -->
+      <div class="cc-step" id="cc-step-5" hidden>
+        <div class="char-create-title">The Secret</div>
+        <div class="char-create-field">
+          <label class="char-create-label" for="cc-secret">One thing you have never told anyone</label>
+          <input class="char-create-input" type="text" id="cc-secret"
+                 placeholder="Optional. Mireille may figure it out." maxlength="100" autocomplete="off">
+          <div class="char-create-hint">Leave blank to skip. It will haunt the story if you fill it in.</div>
+        </div>
+
+        <div class="char-create-field" style="margin-top:1rem">
+          <div class="char-create-label">How does your Champion experience change?</div>
+          <div class="cc-tone-choices" id="cc-tone-choices">
+            <button class="cc-tone-card" data-val="dread">
+              <div class="cc-tone-name">With dread</div>
+              <div class="cc-tone-desc">Scenes lean distressing. Inner monologue emphasizes loss and wrongness.</div>
+            </button>
+            <button class="cc-tone-card active" data-val="conflict">
+              <div class="cc-tone-name">With conflict</div>
+              <div class="cc-tone-desc">Compelling and distressing simultaneously. The most complex path.</div>
+            </button>
+            <button class="cc-tone-card" data-val="relief">
+              <div class="cc-tone-name">With secret relief</div>
+              <div class="cc-tone-desc">Disturbed by how little they resist. Denial of acceptance.</div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 6 — Summary + Confirm -->
+      <div class="cc-step" id="cc-step-6" hidden>
+        <div class="char-create-title">Ready</div>
+        <div class="cc-summary" id="cc-summary">
+          <!-- Populated by JS -->
+        </div>
+        <div class="char-create-hint">The road does not wait.</div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="char-create-actions">
+        <button class="char-create-cancel" id="cc-cancel">Cancel</button>
+        <button class="char-create-cancel" id="cc-back" hidden>← Back</button>
+        <button class="char-create-confirm" id="cc-confirm">Next →</button>
+      </div>
+
+      <div class="char-create-error" id="cc-error" hidden></div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================================
+     Two-panel game layout
+     ========================================================================= -->
+
+<div class="game-layout">
+
+  <!-- -----------------------------------------------------------------------
+       LEFT: Narrative panel (70%)
+       ----------------------------------------------------------------------- -->
+
+  <main class="narrative-panel" role="main">
+
+    <!-- Scrollable prose region -->
+    <div class="narrative-scroll" id="narrative-scroll" aria-live="polite" aria-atomic="false">
+      <div id="narrative-text">
+        <div class="scene-block" id="scene-intro">
+          <p class="narrative-paragraph">
+            The road is older than the kingdom that named it.
+            You have been walking it for three days now, and it has not grown
+            more welcoming.
+          </p>
+          <p class="narrative-paragraph">
+            The Wolf-Road earns its name at dusk.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky choice tray -->
+    <div class="choice-tray" id="choice-tray" role="navigation" aria-label="Actions">
+      <div class="choice-tray-label">What do you do?</div>
+      <div class="choice-cards" id="choice-cards">
+        <div class="choice-card" data-choice-id="explore">
+          <div class="choice-glyph">⊕</div>
+          <div class="choice-body">
+            <div class="choice-title">Explore</div>
+            <div class="choice-desc">Move deeper into the road</div>
+          </div>
+        </div>
+        <div class="choice-card" data-choice-id="rest">
+          <div class="choice-glyph">◎</div>
+          <div class="choice-body">
+            <div class="choice-title">Rest</div>
+            <div class="choice-desc">Make camp before nightfall</div>
+          </div>
+        </div>
+        <div class="choice-card" data-choice-id="companions">
+          <div class="choice-glyph">⊏</div>
+          <div class="choice-body">
+            <div class="choice-title">Companions</div>
+            <div class="choice-desc">Speak with those traveling with you</div>
+          </div>
+        </div>
+        <div class="choice-card" data-choice-id="inventory">
+          <div class="choice-glyph">⊡</div>
+          <div class="choice-body">
+            <div class="choice-title">Inventory</div>
+            <div class="choice-desc">Check what you carry</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- -----------------------------------------------------------------------
+       RIGHT: Sidebar (30%)
+       ----------------------------------------------------------------------- -->
+
+  <aside class="sidebar" role="complementary" aria-label="Character status">
+    <div class="sidebar-inner">
+
+      <!-- Champion header -->
+      <section class="stat-block champion-header">
+        <div class="champion-name-row">
+          <div class="champion-name" id="champion-name">Aelindra</div>
+          <span class="sin-badge" id="sin-badge" title="Sin">♦</span>
+        </div>
+        <div class="champion-stage" id="champion-stage">Stage 0 · Human</div>
+
+        <!-- Level + XP bar -->
+        <div class="champion-level-row">
+          <span class="stat-key">Level</span>
+          <span class="stat-val" id="champion-level">1</span>
+          <span class="xp-label" id="xp-label">0/100 XP</span>
+        </div>
+        <div class="xp-bar-track">
+          <div class="xp-bar-fill" id="xp-fill" style="width: 0%"></div>
+        </div>
+
+        <!-- Attraction indicator -->
+        <div class="attraction-indicator" id="attraction-indicator" hidden>
+          <span class="attraction-label" id="attraction-label">—</span>
+        </div>
+
+        <!-- HP bar -->
+        <div class="hp-bar-row">
+          <span class="stat-key">HP</span>
+          <span class="stat-val" id="stat-hp">90/90</span>
+        </div>
+        <div class="hp-bar-track">
+          <div class="hp-bar-fill" id="hp-fill" style="width: 100%"></div>
+        </div>
+      </section>
+
+      <!-- Corruption bar -->
+      <section class="stat-block">
+        <div class="stat-label">Corruption</div>
+
+        <div class="corruption-bar-wrapper" id="corruption-bar-wrapper" data-path="grey">
+          <div class="corruption-bar-track">
+            <div class="corruption-bar-fill" id="corruption-fill"></div>
+
+            <div class="stage-marker" data-gate="1" style="left: 20%"></div>
+            <div class="stage-marker" data-gate="2" style="left: 45%"></div>
+            <div class="stage-marker" data-gate="3" style="left: 65%"></div>
+            <div class="stage-marker" data-gate="4" style="left: 85%"></div>
+          </div>
+
+          <div class="corruption-label-row">
+            <span class="corruption-value"      id="corruption-value">0.0%</span>
+            <span class="corruption-path-label" id="corruption-path-label">Grey</span>
+          </div>
+
+          <div class="corruption-stage-label" id="corruption-stage-label">Human</div>
+
+          <!-- Submission mini-bar -->
+          <div class="submission-bar-track" title="Internal state">
+            <div class="submission-bar-fill" id="submission-fill"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Core stats -->
+      <section class="stat-block">
+        <div class="stat-label">Stats</div>
+        <div class="stats-grid-inner">
+
+          <div class="stat-row">
+            <span class="stat-key">Force</span>
+            <span class="stat-val" id="stat-force">10</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-key">Grace</span>
+            <span class="stat-val" id="stat-grace">10</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-key">Resolve</span>
+            <span class="stat-val" id="stat-resolve">10</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-key">Presence</span>
+            <span class="stat-val" id="stat-presence">10</span>
+          </div>
+
+          <!-- Submission score — visible -->
+          <div class="stat-row">
+            <span class="stat-key">Submit</span>
+            <span class="stat-val" id="stat-submission">0</span>
+          </div>
+
+        </div>
+
+        <!-- Arousal row: full-width with mini-bar -->
+        <div class="arousal-row">
+          <span class="stat-key">Arousal</span>
+          <span class="stat-val" id="stat-arousal">0</span>
+          <div class="arousal-track">
+            <div class="arousal-fill" id="arousal-fill" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Essence / Mana bar -->
+        <div class="essence-row">
+          <span class="stat-key">Essence</span>
+          <span class="stat-val" id="stat-essence">100</span>
+          <div class="essence-track">
+            <div class="essence-fill" id="essence-fill" style="width: 100%"></div>
+          </div>
+        </div>
+
+        <!-- Feminization bar -->
+        <div class="fem-row">
+          <span class="stat-key">Feminis.</span>
+          <span class="stat-val" id="stat-feminization">0%</span>
+          <div class="fem-track">
+            <div class="fem-fill" id="fem-fill" style="width: 0%"></div>
+          </div>
+        </div>
+        <div class="fem-descriptors" id="fem-descriptors"></div>
+
+      </section>
+
+      <!-- Active status effects -->
+      <section class="stat-block">
+        <div class="stat-label">Status</div>
+        <div id="active-statuses">
+          <span class="status-none">—</span>
+        </div>
+      </section>
+
+      <!-- Companions -->
+      <section class="stat-block">
+        <div class="stat-label">Companions</div>
+        <div id="companions-list">
+          <div class="companion-entry">
+            <span class="companion-dot present"></span>
+            <span class="companion-name">Saoirse</span>
+            <span class="companion-rel">30/100</span>
+          </div>
+          <div class="companion-entry">
+            <span class="companion-dot present"></span>
+            <span class="companion-name">Mireille</span>
+            <span class="companion-rel">30/100</span>
+          </div>
+          <div class="companion-entry">
+            <span class="companion-dot present"></span>
+            <span class="companion-name">Tierlan</span>
+            <span class="companion-rel">30/100</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- World state -->
+      <section class="stat-block">
+        <div class="stat-label">Location</div>
+        <div class="world-region" id="world-region">Wolf-Road Edge</div>
+        <div class="world-meta"   id="world-time">Morning · Day 1</div>
+
+        <!-- Weather indicator -->
+        <div class="weather-indicator" id="weather-indicator">
+          <span class="weather-symbol" id="weather-symbol">☀</span>
+          <span class="weather-label"  id="weather-label">Clear</span>
+          <span class="weather-days"   id="weather-days"></span>
+        </div>
+
+        <div class="world-stats">
+          <div class="stat-row">
+            <span class="stat-key">Supplies</span>
+            <span class="stat-val" id="world-supplies">10 days</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-key">Morale</span>
+            <span class="stat-val" id="world-morale">70/100</span>
+          </div>
+        </div>
+
+        <!-- Travel progress bar (shown only during active travel) -->
+        <div class="travel-progress-row" id="travel-progress-row" hidden>
+          <span class="stat-key">Travel</span>
+          <span class="travel-dest" id="travel-dest"></span>
+          <div class="travel-bar-track">
+            <div class="travel-bar-fill" id="travel-bar-fill" style="width: 0%"></div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.sidebar-inner -->
+  </aside>
+
+</div><!-- /.game-layout -->
+
+
+<!-- =========================================================================
+     Inventory Overlay (three tabs: SELF / ITEMS / QUESTS)
+     ========================================================================= -->
+
+<div class="inventory-overlay" id="inventory-overlay" aria-hidden="true">
+  <div class="inventory-panel">
+
+    <div class="inventory-header">
+      <div class="inventory-tabs" role="tablist">
+        <button class="inv-tab active" data-tab="self"   role="tab" aria-selected="true">Self</button>
+        <button class="inv-tab"        data-tab="items"  role="tab" aria-selected="false">Items</button>
+        <button class="inv-tab"        data-tab="quests"  role="tab" aria-selected="false">Quests</button>
+        <button class="inv-tab"        data-tab="codex"   role="tab" aria-selected="false">Codex</button>
+      </div>
+      <button class="inventory-close" id="inventory-close" aria-label="Close inventory">×</button>
+    </div>
+
+    <div class="inventory-content">
+      <!-- SELF tab: Gemma-generated self-description -->
+      <div class="inv-panel active" id="inv-self" role="tabpanel">
+        <div class="inv-loading">
+          <span class="inv-loading-text">Generating…</span>
+        </div>
+      </div>
+
+      <!-- ITEMS tab: cursed items, keys, consumables -->
+      <div class="inv-panel" id="inv-items" role="tabpanel" hidden>
+        <p class="inv-empty">Nothing in inventory yet.</p>
+      </div>
+
+      <!-- QUESTS tab: active quest log -->
+      <div class="inv-panel" id="inv-quests" role="tabpanel" hidden>
+        <div class="quest-entry">
+          <div class="quest-name">Survive the Wolf-Road</div>
+          <div class="quest-status">Active · Day 1</div>
+          <div class="quest-desc">Reach the outpost beyond the road's end. The corruption that found you here is not unique to this place — but it started here.</div>
+        </div>
+      </div>
+
+      <!-- CODEX tab: lore entries -->
+      <div class="inv-panel" id="inv-codex" role="tabpanel" hidden>
+        <div id="codex-entries">
+          <p class="inv-empty">No entries unlocked yet.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     Debug Panel (bottom-left, collapsible, 4 tabs: State/Choices/AI/World)
+     ========================================================================= -->
+
+<div class="ai-panel" id="ai-panel">
+  <button class="ai-panel-toggle" id="ai-panel-toggle" title="Debug panel">⚙ Debug</button>
+
+  <div class="ai-panel-body" id="ai-panel-body" hidden>
+
+    <!-- Tab bar -->
+    <div class="debug-tabs" role="tablist">
+      <button class="debug-tab active" data-dtab="state"   role="tab">State</button>
+      <button class="debug-tab"        data-dtab="choices" role="tab">Choices</button>
+      <button class="debug-tab"        data-dtab="ai"      role="tab">AI</button>
+      <button class="debug-tab"        data-dtab="world"   role="tab">World</button>
+    </div>
+
+    <!-- STATE tab -->
+    <div class="debug-panel active" id="dp-state" role="tabpanel">
+      <div class="ai-section">
+        <div class="ai-think-label">Champion (full)</div>
+        <pre class="debug-json" id="dp-champion-json">{}</pre>
+      </div>
+      <div class="ai-section">
+        <div class="ai-think-label">Character Sheet</div>
+        <pre class="debug-json" id="dp-sheet-json">{}</pre>
+      </div>
+      <div class="ai-section">
+        <div class="ai-think-label">Sin / Tone / Attraction</div>
+        <pre class="debug-json" id="dp-sin-json">{}</pre>
+      </div>
+    </div>
+
+    <!-- CHOICES tab -->
+    <div class="debug-panel" id="dp-choices" role="tabpanel" hidden>
+      <div class="ai-section">
+        <div class="ai-think-label">Last choices rendered</div>
+        <pre class="debug-json" id="dp-choices-json">[]</pre>
+      </div>
+    </div>
+
+    <!-- AI tab -->
+    <div class="debug-panel" id="dp-ai" role="tabpanel" hidden>
+      <div class="ai-section">
+        <div class="ai-style-label">Writing style sample</div>
+        <textarea class="ai-style-input" id="ai-style-input" rows="4"
+          placeholder="Paste a passage whose prose style you want Gemma to match…"></textarea>
+        <button class="ai-style-apply" id="ai-style-apply">Apply for session</button>
+        <div class="ai-style-status" id="ai-style-status"></div>
+      </div>
+      <div class="ai-section ai-model-info">
+        <span class="ai-info-label">Model</span>
+        <span id="ai-model-name">—</span>
+      </div>
+      <div class="ai-section">
+        <span class="ai-info-label">Keep-alive</span>
+        <span id="ai-keep-alive">30m</span>
+      </div>
+      <div class="ai-section">
+        <label class="ai-toggle-row">
+          <input type="checkbox" id="ai-show-thinking" autocomplete="off">
+          <span>Show Gemma thinking</span>
+        </label>
+      </div>
+      <div class="ai-section ai-think-section" id="ai-think-section" hidden>
+        <div class="ai-think-label">Gemma thinking</div>
+        <div class="ai-think-scroll" id="ai-think-content">(none yet)</div>
+      </div>
+      <div class="ai-section">
+        <div class="ai-think-label">Last prompt sent to AI</div>
+        <pre class="debug-json" id="dp-last-prompt">(none yet)</pre>
+      </div>
+    </div>
+
+    <!-- WORLD tab -->
+    <div class="debug-panel" id="dp-world" role="tabpanel" hidden>
+      <div class="ai-section">
+        <div class="ai-think-label">World State</div>
+        <pre class="debug-json" id="dp-world-json">{}</pre>
+      </div>
+      <div class="ai-section">
+        <div class="ai-think-label">Story Flags</div>
+        <pre class="debug-json" id="dp-flags-json">{}</pre>
+      </div>
+      <div class="ai-section">
+        <div class="ai-think-label">Dream / Gift Status</div>
+        <pre class="debug-json" id="dp-dream-gift-json">{}</pre>
+      </div>
+      <div class="ai-section">
+        <div class="ai-think-label">Encounter Cooldowns</div>
+        <pre class="debug-json" id="dp-cooldowns-json">{}</pre>
+      </div>
+      <div class="ai-section">
+        <div class="ai-think-label">Travel</div>
+        <pre class="debug-json" id="dp-travel-json">{}</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     Scripts
+     ========================================================================= -->
+
+<script src="js/save_screen.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/stream_renderer.js"></script>
+<script src="js/game.js"></script>
+
+</body>
+</html>

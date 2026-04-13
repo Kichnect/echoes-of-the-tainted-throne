@@ -1,0 +1,152 @@
+{
+  "id": "lupine_pack",
+  "display_name": "Lupine Pack",
+  "enemy_type": "corrupted_beast",
+  "description": "A pack of four to six corrupted wolves led by an alpha twice their size. The alpha walks upright when it wants to. The corruption has given them patience and something resembling tactics. They split the party if they can. They prefer to take targets alive.",
+
+  "difficulty": 14,
+  "combat_stat": "force",
+  "respects_kasyrra_mark": true,
+
+  "available_regions": ["Wolf-Road Edge", "Northern Reaches", "Thornmere Outskirts"],
+  "min_corruption": 0.0,
+  "max_corruption": 100.0,
+  "min_stage": 0,
+
+  "on_win": {
+    "corruption_gain": 2.0,
+    "submission_events": ["resisted_submission_check"],
+    "scene_type": "encounter_win",
+    "notes": "The pack is driven off or the alpha is incapacitated. The others scatter the moment the alpha goes down — that much corruption hasn't reached them. The Champion is left with the specific physical exhaustion of fighting something that was significantly larger than them. The corrupted wolves have an unpleasant musk that lingers."
+  },
+
+  "on_loss": {
+    "corruption_gain": 8.0,
+    "submission_events": [
+      "combat_loss_penetrated",
+      "npc_dominant_submission"
+    ],
+    "scene_type": "encounter_loss",
+    "notes": "The pack takes the Champion down together; the alpha claims them alone. The remaining wolves form a loose perimeter — watching, waiting, some of them sitting. The alpha is methodical and unhurried and enormous and the Champion's body is designed now to register this in detail. The corruption in the alpha's flesh means it knows, somehow, exactly where to be most effective."
+  },
+
+  "on_flee": {
+    "corruption_gain": 3.0,
+    "submission_events": ["resisted_submission_check", "escaped_submission_situation"],
+    "scene_type": "encounter_win",
+    "notes": "The Champion or a companion breaks the alpha's focus long enough to run. Wolves are faster in the open but lose interest at tree cover. Getting away requires a head start and the willingness to leave equipment behind. The pack howls once when the Champion gets clear — it sounds like a promise."
+  },
+
+  "choices": {
+    "win": [
+      {
+        "id": "enc_press",
+        "glyph": "⚔",
+        "label": "Press the advantage",
+        "desc": "You have the upper hand — use it",
+        "outcome": "The champion pressed the advantage aggressively, not giving the lupines room to regroup. Write a scene where the champion follows through with force.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion pressed the advantage again — this is becoming pattern. Write a scene that acknowledges the muscle memory of it."
+      },
+      {
+        "id": "enc_end_quick",
+        "glyph": "◉",
+        "label": "End it cleanly",
+        "desc": "One decisive strike and it's over",
+        "outcome": "The champion chose efficiency over dominance — one decisive action to end it. Write a brief, controlled scene.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion ended it quickly again. The motion is almost automatic now."
+      },
+      {
+        "id": "enc_drive_off",
+        "glyph": "→",
+        "label": "Drive them off",
+        "desc": "Let them flee — the point is made",
+        "outcome": "The champion chose to drive them off rather than finish it, letting the lupines retreat. Write a scene where the pack withdraws.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion let them go again. There's something in this choice — mercy, or something more complicated."
+      },
+      {
+        "id": "enc_survey",
+        "glyph": "⊕",
+        "label": "Survey the area",
+        "desc": "Check what they were guarding",
+        "outcome": "After driving the pack off, the champion takes a moment to examine the area — what were they protecting or hunting in this part of the road?",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion scouts the area again. They've learned to check after lupine encounters."
+      }
+    ],
+    "loss": [
+      {
+        "id": "enc_resist",
+        "glyph": "⚔",
+        "label": "Keep fighting",
+        "desc": "Not done yet",
+        "outcome": "The champion refused to stop fighting even as the pack overwhelmed them — still resisting even through it. Write a scene of defiant endurance.",
+        "weight": 1,
+        "submission_event": "resisted_submission_check",
+        "repeated_outcome": "The champion fought back again. The resistance is real, even when it doesn't change the outcome."
+      },
+      {
+        "id": "enc_endure",
+        "glyph": "◎",
+        "label": "Endure it",
+        "desc": "Wait for an opening that won't come",
+        "outcome": "The champion went still and endured what happened, looking for an opening that didn't come. Write a scene of tense, watchful endurance.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion endured again. The stillness is becoming familiar."
+      },
+      {
+        "id": "enc_submit",
+        "glyph": "·",
+        "label": "Stop fighting",
+        "desc": "Your body has already decided",
+        "outcome": "The champion stopped resisting — body and will both gave out. Write a scene where submission is the last decision they make before the pack takes over.",
+        "weight": 1,
+        "submission_event": "combat_loss_penetrated",
+        "repeated_outcome": "The champion stopped fighting again. The gap between deciding to stop and the stopping itself is narrowing."
+      }
+    ]
+  },
+
+  "stage_variants": {
+    "0": {
+      "on_win": {
+        "corruption_gain": 1.5,
+        "notes": "Stage 0 — a human soldier can fight off four wolves. Difficult but within the range of normal. The Champion's force and reach matter here."
+      }
+    },
+    "2": {
+      "on_loss": {
+        "corruption_gain": 9.0,
+        "submission_events": [
+          "combat_loss_penetrated",
+          "npc_dominant_submission",
+          "orgasm_anal_only"
+        ],
+        "notes": "At Stage 2 the Champion's frame has shifted enough that their size difference with the alpha is significant. The alpha notices. The pack notices. The Champion's body at this stage responds to the alpha with an involuntary intensity that their will did not approve."
+      }
+    },
+    "3": {
+      "on_loss": {
+        "corruption_gain": 10.0,
+        "submission_events": [
+          "combat_loss_penetrated",
+          "npc_dominant_submission",
+          "orgasm_anal_only",
+          "referred_to_as_good_girl"
+        ],
+        "notes": "At Stage 3, the Kasyrra Mark hesitation is visible — the alpha pauses for a full three seconds, head tilted, nostrils working. Then it proceeds. The Champion is small enough that the alpha carries them. The attraction aura makes the other wolves restless. It takes considerably longer than it should."
+      },
+      "on_win": {
+        "corruption_gain": 2.5,
+        "notes": "At Stage 3, winning this fight is the result of the Mark, a companion's intervention, or an exceptional roll. The Champion did not win through size or reach. The alpha hesitated — that hesitation was the fight."
+      }
+    }
+  }
+}

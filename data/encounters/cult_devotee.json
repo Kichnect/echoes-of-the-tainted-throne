@@ -1,0 +1,164 @@
+{
+  "id": "cult_devotee",
+  "display_name": "Cult Devotee",
+  "enemy_type": "corrupted_human",
+  "description": "A human male, late twenties, in the undyed linen and copper-thread devotional sash of Kasyrra's road cult. He is not physically exceptional. He is calm in a way that suggests either faith or something that has replaced it. He carries restraints and a small kit of ritual implements. He is not here by accident.",
+
+  "difficulty": 12,
+  "combat_stat": "resolve",
+  "respects_kasyrra_mark": true,
+
+  "available_regions": ["Wolf-Road Edge", "Thornmere Market District", "Shrine of the Becoming"],
+  "min_corruption": 5.0,
+  "max_corruption": 100.0,
+  "min_stage": 0,
+
+  "on_win": {
+    "corruption_gain": 0.0,
+    "submission_events": ["resisted_submission_check"],
+    "scene_type": "encounter_win",
+    "notes": "The devotee is incapacitated or driven off. Before he goes — or while he's down — he says something that Mireille will want to hear about. He knows things about what the Champion is becoming. He considers it a gift. He is not angry to be losing this fight; he looks like he expected it. He looks, if anything, pleased."
+  },
+
+  "on_loss": {
+    "corruption_gain": 6.0,
+    "submission_events": [
+      "referred_to_as_good_girl",
+      "cursed_clothing_worn",
+      "npc_dominant_submission"
+    ],
+    "scene_type": "encounter_loss",
+    "notes": "The devotee wins through patience and positioning rather than force. He speaks throughout — liturgical language mixed with very specific observations about the Champion's body and what it means. If the Champion is wearing cursed clothing or has a plug active, he acknowledges this with the satisfied tone of someone whose prayer has been answered. He applies the cursed harem outfit if not already present. He calls the Champion by a ritual title that translates, roughly, as 'the vessel that chose.' He believes this. He is not entirely wrong."
+  },
+
+  "on_flee": {
+    "corruption_gain": 1.5,
+    "submission_events": ["escaped_submission_situation"],
+    "scene_type": "encounter_win",
+    "notes": "The Champion gets away. The devotee does not give chase — running is not part of his theology. He watches them go with an expression that suggests the outcome was, in some sense, also acceptable. He calls something after them. In Draconic. The Champion did not know they understood Draconic until they understood what he said."
+  },
+
+  "choices": {
+    "win": [
+      {
+        "id": "enc_reject",
+        "glyph": "⚔",
+        "label": "Reject their doctrine",
+        "desc": "Make clear what you think of their faith",
+        "outcome": "The champion defeated the cultist and rejected their doctrine explicitly — not just winning the fight, but refusing the framing. Write a scene of ideological refusal.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion rejected it again. The refusal is practiced now."
+      },
+      {
+        "id": "enc_spare",
+        "glyph": "→",
+        "label": "Let them go",
+        "desc": "They're already corrupted — what's the point",
+        "outcome": "The champion won and let the cultist go, not seeing the point in finishing it. Write a scene where the cult's corruption reads as its own punishment.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion let another one go. There's something like pity in it now."
+      },
+      {
+        "id": "enc_question",
+        "glyph": "◉",
+        "label": "Question them",
+        "desc": "What do they actually know about this road",
+        "outcome": "The champion pinned the cultist and extracted information — about this road, about Kasyrra, about the cult's movements in this region. Write a tense interrogation scene.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion interrogated another one. The information is becoming a picture."
+      }
+    ],
+    "loss": [
+      {
+        "id": "enc_resist",
+        "glyph": "⚔",
+        "label": "Refuse their ritual",
+        "desc": "You know what this is",
+        "outcome": "The champion refused to participate in the cultist's ritual, fighting back even while physically overcome. Write a scene of psychological defiance through physical defeat.",
+        "weight": 1,
+        "submission_event": "resisted_submission_check",
+        "repeated_outcome": "The champion refused again. The cultists have started asking why someone this corrupted still refuses."
+      },
+      {
+        "id": "enc_endure",
+        "glyph": "◎",
+        "label": "Endure the ritual",
+        "desc": "Get through it and get out",
+        "outcome": "The champion submitted to the ritual as a tactical decision — get through it, get out, deal with the corruption later. Write a scene of practical endurance.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion endured again. The ritual is starting to feel familiar."
+      },
+      {
+        "id": "enc_yield",
+        "glyph": "·",
+        "label": "Give them what they want",
+        "desc": "Maybe that stops the rest of it",
+        "outcome": "The champion yielded to the cultist's demands, hoping compliance would end it faster. Write a scene where the transaction is made and the cost is visible.",
+        "weight": 1,
+        "submission_event": "cult_devotee_submission",
+        "repeated_outcome": "The champion yielded again. The cultists have started to expect it."
+      }
+    ]
+  },
+
+  "stage_variants": {
+    "0": {
+      "on_loss": {
+        "corruption_gain": 5.0,
+        "submission_events": [
+          "referred_to_as_good_girl",
+          "npc_dominant_submission"
+        ],
+        "notes": "At Stage 0 the devotee is more cautious — the Champion still looks like a fighter. He works through manipulation rather than force. The loss is psychological rather than physical."
+      }
+    },
+    "2": {
+      "on_loss": {
+        "corruption_gain": 7.0,
+        "submission_events": [
+          "referred_to_as_good_girl",
+          "cursed_clothing_worn",
+          "npc_dominant_submission",
+          "dirty_talk_accepted"
+        ],
+        "notes": "At Stage 2 the devotee treats the Champion as a confirmed believer whether they agree or not. He is more hands-on. He uses the ritual title throughout. He has a specific prayer for this stage of the Becoming and he says it with his hands on the Champion's shoulders, his voice level, his eyes open."
+      }
+    },
+    "3": {
+      "on_loss": {
+        "corruption_gain": 8.0,
+        "submission_events": [
+          "referred_to_as_good_girl",
+          "cursed_clothing_worn",
+          "npc_dominant_submission",
+          "dirty_talk_accepted",
+          "temporary_sex_slave_event"
+        ],
+        "notes": "At Stage 3 the Mark hesitation is visible — the devotee stops mid-sentence, bows his head for a moment, and continues. He treats this as sacred. The Champion's size at this stage means he can simply lift them. He does. The temporary enslavement event fires: the ritual he performs is legitimate by the rules of this world's magic and has a 24-hour duration. Mireille can break it but only if she's present or reached by morning.",
+        "applies_item": "cursed_harem_outfit"
+      },
+      "on_win": {
+        "corruption_gain": 0.0,
+        "submission_events": ["resisted_submission_check"],
+        "notes": "Winning at Stage 3 is almost entirely about the Mark and companion support. The devotee expected compliance; the resistance surprises and delights him in equal measure. He leaves voluntarily. He says he will find them again. This is not a threat. It is an appointment."
+      }
+    },
+    "4": {
+      "on_loss": {
+        "corruption_gain": 9.0,
+        "submission_events": [
+          "referred_to_as_good_girl",
+          "npc_dominant_submission",
+          "dirty_talk_accepted",
+          "temporary_sex_slave_event",
+          "orgasm_anal_only"
+        ],
+        "notes": "At Stage 4 the devotee weeps quietly when he first sees the Champion. Not from sorrow. The Draconic Final Form is, to him, the completion of a prophecy he has read in fragments for years. He is reverent and thorough and completely certain of what he is doing. The Champion's hypersensitive body makes extended scenes extremely intense. The companions, if present, are paralysed by the Attraction Aura — not prevented from acting, but slowed, like moving through water. Saoirse will break through it. Mireille will try. Tierlan will be halfway there when it resolves."
+      }
+    }
+  }
+}

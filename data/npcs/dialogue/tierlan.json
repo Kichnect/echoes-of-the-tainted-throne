@@ -1,0 +1,53 @@
+{
+  "npc": "Tierlan",
+  "tiers": {
+    "30": {
+      "opening": [
+        "\"So. The ears.\" He says it the way you'd say 'nice weather' — conversationally.",
+        "\"You know what, don't answer that. I already know the answer. I just wanted to see your face.\"",
+        "He falls into step beside you. \"You're doing better than the last person I saw go through this.\""
+      ],
+      "responses": [
+        {"id": "ask_last_person", "text": "Ask about the last person", "rel_delta": 5, "reply": "\"Different circumstances. Also, they made worse choices at key moments.\" He doesn't elaborate. That's on purpose."},
+        {"id": "take_bait", "text": "Ask what he wanted to see in your face", "rel_delta": 3, "reply": "\"Resignation. Or panic. You had neither.\" He seems genuinely pleased by this. \"Good. Keep that.\""},
+        {"id": "ignore_him", "text": "Ignore him. You've learned to.", "rel_delta": 1, "reply": "\"Wise,\" he says cheerfully. \"Definitely wise.\""}
+      ]
+    },
+    "50": {
+      "opening": [
+        "\"I built something. Don't make it weird.\"",
+        "He's quieter than usual tonight. That's always more alarming than when he's loud.",
+        "\"Can I ask you something? Actually ask, not just say words at you?\""
+      ],
+      "responses": [
+        {"id": "ask_what_built", "text": "Ask what he built", "rel_delta": 5, "reply": "A carrying frame, modified for your changed dimensions. Compact. Thought through. \"For when it gets heavier than the others can manage easily.\" He says it like it's nothing. It isn't nothing."},
+        {"id": "let_him_ask", "text": "Let him ask his question", "rel_delta": 8, "reply": "\"What's it like? Actually like — not the clinical version Mireille gives, not the worried version Saoirse gives.\" You tell him. He listens in that particular way he has — like he's taking inventory."},
+        {"id": "ask_what_quiet", "text": "Ask him what the quiet is about", "rel_delta": 4, "reply": "\"Thinking.\" A pause. \"About corruption. About what it wants.\" He doesn't finish the thought tonight. He'll come back to it."}
+      ]
+    },
+    "70": {
+      "opening": [
+        "He finds you during second watch. \"There's something I never told anyone on this team.\"",
+        "\"Corruption and I have a history. Not yours — mine. Different road, same type of problem.\"",
+        "He sits. First watch, second watch — he's awake for both, which means something."
+      ],
+      "responses": [
+        {"id": "hear_history", "text": "Ask him to tell you his history with it", "rel_delta": 12, "reply": "He talks for a long time. The specifics are different from yours — a different mechanism, a different arc — but the shape of it is recognizable. When he's done he says: \"Which is how I know what you're going through is manageable. Not easy. Manageable.\""},
+        {"id": "share_yours", "text": "Share something of yours in return", "rel_delta": 10, "reply": "He listens without comment until you're done. Then: \"Yeah. That tracks.\" The compression is intentional — it means he understood enough that unpacking it would just make it heavier."},
+        {"id": "ask_how_managed", "text": "Ask how he managed it", "rel_delta": 8, "reply": "\"Badly at first. Then better. Then I found people I didn't want to let down.\" He looks at the camp. The meaning is clear."}
+      ]
+    },
+    "90": {
+      "opening": [
+        "The carrying pack is finished. He doesn't announce it. It's just there.",
+        "He doesn't say anything when he sits down. You both watch the fire. That's the whole conversation.",
+        "\"You know I'm not going anywhere, right? Not a speech. Just checking you know.\""
+      ],
+      "responses": [
+        {"id": "acknowledge", "text": "Acknowledge what he's built. What it means.", "rel_delta": 15, "reply": "He nods. Doesn't say anything. His expression does the work."},
+        {"id": "say_you_know", "text": "Tell him you know he's staying", "rel_delta": 10, "reply": "\"Good,\" he says. \"Would've been awkward if you didn't.\" The levity is real. So is everything underneath it."},
+        {"id": "ask_what_next", "text": "Ask what comes next — for him, not for the journey", "rel_delta": 12, "reply": "He thinks about it. \"Depends on how it ends.\" He says it matter-of-factly, like someone making plans around weather. \"But I've got a few ideas.\""}
+      ]
+    }
+  }
+}

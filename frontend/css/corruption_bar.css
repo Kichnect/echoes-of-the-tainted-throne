@@ -1,0 +1,227 @@
+/* ==========================================================================
+   Corruption Bar — Echoes of the Tainted Throne
+   Color shifts with the Champion's active color_path.
+   PONR gate markers at 20%, 45%, 65%, 85%.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Color path tokens
+   Sets --path-color and --path-glow on the bar wrapper via data-path attr.
+   main.css provides the fallback (grey).
+   -------------------------------------------------------------------------- */
+
+.corruption-bar-wrapper[data-path="violet"] {
+  --path-color: #6b3fa0;
+  --path-glow:  rgba(107, 63, 160, 0.35);
+}
+.corruption-bar-wrapper[data-path="crimson"] {
+  --path-color: #8b1a1a;
+  --path-glow:  rgba(139, 26, 26, 0.35);
+}
+.corruption-bar-wrapper[data-path="teal"] {
+  --path-color: #2a7a6e;
+  --path-glow:  rgba(42, 122, 110, 0.35);
+}
+.corruption-bar-wrapper[data-path="rose"] {
+  --path-color: #c45c8a;
+  --path-glow:  rgba(196, 92, 138, 0.35);
+}
+.corruption-bar-wrapper[data-path="amber"] {
+  --path-color: #b8860b;
+  --path-glow:  rgba(184, 134, 11, 0.35);
+}
+.corruption-bar-wrapper[data-path="grey"] {
+  --path-color: #5a5a5a;
+  --path-glow:  rgba(90, 90, 90, 0.2);
+}
+.corruption-bar-wrapper[data-path="ivory"] {
+  --path-color: #c8bfa0;
+  --path-glow:  rgba(200, 191, 160, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   Outer wrapper — contains track + labels
+   -------------------------------------------------------------------------- */
+
+.corruption-bar-wrapper {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+/* --------------------------------------------------------------------------
+   Track
+   -------------------------------------------------------------------------- */
+
+.corruption-bar-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: #1a1710;
+  border: 1px solid #2a2618;
+  border-radius: 1px;
+  overflow: visible;   /* so markers can protrude above */
+}
+
+/* --------------------------------------------------------------------------
+   Fill
+   -------------------------------------------------------------------------- */
+
+.corruption-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: var(--path-color, #5a5a5a);
+  border-radius: 1px 0 0 1px;
+  transition:
+    width 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 800ms ease,
+    box-shadow 800ms ease;
+  will-change: width, background;
+}
+
+/* Glow on the leading edge */
+.corruption-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -2px;
+  bottom: -2px;
+  width: 4px;
+  background: var(--path-color, #5a5a5a);
+  filter: blur(3px);
+  opacity: 0.7;
+  transition: background 800ms ease;
+}
+
+/* When bar is nearly full (>= 80%), add a stronger overall glow */
+.corruption-bar-fill.high {
+  box-shadow: 0 0 8px var(--path-glow, rgba(90,90,90,0.2));
+}
+
+/* --------------------------------------------------------------------------
+   Stage threshold markers  (at 20%, 45%, 65%, 85%)
+   -------------------------------------------------------------------------- */
+
+.stage-marker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 1px;
+  background: #2a2618;
+  pointer-events: none;
+  transition: background var(--t-med, 280ms ease), opacity var(--t-med, 280ms ease);
+}
+
+/* Tick cap above the track */
+.stage-marker::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 3px;
+  background: #3a3428;
+  border-radius: 50%;
+  transition: background var(--t-med, 280ms ease), transform 200ms ease;
+}
+
+/* When a PONR gate has locked, the marker brightens */
+.stage-marker.locked {
+  background: var(--path-color, #5a5a5a);
+  opacity: 0.55;
+}
+
+.stage-marker.locked::before {
+  background: var(--path-color, #5a5a5a);
+  opacity: 0.8;
+  transform: translateX(-50%) scale(1.4);
+}
+
+/* Lock icon rendered as a tiny unicode symbol in ::after */
+.stage-marker.locked::after {
+  content: '⌑';
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px;
+  color: var(--path-color, #5a5a5a);
+  opacity: 0.7;
+  line-height: 1;
+  font-family: var(--font-ui, sans-serif);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Below-bar label row
+   -------------------------------------------------------------------------- */
+
+.corruption-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 0.55rem;
+}
+
+.corruption-value {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-ui, #a89e88);
+  transition: color 800ms ease;
+}
+
+/* The value text tints toward the path color at high corruption */
+.corruption-bar-wrapper[data-path] .corruption-value {
+  color: color-mix(in srgb, var(--path-color) 30%, var(--text-ui, #a89e88));
+}
+
+.corruption-path-label {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--path-color, #5a5a5a);
+  opacity: 0.75;
+  transition: color 800ms ease, opacity 800ms ease;
+}
+
+/* Stage name beneath the bar — shown between markers */
+.corruption-stage-label {
+  font-family: var(--font-ui, sans-serif);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--text-dim, #8a7f68);
+  margin-top: 0.25rem;
+  text-align: center;
+  transition: color var(--t-med, 280ms ease);
+}
+
+/* --------------------------------------------------------------------------
+   Submission mini-bar (sits below corruption, optional)
+   Uses a muted rose/neutral color, never labeled numerically to player
+   -------------------------------------------------------------------------- */
+
+.submission-bar-track {
+  width: 100%;
+  height: 2px;
+  background: #1a1710;
+  margin-top: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.submission-bar-fill {
+  height: 100%;
+  background: #5a3a4a;
+  transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1), background 600ms ease;
+}
+
+/* At high submission (path hinting toward Rose), tint the fill */
+.corruption-bar-wrapper[data-path="rose"] .submission-bar-fill {
+  background: #8a3a5a;
+}

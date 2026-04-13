@@ -1,0 +1,55 @@
+{
+  "id": "imp_warren_entrance",
+  "name": "Imp Warren Entrance",
+  "description": "A rocky terrain riddled with burrow-holes and narrow passages where imp colonies have tunneled for generations. The corruption here is dense and low to the ground, seeping from the warrens below.",
+  "passive_corruption_per_hour": 0.3,
+  "ambient_lines": [
+    "The ground is honeycombed here. You test each step before committing.",
+    "Imp chatter from below the surface — rapid, layered, impossible to parse.",
+    "A burrow entrance, perfectly circular, two hands wide. Movement just inside the darkness.",
+    "Something small throws a pebble from a distance. When you look, nothing is there.",
+    "The rock face is covered in scratch marks at consistent heights. They aren't random.",
+    "The corruption from the warrens smells acrid — sulfur cut with something sweeter.",
+    "A dead fire pit surrounded by tiny, precise arrangements of bones.",
+    "You can hear running water somewhere below. Imp warrens often route around underground streams.",
+    "Small eyes in the shadows. Too many of them. Watching with coordinated patience.",
+    "The entrance to one of the larger warrens is blocked with cork and twine. Recently sealed from outside.",
+    "An imp emerges, stares at you for three seconds, and descends back into its burrow.",
+    "Your boot displaces a rock. Below it, a careful geometric arrangement of colored stones.",
+    "The ground near the largest warren radiates warmth. The corruption source is active.",
+    "Droppings on the rock. Fresh. You've been tracked for longer than you realized.",
+    "A tattered Warden Order sash caught on a rock spur. Old blood on it.",
+    "The narrow passages between rock formations are exactly the right width for an imp. Not for you.",
+    "Chittering stops suddenly when you take three steps in a particular direction. You note which direction.",
+    "Something has arranged dozens of small skulls along the top of a ledge. They're all facing the same way.",
+    "An offering bowl filled with shiny objects — coins, buttons, a broken compass needle.",
+    "The density of imp signs increases the closer you get to the main entrance. They know you're here."
+  ],
+  "time_variants": {
+    "dawn": "The imps retreat at dawn's light. The warrens go quiet. It's the safest window, and it's short.",
+    "morning": "Morning keeps most imps below ground. The ones that emerge are scouts — more cautious, more organized.",
+    "midday": "Midday drives them fully underground. The warren entrance is quiet. The ground still hums.",
+    "evening": "At evening, imp activity increases. They're social at dusk. Dangerous socially.",
+    "night": "Full night is full activity. The warrens pour out. Every surface has something moving on it."
+  },
+  "points_of_interest": [
+    {
+      "name": "The Main Entrance",
+      "desc": "The largest warren opening, three meters across and reinforced with scavenged timber. The organized construction implies generations of coordinated labor."
+    },
+    {
+      "name": "The Offering Rock",
+      "desc": "A flat stone covered in imp offerings — objects that caught their attention. Among the trinkets, a sealed letter in Warden script."
+    },
+    {
+      "name": "The Sealed Warren",
+      "desc": "A burrow system sealed from the outside with heavy timber and pitch. Whatever is inside, someone decided it should stay there."
+    }
+  ],
+  "arrival_scene": "The ground changes before you can see the warrens — you feel the hollowness beneath your feet, the faint give of earth that has been tunneled under. Then the rock formations open up and you see the burrow-holes everywhere, at every scale, and the sense of being observed by something organized and patient settles over you like a second atmosphere.",
+  "connections": [
+    {"name": "Warming Frost", "desc": "Southeast, climbing the ridge. The imp density thins as the cold increases."},
+    {"name": "Wolf-Road Edge", "desc": "South along the rocky scree. More open ground, fewer imps."}
+  ],
+  "encounter_table": ["imp_swarm", "imp_swarm", "cult_devotee"]
+}

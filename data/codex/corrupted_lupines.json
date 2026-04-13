@@ -1,0 +1,7 @@
+{
+  "id": "corrupted_lupines",
+  "title": "The Free Lupines",
+  "content": "The lupines of the Marches were not always this. The corruption arc for lupines produces a different result than the draconic arc — more pack-oriented, physically augmented in directions the Marches rewards, losing human-adjacent cognition at high corruption levels while gaining something that functions better in corrupted territory.\n\nThe Free Lupines are not mindless. The Warden Order's literature says they are because the Warden Order's literature was written by people who needed that to be true. The pack structure they've developed is sophisticated, the territory management complex, and the relationship between high-corruption and low-corruption individuals within the pack is more nuanced than 'monster and servant.'\n\nThey are territorial, they are dangerous, and they are not interested in the same things you are interested in. That's different from mindless.\n\nThe corruption arc that produces a lupine is irreversible above Stage 2 by known methods. The Kitsune Wanderers know at least one method that isn't in the known literature. They're not sharing it.",
+  "unlock_flag": "first_lupine_combat",
+  "unlock_condition": "Survive your first encounter with a lupine"
+}

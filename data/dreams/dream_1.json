@@ -1,0 +1,7 @@
+{
+  "id": "dream_1",
+  "title": "The Observer",
+  "trigger": {"corruption_min": 15, "after_kasyrra_encounter": true},
+  "mechanical_effects": {"attraction_arc": 5, "corruption": 2},
+  "text": "The dream begins without threshold — one moment you are asleep, the next you are standing in a clearing that does not exist anywhere on any map you have memorized.\n\nThe trees here are wrong. Too dark, too still, their bark faintly luminous in the way that things become luminous when they are watched rather than watching. You are being observed from somewhere in the canopy, but when you look, there is nothing there except the light that should not be.\n\nThen she is simply present the way significant things are present in dreams — not arriving, just there. Her outline is unfamiliar and entirely recognizable. She is not doing anything. She is watching you the way one watches something that has just begun to be interesting.\n\nShe does not speak. She does not approach. When you wake, you cannot remember her face, only the quality of her attention — the particular weight of being seen by something that has been waiting a very long time to see you specifically.\n\nYour corruption marker has moved. You note this as fact, because fact is easier than the alternative."
+}

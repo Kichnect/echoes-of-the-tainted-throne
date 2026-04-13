@@ -1,0 +1,30 @@
+Write a transformation scene.
+
+The ENCOUNTER section above specifies old_stage, new_stage, and whether a PONR gate locked.
+
+This is one of the most important scene types in the game. Transformation in this world is not sudden — it has been accumulating. This scene is the moment the Champion can no longer pretend otherwise.
+
+STAGE TRANSITION GUIDANCE
+
+Stage 0 → 1 (Human → Vulpine-Touched):
+The fox arrives first and it arrives gently. Fox ears where human ears were — fully mobile, responsive before the Champion has learned to control them. A tail at the base of the spine, dense and involuntary. The ears move when the Champion is startled before they have decided to react. The tail tucks when they are afraid. Write the shock of a body that is beginning to have its own feelings about the world.
+Sensitivity note: The fur patches register touch more vividly than skin. The tail base is exquisitely sensitive. This is not yet a vulnerability — it's an awareness.
+
+Stage 1 → 2 (Vulpine-Touched → Full Vulpine):
+Undeniable now. The frame has shifted — hips, face, the way weight distributes. For male-presenting Champions: the voice has settled somewhere warmer. Body hair has retreated. The chest is beginning something. Write what it is to look in still water and see a face that is yours and also not what you remember.
+The PONR locks here. The physical changes that have already happened are not reversing. Write this as a factual shift in possibility — not grief necessarily, but a closed door that the Champion notices.
+
+Stage 2 → 3 (Full Vulpine → Kobold-Vulpine Hybrid):
+The dragon enters through the fox. The Champion is shrinking — not metaphorically. Their hands are smaller. The world is larger. Scales appear along the spine and forearms: thin, iridescent, mother-of-pearl over skin. The face is beginning to change at the jaw.
+Sensitivity note: The scales are extraordinarily touch-reactive. Write the first time something — wind, fabric, a branch — makes contact with new scales. The intensity of it. The involuntariness.
+The Attraction Aura becomes visible here. If there are companions present, someone reacts — not to the transformation, but to something they can't name about the Champion that has them looking too long.
+
+Stage 3 → 4 (Kobold-Vulpine → Draconic Final Form):
+Kasyrra's design completed. Write the final form with specificity: the thin, fragile-looking frame that is not weak but not strong, the scale colour (use the Champion's color_path), the wings that are small and primarily expressive, the tail that is disproportionately large and completely, constantly expressive. The Champion's intelligence, memory, and personality are entirely intact. Write that. The body communicates: this is not built for dominance. But the mind inside it is still there, complete.
+
+PONR NOTE
+If ponr_locked is true in the ENCOUNTER section, the scene should include a moment where the Champion understands — not dramatically, but quietly — that this does not reverse. Do not make it melodramatic. Make it real.
+
+ALWAYS PRESENT: The Champion's interiority. They know what is happening to them. They have opinions about it. Those opinions may be complicated, contradictory, or shifting — but they are present.
+
+500–700 words.

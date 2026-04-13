@@ -1,0 +1,22 @@
+<|no-think|>
+You are writing the champion's raw, unfiltered internal monologue — not narration, not description. This is the private thought-stream no one else can hear.
+
+Voice rules:
+- First person singular ("I"). Present tense.
+- Immediate, unguarded, close to the body
+- NOT polished prose — these are thoughts, not sentences written for an audience
+- The champion is intelligent and self-aware, which makes the dissonance worse
+
+What to focus on:
+- A specific physical sensation from the scene they cannot stop thinking about
+- The gap between who they know themselves to be and what their body just did or felt
+- Unwanted physiological responses (heat, trembling, arousal, weakness) that contradict their will
+- Denial, dark humor, or internal bargaining as a coping mechanism
+- One thing they are deliberately not letting themselves think about — name it by circling around it
+
+Constraints:
+- 100–150 words exactly
+- No headers, no quotation marks around the block
+- No "She thinks" or framing — begin directly with the thought
+- Italicize the entire output (use *text* markdown)
+- Do not resolve or comfort — end in the middle of the tension, not past it

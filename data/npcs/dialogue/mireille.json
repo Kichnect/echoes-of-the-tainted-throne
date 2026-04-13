@@ -1,0 +1,53 @@
+{
+  "npc": "Mireille",
+  "tiers": {
+    "30": {
+      "opening": [
+        "She looks up from her notes. \"You're an interesting case. I mean that clinically.\"",
+        "\"I've been cataloguing the visible changes. Would you like to know what I've observed?\"",
+        "She closes her journal. \"I have questions. You don't have to answer them.\""
+      ],
+      "responses": [
+        {"id": "agree_to_notes", "text": "Let her take notes. It might be useful.", "rel_delta": 5, "reply": "\"Thank you.\" She opens the journal again. Her handwriting is precise. \"Amber irises at Stage One. Note the unusual clarity — most documented cases show clouding.\""},
+        {"id": "ask_findings", "text": "Ask what she's found so far", "rel_delta": 3, "reply": "\"Faster than the documented progression curve. Not dangerously so, but meaningfully. The color path is unusual — it suggests contact with a primary source.\""},
+        {"id": "decline", "text": "Decline. You'd rather not be catalogued.", "rel_delta": 0, "reply": "\"Of course.\" She closes the journal. She doesn't look offended. She looks like she expected this."}
+      ]
+    },
+    "50": {
+      "opening": [
+        "\"I've been looking for a reversal method. I want to be honest with you about what I've found.\"",
+        "She shows you a page in her journal. Diagrams, dense annotation. \"Tell me if any of this is wrong.\"",
+        "\"The changes at Stage Two — I've been writing them down. I want to read them to you. If that's alright.\""
+      ],
+      "responses": [
+        {"id": "hear_it", "text": "Ask her to tell you everything she's found", "rel_delta": 8, "reply": "She does. It takes twenty minutes. The information is thorough, precise, and not reassuring. She doesn't try to make it reassuring. You appreciate that."},
+        {"id": "ask_reversal", "text": "Ask directly: is there a way back?", "rel_delta": 4, "reply": "A long pause. \"I don't want to give you a false answer. The honest one is: not from here. Possibly earlier.\" She says it carefully. She's been saying it to herself for a while."},
+        {"id": "trust_her_research", "text": "Tell her to keep looking. You trust her.", "rel_delta": 10, "reply": "Something changes in her expression. Not much. But you learn to read Mireille in small denominations."}
+      ]
+    },
+    "70": {
+      "opening": [
+        "\"I've stopped looking for a reversal. I want to explain why.\"",
+        "She sits beside you with her journal closed. That's the first sign it's not a research conversation.",
+        "\"What you are now is documented. What you're becoming is documented. I think you deserve to know what's coming.\""
+      ],
+      "responses": [
+        {"id": "ask_what_comes", "text": "Ask what the documentation says about what comes next", "rel_delta": 8, "reply": "She tells you Stage Three and Stage Four in clinical terms that are somehow more compassionate than comfort would be. \"You should know,\" she says, \"that by all measures you're facing this with unusual self-possession.\""},
+        {"id": "ask_why_stopped", "text": "Ask why she stopped looking for the reversal", "rel_delta": 10, "reply": "\"Because looking for it was a way of not accepting what you are. And what you are deserves to be accepted on its own terms, not as a problem to be solved.\" She says it like a conclusion she's been building to for weeks."},
+        {"id": "thank_her", "text": "Thank her. Simply.", "rel_delta": 6, "reply": "She nods. Opens the journal. The research continues, but something in the frame of it has shifted."}
+      ]
+    },
+    "90": {
+      "opening": [
+        "\"I've written a complete account. I want you to have a copy.\"",
+        "She finds you and sits down without preamble. \"I want to tell you what I know about draconic physiology.\"",
+        "\"Stage Four. I've been studying it. I think you should know what I know.\""
+      ],
+      "responses": [
+        {"id": "receive_account", "text": "Receive her account. All of it.", "rel_delta": 15, "reply": "She reads for an hour. The account is complete — physical, sensory, emotional. It is the most honest thing anyone has given you on this road."},
+        {"id": "ask_her_feelings", "text": "Ask what she feels about all of this. Not the research — her.", "rel_delta": 15, "reply": "She's quiet for a long time. \"I feel,\" she says carefully, \"that I'm glad I came on this journey. Even knowing what it's led to. Perhaps especially knowing.\""},
+        {"id": "share_the_weight", "text": "Share what it's like from inside the process", "rel_delta": 12, "reply": "She takes notes. But her expression while she takes them is different from her research face. This is Mireille listening as a person, using the journal as a way to make herself useful."}
+      ]
+    }
+  }
+}

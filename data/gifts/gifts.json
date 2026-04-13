@@ -1,0 +1,43 @@
+{
+  "gift_1": {
+    "id": "gift_1",
+    "trigger_corruption": 20,
+    "story_flag": "gift_1_placed",
+    "name": "Black Flower",
+    "item_id": "kasyrra_black_flower",
+    "discovery_scene": "It is in your pack at morning camp. It was not there the night before. A small black flower that has no business growing anywhere in the Marches — the petals wrong-colored, the stem too straight, the scent something between dark honey and copper.\n\nThere is no note. There is no explanation. It is simply there.",
+    "consume_effects": {"hp_restore": 20, "arousal_reduce": 30},
+    "keep_effects": {"presence": 5},
+    "keep_desc": "Keeping it gives +5 Presence permanently."
+  },
+  "gift_2": {
+    "id": "gift_2",
+    "trigger_corruption": 40,
+    "story_flag": "gift_2_placed",
+    "name": "Dark Silk",
+    "item_id": "kasyrra_dark_silk",
+    "discovery_scene": "A length of fine dark silk on the rock outside your tent. Warm to the touch — not body temperature. Warmer. It is not cursed. You check three times. It is genuinely not cursed.\n\nIt fits perfectly, whatever form you're currently in.\n\nSaoirse looks at it for a long moment when she sees you with it. She doesn't say anything. That is its own kind of statement.",
+    "wear_effects": {"presence": 3, "reputation_tier_bonus": 1}
+  },
+  "gift_3": {
+    "id": "gift_3",
+    "trigger_corruption": 60,
+    "story_flag": "gift_3_placed",
+    "name": "Iron Key",
+    "item_id": "kasyrra_iron_key",
+    "discovery_scene": "A small iron key on a chain. You find it tucked into the binding of Mireille's field manual, which is the strangest placement yet.\n\nMireille examines it for twenty minutes without touching it directly. Then: \"This is very old iron. The alloy has demon-forge markers. Someone made this specifically. For a specific lock. That they expected you to be wearing.\"\n\nShe places it back on the rock between you, very carefully.",
+    "unlock_chastity": true,
+    "no_device_note": "It fits no lock you currently carry. It still feels important. Weighted."
+  },
+  "gift_4": {
+    "id": "gift_4",
+    "trigger_corruption": 80,
+    "story_flag": "gift_4_placed",
+    "name": "Kasyrra's Collar",
+    "item_id": "kasyrra_collar",
+    "discovery_scene": "It is not hidden. It is placed deliberately on the flat rock that has become an informal camp table, positioned to be the first thing you see in the morning.\n\nA collar. Kasyrra's sigil on the clasp in very fine silver work. Not a cursed item — the check is clean. This is a gift. It was placed by someone who knows you well enough to put it somewhere you would definitely find it.\n\nIt is your choice whether to wear it. That is also, somehow, the most unsettling thing about it.",
+    "wear_effects": {"kasyrra_alignment": 25},
+    "keep_effects": {"kasyrra_alignment": 10},
+    "destroy_effects": {"kasyrra_alignment": -15, "saoirse_reaction": "She doesn't say anything about it. She puts her hand on your shoulder for a moment, then takes it away."}
+  }
+}

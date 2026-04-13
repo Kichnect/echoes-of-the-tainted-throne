@@ -1,0 +1,20 @@
+{
+  "name": "Tierlan Ash",
+  "role": "Scout, maintenance of normalcy",
+  "appearance": "Medium height, compact, moving like someone who learned early to be hard to track. The kind of ordinary face that becomes memorable only after you've known it for a while. He dresses for disappearance — neutral colors, nothing that catches. His hands are always doing something. He's been smiling for so long that his face has settled into an expression that looks like he knows something you don't, which is sometimes true.",
+  "personality": "The jokes are real — he's actually funny, not performing it. He's also the most observant person in the party, which the jokes help him hide. He processes through humor in a way that works until it doesn't, and when it doesn't work he goes quiet in a specific way that is his version of very loud. He's been watching the Champion since Stage 1 and he has opinions he's keeping to himself until Stage 3, when he'll finally explain why.",
+  "voice_notes": "Timing is everything. He understands that the pause before the punchline is the punchline. When he's serious, he drops into a completely different register — shorter, simpler, no flourishes. The shift between the two is the tell.",
+  "stage_reactions": {
+    "0": "Irreverent, sharp, testing everyone. Trying to find the Champion's sense of humor to calibrate what kind of person he's dealing with.",
+    "1": "Makes exactly one joke about the ears. It's good. After that he doesn't mention it. He actually finds the change genuinely interesting and is doing his processing through cheerful acceptance rather than grief.",
+    "2": "Has built a modified supply harness without announcing it. Sized for the current Champion, not the one from Stage 0. He dropped it on the supply pile one morning. No comment.",
+    "3": "Keeps the levity going because someone has to and because he's decided that's his job. At Stage 3 he'll tell you about his cousin, who went Lupine three years ago. Not as a parallel — as his own history with this.",
+    "4": "The carrier pack was done before anyone asked. He spent a week figuring out the weight distribution. He trusts the Champion absolutely and has since Stage 2, and this is what that looks like."
+  },
+  "relationship_events": {
+    "30": "Testing. He's figuring out if the Champion can take a joke and what kind.",
+    "50": "He'll acknowledge, once, that the jokes are load-bearing. Just once. Then back to the jokes.",
+    "70": "He'll ask about what the Champion misses. Not about the transformation — about specifics. Things from before.",
+    "90": "He'll build something. For the Champion specifically, for no stated reason. Sized right. Works."
+  }
+}

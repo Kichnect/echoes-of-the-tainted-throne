@@ -1,0 +1,76 @@
+{
+  "id": "wolf_road",
+  "name": "Wolf-Road Edge",
+  "description": "An ancient trade road that predates the kingdom that named it, carved through old-growth forest by something larger than commerce. The trees here lean inward at unnatural angles, as if listening.",
+  "passive_corruption_per_hour": 0.1,
+  "ambient_lines": [
+    "A branch cracks somewhere to the left. Nothing emerges.",
+    "The road narrows here. The trees are closer than they were yesterday.",
+    "Old marker stones line the verge — the runes on them have been worn smooth by more than weather.",
+    "Something moved in the canopy above. Too large for a bird.",
+    "The wind comes from the wrong direction for this time of day.",
+    "Lupine prints in the mud. Larger than any you've seen. They circle a tree and stop.",
+    "The moss on the north-facing bark is orange. You have never seen orange moss before.",
+    "A small shrine made of river stones and antlers. Fresh flowers. Someone was here recently.",
+    "The road dips into a hollow that fogs even in clear weather. You cross quickly.",
+    "Somewhere behind you, footsteps that match your pace exactly. When you stop, they stop.",
+    "The trees ahead form a natural archway. Passing through it feels like crossing a threshold.",
+    "Blood on a root. Old. A week, maybe. You don't look for what made it.",
+    "The air tastes of iron and pine in equal measure.",
+    "Three ravens on a dead oak. They watch you until you're past the tree line.",
+    "A camp ring — cold fire, scattered bones that look like they were chewed cleanly.",
+    "The silence is total. No insects, no birdsong. Your own breathing sounds too loud.",
+    "Someone has hung strips of red cloth from the branches. They hang perfectly still.",
+    "The road surface here is older stone — grooved by cart wheels from centuries past.",
+    "A hollow in a tree trunk reveals a cache of coins. Old currency. You leave it.",
+    "The corruption feels present here the way weather feels — everywhere at once, impossible to locate."
+  ],
+  "time_variants": {
+    "dawn": "The forest mist doesn't burn off at dawn the way it should. It thins, but it does not go.",
+    "morning": "Morning brings birdsong — but only from one direction, and only for an hour.",
+    "midday": "At midday the shadows pool under the trees as if it were dusk. The light doesn't reach here correctly.",
+    "evening": "Evening comes fast in this corridor. One moment the path is visible; the next, it requires memory.",
+    "night": "The road at night is marked only by the break in stars overhead. Everything below the canopy is yours to navigate by feel."
+  },
+  "points_of_interest": [
+    {
+      "name": "The Marker Circle",
+      "desc": "Nine ancient stones arranged in a ring off the road's eastern edge. The runes have been recently re-carved — someone is maintaining them."
+    },
+    {
+      "name": "Abandoned Warden Post",
+      "desc": "A small stone outpost, partially collapsed. Warden Order insignia above the door. The inside smells like copper and old fire."
+    },
+    {
+      "name": "The Listening Tree",
+      "desc": "A massive oak at a crossroads junction. Local custom holds that you confess something to it before passing. The bark is worn smooth at mouth height."
+    }
+  ],
+  "arrival_scene": "The Wolf-Road opens from the forest's edge with the particular quality of a passage between states — like stepping through a doorway in a place where no door should exist. The tree line closes behind you faster than it should. The road ahead is straight, unhelpfully long, and you have the persistent sense that it already knows you're on it.",
+  "connections": [
+    {"name": "Warming Frost", "desc": "Northeast along the ridge. The cold becomes structural there — not weather but something built into the land."},
+    {"name": "Kitsune Circuit", "desc": "Eastward fork, marked by a kitsune-carved post. Safer. More complicated."}
+  ],
+  "encounter_table": ["lupine_pack", "cult_devotee", "imp_swarm"],
+  "weather_variants": {
+    "rain": [
+      "Rain on the forest canopy sounds like distant applause for something that ended badly.",
+      "The road surface turns the rain into a mirror of the sky above. Walking on clouds.",
+      "Your pack is heavier wet. Everything is."
+    ],
+    "fog": [
+      "The fog here is directional. It moves against the wind.",
+      "You can hear footsteps in the fog that stop when yours stop.",
+      "The fog makes the ambient lines on the trees glow. You note this and keep moving."
+    ],
+    "storm": [
+      "The storm grounds everything. Even the corrupted things shelter.",
+      "Thunder in the Marches has a secondary tone under the main — lower, longer, not meteorological."
+    ],
+    "tainted_mist": [
+      "The mist smells sweet. That is the tell.",
+      "Your arousal rises before you consciously register the mist. Your body learned this faster than your mind.",
+      "The tainted mist makes colors more saturated. Everything beautiful. Everything slightly wrong."
+    ]
+  }
+}

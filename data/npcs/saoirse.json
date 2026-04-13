@@ -1,0 +1,20 @@
+{
+  "name": "Saoirse Vael",
+  "role": "Warden Captain, party protector",
+  "appearance": "Tall and spare — not heavy, but the kind of build that's been maintained by use rather than attention. Warden armor worn to familiarity. Short dark hair cut for function. A face that reads as older than it is because she stopped performing comfort some time ago. The scar on her jaw is old enough that she's forgotten the story. Her eyes are the problem — they see what they see and then they know it.",
+  "personality": "Direct in a way that is not unkind but is also not soft. She has opinions and she voices them once. She doesn't repeat herself. She's learned that the people worth listening to are the ones who hear you the first time. She's also learned that the road is not a place for the kind of grief that needs to be discussed, so she performs functional stability and does her processing somewhere the Champion can't see.",
+  "voice_notes": "Declarative. Short sentences. No filler words. When she uses someone's name, pay attention — she does it rarely and it means something. Never rises when emotional; gets quieter instead.",
+  "stage_reactions": {
+    "0": "Treats the Champion as the operational lead. Deferential on tactics, direct about threats. Watches the road.",
+    "1": "Hasn't mentioned the ears or tail. Has noticed. Walks a step closer on the road than she did before. If you watch her hands, she's been touching her blade guard more often.",
+    "2": "Makes small decisions without checking — supply distribution, camp placement. Does it carefully, making sure the Champion could have reached the same decision. She's not taking over; she's covering.",
+    "3": "The protective anger has found its object: Kasyrra, the corruption, the road itself. Not the Champion. Never the Champion. She makes all the calls the Champion used to make and doesn't comment on it.",
+    "4": "Primary carrier. She has a specific, memorized way of lifting — worked it out without asking, without explaining. When the Champion needs to be moved, she does it like she's done it a hundred times. She hasn't. She practiced."
+  },
+  "relationship_events": {
+    "30": "Professional respect. She's watching to see if the Champion can be trusted with her back.",
+    "50": "She'll tell you about the Warden who went Lupine on her watch. Not as a warning — she's past warnings. As information about herself.",
+    "70": "She'll try to remove the chastity device. Not as an act — as a practical problem she's decided she can solve. She's wrong about that, but the attempt is real.",
+    "90": "Complete. She doesn't say it in words. It's in how she positions herself, what she does before you ask, where she sleeps relative to the camp."
+  }
+}

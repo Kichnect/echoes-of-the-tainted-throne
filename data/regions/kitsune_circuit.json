@@ -1,0 +1,55 @@
+{
+  "id": "kitsune_circuit",
+  "name": "Kitsune Circuit",
+  "description": "A winding eastward path known to Kitsune wanderers, marked by carved wooden posts and small offerings left at regular intervals. The corruption pressure here is notably lower — whether by design or by the Kitsune's particular relationship with it is unclear.",
+  "passive_corruption_per_hour": 0.05,
+  "ambient_lines": [
+    "A carved post with a kitsune face at the path's edge. Fresh oil on the wood — maintained recently.",
+    "The path turns in ways that seem arbitrary until you realize they avoid specific clearings.",
+    "Small cloth pouches hang from branches. You don't open them. You feel they're not for you.",
+    "A Kitsune camp, cold but recently vacated. The fire ring is swept, the space left clean.",
+    "The corruption feels attenuated here — present but held at distance, like sound through glass.",
+    "Movement in the underbrush — deliberate, paced. Something walking parallel to the path.",
+    "A wind chime of bones and river glass hung between two trees. It sings in no wind.",
+    "The path markings shift subtly. You wonder if the route itself is adjustable.",
+    "Footprints ahead — bare, clawed, spaced for something that moves very fast.",
+    "A smell of fox and cedar and something floral that has no name in any language you know.",
+    "One of the carved posts has been damaged — a clean strike, like a blade. Recently.",
+    "The light in this stretch is unusually warm. No source accounts for it.",
+    "You find a small clay figure of a Kitsune on a rock beside the path. It's looking backward.",
+    "The circuit bends around a large hollow tree. Inside is dry, swept, and empty. Waiting.",
+    "Bells in the middle distance. A pattern. Not random. Communication.",
+    "The corruption's absence here has a quality — like pressure released. Your head feels clearer.",
+    "Two paths diverge. Both are marked. The right-hand post has a fresh notch that wasn't cut yesterday.",
+    "A Kitsune sits cross-legged on a rock, watching you. When you look directly, they are gone.",
+    "The circuit narrows to single-file through dense undergrowth. On the other side, a meadow.",
+    "Something left a meal on a stone — fruit, dried meat, a waterskin. Placed for someone, recently."
+  ],
+  "time_variants": {
+    "dawn": "The Kitsune are most active at dawn. The circuit feels populated even when you can't see anyone.",
+    "morning": "Morning on the circuit is genuinely peaceful. The absence of corruption pressure is noticeable.",
+    "midday": "At midday the wanderers rest. The path is empty and the silence is voluntary, not threatening.",
+    "evening": "Evening brings a particular quality of gold light through the circuit's canopy. Something about it feels like a gift.",
+    "night": "At night, the circuit's carved posts glow faintly at their bases. Bioluminescence. Probably bioluminescence."
+  },
+  "points_of_interest": [
+    {
+      "name": "The Fox Post",
+      "desc": "The oldest carved marker on the circuit — a six-tailed kitsune, the carving deep and worn. Offerings are placed here continuously. You have never seen the person who places them."
+    },
+    {
+      "name": "The Meeting Hollow",
+      "desc": "A large clearing at the circuit's midpoint with a central fire pit and seating for twenty. Used for wanderer gatherings. The next one is in two weeks, if the calendar on the post is accurate."
+    },
+    {
+      "name": "The Corruption Seal",
+      "desc": "An area where the ground has been worked with Kitsune ritual — carved channels, salt lines, something buried. The corruption near it reads as actively suppressed, not absent."
+    }
+  ],
+  "arrival_scene": "The circuit announces itself with a carved post at the tree line — a kitsune face worn smooth by weather and touch, maintained with oil. The corruption pressure, which you have come to experience as a kind of low tonal hum at the back of your skull, drops noticeably within twenty steps of the post. You don't know whether to be grateful or suspicious. Probably both.",
+  "connections": [
+    {"name": "Wolf-Road Edge", "desc": "West, back to the main road. The corruption pressure rises within a kilometer of the junction."},
+    {"name": "Cult Ascent", "desc": "North, where the circuit ends and the cult's territory begins. The carved posts stop at the boundary. Deliberately."}
+  ],
+  "encounter_table": ["cult_devotee", "lupine_pack", "imp_swarm"]
+}

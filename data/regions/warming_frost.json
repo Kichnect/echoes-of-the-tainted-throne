@@ -1,0 +1,55 @@
+{
+  "id": "warming_frost",
+  "name": "Warming Frost",
+  "description": "A high ridge region where frost clings to the ground year-round despite the temperate climate below. The corruption here manifests as warmth — a creeping, sedative heat that works against the cold, and against clarity.",
+  "passive_corruption_per_hour": 0.5,
+  "ambient_lines": [
+    "The frost doesn't melt underfoot. Your boot prints are warm for a moment, then the ice seals over them.",
+    "A warm current moves through the cold air — not wind. Something directional.",
+    "Ice crystals on the pine needles hold impossible colors at the right angle. You look away.",
+    "The corruption here smells sweet. That's new. That's worse.",
+    "Your breath fogs, but the frost-touched air that enters your lungs feels almost pleasant.",
+    "A frozen stream. The water beneath the ice is moving. The fish in it glow faintly.",
+    "Something has been nesting in the frost. The depression is body-shaped and wrong.",
+    "The cold should bother you more than it does. You notice you've stopped shivering.",
+    "A cave opening in the ridge face. Warm air comes from inside. You do not enter.",
+    "The corruption's warmth concentrates near the ridge spine. You can feel exactly where it's strongest.",
+    "Ice formations shaped like hands, faces — natural, probably. You tell yourself natural.",
+    "The sky here is always pale. Whatever filters the light, it does it completely.",
+    "Your companions walk slightly closer together on this stretch without discussing it.",
+    "A dead lupine in the frost, perfectly preserved. It wears an expression of completion.",
+    "The crystals on the ground ring like glass when the wind moves them. Music, almost.",
+    "You find yourself slowing down without meaning to. The cold that should push you forward doesn't.",
+    "A patch of unfrozen ground, perfectly circular, three meters across. You walk around it.",
+    "Something has carved a shallow channel in the frost in a straight line for as far as you can see.",
+    "The warmth in the air pulses. Very slowly. Like breathing.",
+    "Standing still for more than a moment, you feel the corruption pressure at the edges of your thoughts."
+  ],
+  "time_variants": {
+    "dawn": "At dawn, the frost catches light in ways that make distance unreliable. Everything looks closer than it is.",
+    "morning": "The morning brings a brief window of clarity — air sharp, corruption pressure lower. It lasts an hour.",
+    "midday": "Midday is the worst. The warmth-corruption peaks when the sun is highest, as if it's drawing from it.",
+    "evening": "Evening on the Warming Frost carries a particular loneliness — the cold returns, but the wrongness in it doesn't leave.",
+    "night": "At night the frost glows. Not brightly. Just enough that you can see it doing it."
+  },
+  "points_of_interest": [
+    {
+      "name": "The Ridge Spine",
+      "desc": "The highest point of the Warming Frost. Passive corruption peaks here. Standing on it, you can see three regions. Kasyrra's cult has placed markers at each cardinal point."
+    },
+    {
+      "name": "The Warm Cave",
+      "desc": "A cave system running deep into the ridge. The warmth inside is body-temperature exact. It is very comfortable. No one who has gone inside has reported what they found."
+    },
+    {
+      "name": "Frost Shrine",
+      "desc": "A small shrine of black ice and silver offerings. The offerings are recent. Someone is actively worshipping something here."
+    }
+  ],
+  "arrival_scene": "The temperature drops as you climb toward the Warming Frost — and then, inexplicably, stops dropping. The cold remains, precise and structural, but something underneath it is warm in the way that pressure is warm, the way a hand pressed flat against skin is warm. You realize you have been here for two minutes and you already don't entirely want to leave.",
+  "connections": [
+    {"name": "Wolf-Road Edge", "desc": "South and down the ridge. The cold thins fast once you begin descending."},
+    {"name": "Imp Warren Entrance", "desc": "Northwest, where the frost meets the rocky terrain. The imps are worse in cold weather."}
+  ],
+  "encounter_table": ["imp_swarm", "cult_devotee", "lupine_pack"]
+}

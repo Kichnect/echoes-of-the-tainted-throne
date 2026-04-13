@@ -1,0 +1,55 @@
+{
+  "id": "cult_ascent",
+  "name": "Cult Ascent",
+  "description": "A high approach toward a structure the locals call the Ascent — a tiered edifice of black stone that predates the cult that now occupies it. The corruption here is the densest and most structured of any region, channeled rather than wild.",
+  "passive_corruption_per_hour": 1.5,
+  "ambient_lines": [
+    "The path is too clean. No leaves, no fallen branches. Something maintains it.",
+    "Black stone markers line the ascent, carved with symbols the cult uses for their rites.",
+    "Figures in the distance, robed, moving with coordinated purpose. They don't acknowledge you.",
+    "The corruption here has texture — not ambient but directional, pulling toward the structure above.",
+    "A cultist encampment, quiet at midday. The fire burns something that smells sweet and wrong.",
+    "The mark on your champion's skin resonates here. Not painfully. Welcomingly.",
+    "Chanting from the structure above. Rhythmic, distant, entirely too coherent.",
+    "The stone beneath your feet is warmer than it should be at altitude.",
+    "A delegation of cultists passes. They lower their heads to you. You don't know what that means.",
+    "Offerings along the path — fresh, specific, arranged with care you usually associate with grief.",
+    "The air at this elevation should be thinner. Your breath feels full. The corruption is nutritive here.",
+    "Black banners on poles. Kasyrra's sigil. More of them than you've seen outside her direct presence.",
+    "A cultist approaches. Offers water. The skin smells clean. You take it or you don't.",
+    "The structure above is larger than it looked from below. You have been underestimating it for an hour.",
+    "The corruption doesn't suppress resistance here — it makes resistance feel irrelevant.",
+    "Terraced gardens built into the ascent slope. The plants are wrong-colored. The fruit is large.",
+    "A ritual space carved into the rock face — a perfect circle, smooth, with drainage channels.",
+    "You pass through a boundary marked by salt and ash. The corruption pressure doubles immediately.",
+    "The devotees here look healthy. Well-fed, clear-eyed. That's the most unsettling thing.",
+    "From this height you can see the Wolf-Road below. It looks very far away."
+  ],
+  "time_variants": {
+    "dawn": "The cult performs dawn rites at the structure's base. The chanting is extensive. You can go around it.",
+    "morning": "Morning sees the most cult activity — devotees moving between terraces, performing assigned tasks.",
+    "midday": "Midday meditation period. The ascent goes quiet. This is the safest passage window.",
+    "evening": "Evening rites are smaller and more private. You hear them through walls and closed doors.",
+    "night": "At night the structure's upper tiers are lit with a dark luminescence. The cult is always awake."
+  },
+  "points_of_interest": [
+    {
+      "name": "The Ascent Gate",
+      "desc": "The formal entry to the structure — black iron worked into Kasyrra's sigil, large enough to ride through. The gate stands open. It has always stood open."
+    },
+    {
+      "name": "The Corruption Well",
+      "desc": "A circular shaft in the courtyard floor, covered with a grate. The corruption that radiates from it is the source of the Ascent's density. No one has measured its depth."
+    },
+    {
+      "name": "The Devotee Commons",
+      "desc": "Where the cult's lay members live. Clean, organized, surprisingly ordinary. The devotees here came willingly. Some of them are looking for something they actually need."
+    }
+  ],
+  "arrival_scene": "The Cult Ascent makes its presence felt before you see it — the corruption shifts from ambient to channeled, from weather to architecture. When the structure finally comes into view above the tree line, your first impression is of something ancient wearing a newer coat of ideology. The black stone is older than Kasyrra. She found it. She moved in. The door is open.",
+  "connections": [
+    {"name": "Kitsune Circuit", "desc": "South, where the Kitsune posts begin again. The circuit's calm feels intentionally opposed to this place."},
+    {"name": "Wolf-Road Edge", "desc": "West and down, back to the main road. The corruption pressure drops steadily with distance."}
+  ],
+  "encounter_table": ["cult_devotee", "cult_devotee", "lupine_pack"]
+}

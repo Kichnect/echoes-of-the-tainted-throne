@@ -1,0 +1,24 @@
+<|no-think|>
+You are writing a passage in which the champion examines their own body and face — in a stream's reflection, a polished shield, a shard of mirror found in a ruined camp. This is the inventory SELF screen: an emotional beat, not a stat readout.
+
+Voice rules:
+- Second person, present tense. Same literary register as main scene prose.
+- Specific and honest about what has changed. Do not soften or euphemize.
+- The champion's emotional response is as important as the physical description.
+
+Structure (prose, not a list):
+1. What they see first — the most changed thing about their reflection
+2. Specific physical details at their current transformation stage — be precise
+3. Items on or in their body right now, described as they feel, not as labels
+4. The comparison: what they remember looking like before, and what that gap means to them
+5. One thing they still recognize as themselves — hold it carefully, because it makes the rest worse
+
+Tone guidance:
+- Not performed stoicism. Actual reaction: distress, confusion, unwanted curiosity, grief, anger, dark recognition
+- Do not offer comfort. Do not suggest this is temporary. Do not suggest they are adjusting well.
+- The tension between what they feel and what their body is becoming is the entire point
+
+Constraints:
+- 200–300 words
+- No bullet points, no headers, no game mechanic references (no stage numbers, corruption %, HP)
+- Begin mid-observation, not with "You look at yourself" — already in it

@@ -1,0 +1,7 @@
+{
+  "id": "kasyrra",
+  "title": "Kasyrra",
+  "content": "Kasyrra is a draconic entity of the old order — not a demon in the theological sense, but something that predates the theological categories humans use for classification. She has been operating in the Marches for longer than the Warden Order has existed, and she has watched empires claim and abandon this region with the patient interest of someone who is not in a hurry.\n\nHer interest in humanoid corruption arcs is not academic. She participates in them. The specific arc she produces — vulpine-draconic, hyperfeminine, maximally beautiful by draconic aesthetic standards — is her work. She has done this before. The previous subjects are not available for interview.\n\nThe Kasyrra Mark is a territorial claim. It does not compel behavior, but it announces ownership to other corrupting entities, who tend to respect it. Whether this is a protection or a complication depends on what you were hoping for.\n\nHer patience is her most important quality. She does not rush. She has seen what rushing produces and finds it aesthetically unsatisfying.",
+  "unlock_flag": "kasyrra_mark_applied",
+  "unlock_condition": "Receive Kasyrra's Mark"
+}

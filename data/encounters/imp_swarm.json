@@ -1,0 +1,132 @@
+{
+  "id": "imp_swarm",
+  "display_name": "Imp Swarm",
+  "enemy_type": "demonic",
+  "description": "A cluster of small taint-touched imps — each no larger than a cat, but coordinated in the ugly way of creatures that share a single appetite. They favour the face and the groin. They carry pheromone vials. They giggle.",
+
+  "difficulty": 10,
+  "combat_stat": "grace",
+  "respects_kasyrra_mark": false,
+
+  "available_regions": ["Wolf-Road Edge", "Tainted Grove", "Ruined Wayshrine"],
+  "min_corruption": 0.0,
+  "max_corruption": 100.0,
+  "min_stage": 0,
+
+  "on_win": {
+    "corruption_gain": 1.5,
+    "submission_events": [],
+    "scene_type": "encounter_win",
+    "notes": "The swarm disperses. A few vials shattered in the scuffle — the air still smells faintly wrong. No injuries worth noting, but the Champion is aware of what they were trying."
+  },
+
+  "on_loss": {
+    "corruption_gain": 5.0,
+    "submission_events": [
+      "combat_loss_oral_forced",
+      "dirty_talk_accepted"
+    ],
+    "scene_type": "encounter_loss",
+    "notes": "The swarm overwhelms through numbers and their pheromone vials. The Champion is brought down and held. The imps are not strong — they are persistent and they have very specific intentions. The pheromone cloud makes resistance harder than it should be. They use their mouths. They talk the whole time, in high-pitched voices that are somehow worse for being comprehensible."
+  },
+
+  "on_flee": {
+    "corruption_gain": 2.0,
+    "submission_events": ["resisted_submission_check"],
+    "scene_type": "encounter_win",
+    "notes": "The Champion breaks free and runs. The swarm gives chase for fifty yards and gives up — they prefer prey that stays. A pheromone vial may have been triggered in the escape. The air takes a while to clear."
+  },
+
+  "choices": {
+    "win": [
+      {
+        "id": "enc_scatter",
+        "glyph": "→",
+        "label": "Scatter them",
+        "desc": "Send them running",
+        "outcome": "The champion scattered the swarm, sending the imps fleeing in all directions. Write a brief, efficient scene.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion scattered them again — the motion is practiced now."
+      },
+      {
+        "id": "enc_claim",
+        "glyph": "⊕",
+        "label": "Claim the ground",
+        "desc": "Make clear this road is not theirs",
+        "outcome": "The champion drove the imps off decisively, establishing that this stretch of road isn't open to them. Write a scene about territorial control.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion marked the territory again. It's starting to feel like theirs."
+      },
+      {
+        "id": "enc_ignore",
+        "glyph": "◎",
+        "label": "Move on",
+        "desc": "Not worth the attention",
+        "outcome": "The champion dispatched the imps quickly and kept moving, treating the encounter as a minor interruption. Write a scene of efficient dismissal.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion moved on without pause. Imp swarms aren't what they used to be."
+      }
+    ],
+    "loss": [
+      {
+        "id": "enc_resist",
+        "glyph": "⚔",
+        "label": "Keep fighting",
+        "desc": "There are too many but you're not stopping",
+        "outcome": "The champion fought back against the swarm even as they were overwhelmed by numbers. Write a scene of futile but real resistance.",
+        "weight": 1,
+        "submission_event": "resisted_submission_check",
+        "repeated_outcome": "The champion fought back again. Imps remember the ones who resist."
+      },
+      {
+        "id": "enc_endure",
+        "glyph": "◎",
+        "label": "Endure it",
+        "desc": "They'll lose interest eventually",
+        "outcome": "The champion went limp and endured the swarm's attentions, waiting for them to finish and lose interest. Write a scene of resigned endurance.",
+        "weight": 1,
+        "submission_event": null,
+        "repeated_outcome": "The champion waited again. The imps are learning what stillness means."
+      },
+      {
+        "id": "enc_curl",
+        "glyph": "·",
+        "label": "Protect yourself",
+        "desc": "Make yourself small",
+        "outcome": "The champion curled in on themselves and let the swarm do what they wanted with exposed surfaces, protecting the most vulnerable parts. Write a scene of minimizing damage.",
+        "weight": 1,
+        "submission_event": "combat_loss_penetrated",
+        "repeated_outcome": "The champion made themselves small again. The swarm knows the shape of this."
+      }
+    ]
+  },
+
+  "stage_variants": {
+    "3": {
+      "on_loss": {
+        "corruption_gain": 6.5,
+        "submission_events": [
+          "combat_loss_oral_forced",
+          "dirty_talk_accepted",
+          "referred_to_as_good_girl"
+        ],
+        "notes": "At Stage 3 the Champion's attraction aura works against them — the swarm is more focused, more aggressive, more interested. They notice the scales. They find them interesting. The Champion's smaller size means the imps can actually carry them, briefly, which they do."
+      }
+    },
+    "4": {
+      "on_loss": {
+        "corruption_gain": 7.0,
+        "submission_events": [
+          "combat_loss_oral_forced",
+          "dirty_talk_accepted",
+          "referred_to_as_good_girl",
+          "orgasm_oral_only"
+        ],
+        "notes": "At Stage 4 the Champion is small enough that the swarm treats them as a prize rather than prey. The attraction aura makes this worse. Resisting is genuinely difficult — the body Kasyrra designed does not resist this sort of thing with any efficiency."
+      }
+    }
+  }
+}

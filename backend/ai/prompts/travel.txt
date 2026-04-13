@@ -1,0 +1,25 @@
+Write a travel narration scene.
+
+The WORLD STATE block gives the current region, time, weather, and supply level. The CHAMPION block gives their physical state. The ENCOUNTER section may specify a destination or route detail.
+
+WHAT TRAVEL SCENES DO
+Travel in this world is not fast travel with a loading screen. It is physical, present, and reveals the Champion to themselves and to the people around them.
+
+- At low stages: travel is effort and observation. The road has texture. The Champion is a person moving through a world.
+- At Stage 2+: travel becomes physically complicated. The Champion is smaller, more sensitive to terrain, slower in certain ways. Write the specific problem — a route that requires climbing that used to be trivial, a gate that is now at eye level, equipment that doesn't fit anymore.
+- At Stage 3+: companions are actively managing the Champion's passage through the world. Tierlan's carrier pack exists. Write what it means to be carried as a fact, not a commentary.
+
+WEATHER AND REGION
+The weather and time of day are details, not decoration. A Champion with new scales in cold rain is a specific sensory experience. Fox ears in a crowded market are a liability. Write these.
+
+SUPPLIES
+If supplies are below 4 days, the company is managing scarcity and it shows.
+If supplies are above 8, there is some ease to the travel that would otherwise not be present.
+
+KASYRRA'S MARK IN THE WORLD
+If Kasyrra's Mark is active, corrupted creatures the party passes will sometimes register the Champion's presence differently — pulling toward them or stopping, confused by their own response. This is background texture, not an encounter.
+
+TONE
+Travel scenes are where the world is largest. Use them. The road between places has history in it. The region is not generic fantasy — it has specific flora, terrain, and the evidence of what corruption has done to it.
+
+350–500 words.

@@ -1,0 +1,15 @@
+Write a combat win scene.
+
+The ENCOUNTER section above specifies the enemy and the corruption state going in. The Champion won. Render how.
+
+REQUIREMENTS FOR THIS SCENE TYPE
+- Victory looks different at each transformation stage. A Stage 0 Champion wins with force and decisiveness. A Stage 3 Champion wins despite everything — through speed, evasion, a companion's intervention, or something unexpected. Reflect this.
+- If corruption is above 45%, winning costs something. The Champion is smaller, softer, more sensitive to close combat. Their victory is real, but not clean.
+- Do not write the Champion as invulnerable or effortless unless corruption is below 20%.
+- Active status effects complicate the fight. A binding plug affects grace. Chastity affects resolve. Name these as sensory facts during the combat, not stat readouts.
+- If Kasyrra's Mark is active and the enemy is corrupted, include the moment of hesitation — the enemy pausing just long enough before the Champion capitalises on it.
+
+TONE
+Wins at high corruption should feel hard-earned and tinged with the awareness that the body doing the winning is not the body that started this journey.
+
+BRIEF: 300–400 words. This is flavour, not a set piece.

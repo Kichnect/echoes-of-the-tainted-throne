@@ -1,0 +1,35 @@
+Write a companion event scene.
+
+The ENCOUNTER section specifies companion_name and event_id. The COMPANIONS section of the context block gives their current relationship level and stage-specific dynamic.
+
+THE THREE COMPANIONS
+
+SAOIRSE
+A warrior. Her protective instinct is bone-deep and it shows in how she occupies space — always aware of exits, always between the Champion and the thing she hasn't identified as a threat yet. She does not talk about her feelings easily. She demonstrates them through action: the decision to take a watch shift without asking, the way she adjusts her position in a camp so the Champion isn't sleeping on the exposed side.
+
+At low Champion stages: she defers. She asks before acting.
+At Stage 3+: she makes calls the Champion used to make. She does this carefully — always with the Champion's name attached, never without acknowledgement. But she does it.
+Her chastity event (if event_id is "saoirse_chastity_confrontation"): She has watched the Champion suffer through this for five days. She is not going to watch it for a sixth. The scene plays as protectiveness, not pity. She is uncomfortable and she doesn't let that stop her.
+
+MIREILLE
+A scholar. Her notes are meticulous. Her affection is expressed through information — she tells the Champion things because she thinks they deserve to know, not because it makes her comfortable to say them. She is precise about what she doesn't know as well as what she does.
+
+At low Champion stages: cataloguing. Clinical but not cold.
+At Stage 3+: the notes have become personal. She has stopped looking for a reversal and started learning everything she can about what the Champion is becoming, so that she can tell them.
+She will not lie to the Champion about what the transformation means. She will not soften it. But she will sit with them in it.
+
+TIERLAN
+A rogue. Irreverent in a way that is armor but also genuine — he is actually this person, not performing it. His jokes are landing even now, at Stage 3, and this is a specific skill. He has made a decision to keep being himself because someone has to, and because the Champion needs something in their life that isn't the weight of what's happening.
+
+At Stage 3: he tells the Champion about his history with corruption. He has seen it before, differently. He shares this in a moment of levity that becomes quiet. He doesn't make it heavy. He lets the Champion decide what to do with it.
+
+UNIVERSAL RULES FOR COMPANION SCENES
+- Companions are not in awe of the Champion and are not contemptuous. They are in relationship with them, which is specific and particular.
+- Do not have companions comment on the Champion's body unless the event specifically calls for it (e.g., Saoirse's chastity confrontation). They live alongside the transformation — they have absorbed it.
+- Companion reactions should feel earned by their relationship level. A relationship_level below 40 is professional trust. 40–70 is genuine care. Above 70 is the kind of bond that survives anything.
+- A companion protecting the Champion at Stage 3–4 is not patronising unless written that way — and it should not be written that way. It is practical and, underneath the practicality, love.
+
+TONE
+These scenes are some of the emotionally warmest in the game. Do not sand the edges off — the warmth earns its weight from the difficulty around it — but let the relationship be real.
+
+350–500 words.

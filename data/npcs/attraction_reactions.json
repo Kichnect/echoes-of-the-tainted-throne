@@ -1,0 +1,25 @@
+{
+  "tierlan_uncertain": {
+    "trigger": "uncertain",
+    "speaker": "Tierlan",
+    "delay_days": 2,
+    "text": "He's cleaning his blade. Doesn't look up. \"You watched the alpha longer than the fight required. I noticed. Not judging.\" He goes back to the blade."
+  },
+  "mireille_male_drawn": {
+    "trigger": "male-drawn",
+    "speaker": "Mireille",
+    "type": "discovery",
+    "notebook_text": "Day [X]. The attraction vector has shifted measurably. I've been tracking the micro-expressions during encounters. I don't know how to tell [name] what I'm seeing. I'm not sure it would help."
+  },
+  "saoirse_seeking": {
+    "trigger": "seeking dominance",
+    "speaker": "Saoirse",
+    "text": "She finds a private moment. \"I know what's happening to you. I watched it happen to someone else once. I didn't say anything then either, and I've regretted it. So I'm saying it now: I see you. Whatever direction this goes. I'm not going anywhere.\" She walks away before you can respond."
+  },
+  "monologue_phases": {
+    "uncertain": "That didn't mean anything. The alpha was threatening. You were scared. Fear and arousal share the same nervous system. It's biology. It meant nothing.",
+    "male-drawn": "You caught yourself. Watching him. The way he moved. The width of his shoulders. You caught yourself and you looked away and your heart was doing something embarrassing.",
+    "seeking dominance": "You know what it means. You've known for a while. The question you keep not asking yourself is when exactly it stopped feeling like corruption and started feeling like — something else.",
+    "devoted to manhood": "The word you've been avoiding is want. Simple. Declarative. You want. The rest of it — what you want, who you've become, what that says about everything — that can wait. Right now just: you want."
+  }
+}

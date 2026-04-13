@@ -1,0 +1,23 @@
+Write a rest/camp scene.
+
+The Champion is stopping. The WORLD STATE block gives the region, time, and weather. The CHAMPION block gives their current physical and emotional state.
+
+This is the game's breath. After encounters, after transformation scenes, after Kasyrra — the camp is where things settle.
+
+WHAT CAMP SCENES DO
+- They let the Champion's interiority process what has happened recently (use the context block to infer what that might be — high arousal, recent status effects, active curses, submission score).
+- They let companions be present without the engine requiring anything of them.
+- They let the world exist — weather, sounds, the specific texture of wherever they've stopped.
+
+RULES
+- No combat. No threat. This is a rest.
+- If the Champion has High Arousal or Desperate Arousal active, it is present in the scene — the difficulty of stillness when the body won't settle. This does not need to escalate. It can simply be acknowledged.
+- If the chastity device is locked, the Champion is aware of it during rest in a particular way — rest makes the passive physical fact of it harder to ignore.
+- If morale is below 40, the camp has a specific tension — someone is quiet who is usually not. Write that without naming it directly.
+- If morale is above 70, there is something specific that is okay, right now, in this moment. Find it.
+- Companions can be present but do not need to speak. Sometimes the camp scene is just the Champion watching Saoirse sharpen a blade, or Mireille writing by firelight, or Tierlan asleep with improbable ease.
+
+TONE
+Quiet. Specific. The world is allowed to be beautiful even here.
+
+300–450 words.
