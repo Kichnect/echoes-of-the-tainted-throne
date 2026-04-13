@@ -6,6 +6,9 @@
       "subtitle": "No enemies. Just the road.",
       "type": "narrative",
       "skippable": false,
+      "day": 1,
+      "time_of_day": "morning",
+      "teach_mechanic": null,
       "variants": {
         "warrior": "The portal closes behind you with a sound like breaking ice. You were supposed to come through with three others. The clearing holds only you, your spear, and the particular silence of a place that has been watching the road for a very long time.\n\nYour training says: assess the situation. You do. Trees too dense, wrong species for the elevation. Ambient temperature higher than any chart of the Marches prepared you for. No sounds of the others. No sounds, in fact, of anything that should be making sounds in old-growth forest.\n\nThe road is ahead of you. There is no other direction.",
         "scholar": "Your instruments register the anomaly before your eyes do. The portal's resonance is wrong — dispersive rather than channeled. The others went somewhere. Possibly here. Possibly not.\n\nYou open your notebook and begin recording, because documenting the disaster is still better than simply experiencing it. Observation one: you are alone. Observation two: the tree species here don't match any catalogued distribution pattern for this region. Observation three: the air has a quality that your instruments have no category for.\n\nYou write 'unknown compound, sweetish, not unpleasant' and then close the notebook, because you have run out of things to write that aren't about how quiet it is.",
@@ -18,6 +21,11 @@
       "subtitle": "Learn to move through this place.",
       "type": "explore_tutorial",
       "skippable": false,
+      "day": 1,
+      "time_of_day": "morning",
+      "teach_mechanic": "explore",
+      "mechanic_hint": "The <strong>Explore</strong> action lets you search your current region for events, items, and threats. Try it now.",
+      "mechanic_target": "choice-explore",
       "variants": {
         "warrior": "The road surface is wrong. You notice it before you notice anything else — a warrior's instinct for ground, for footing, for what the terrain will do to your ankles if you need to move fast. The stone has been maintained, but by something methodical rather than human. No frost heave at the edges, no settlement. Whatever keeps this road has kept it for longer than any garrison would.\n\nThe waystation resolves from the tree line as a defensible position: single entrance, stone walls, no upper story to worry about. You approach the door from the angle of least exposure and take in the room in one sweep. Field table, cold fire ring, duty roster. Signs of a rapid departure, not a fight. The two people who wrote those margin notes left under their own power. That matters.\n\nThe Warden exit marker scratched behind the table is the only thing in this room that feels like good news. It is not especially good news. But it is what you have.",
         "scholar": "The road is a data point. The stone is too well-maintained for the documented patrol schedules of this region — you check your notes to be certain — and the tree species pressing in from either side represent at least four genera that your catalogues place two hundred kilometers apart in separate ecological zones. You write this down. You write everything down, because the alternative is simply experiencing a cascade of inexplicable phenomena with nothing to show for it.\n\nThe waystation provides more data. The duty roster is eighteen months old, but the second handwriting in the margins — more cramped, more urgent — was added significantly later. Two people were here after the garrison withdrew, long enough to record observations, not long enough to finish recording them. The interrupted sentence is the most interesting artifact: 'The corruption has a preferred direction.' This is a testable hypothesis. You underline it twice.\n\nThe Warden exit marker is not data, exactly. It is a conclusion: they survived long enough to mark their exit. You allow yourself to find this encouraging before returning to your instruments.",
@@ -47,6 +55,10 @@
       "subtitle": "Not everything here attacks.",
       "type": "encounter_tutorial",
       "skippable": false,
+      "day": 1,
+      "time_of_day": "midday",
+      "teach_mechanic": "encounter_choice",
+      "mechanic_hint": "Some encounters offer choices before combat. What you do next shapes how the scene resolves.",
       "variants": {
         "warrior": "The thing on the road is not a threat. You have assessed threats for long enough to know the shape of one, and this does not have it. It is small, corrupted by the look of its edges, and it is sitting with the self-conscious stillness of something that heard your footstep and decided the best response was to pretend it had been sitting here all along.\n\nYou stop. You do not reach for your weapon. A spear is the wrong tool for this, and besides — if this creature were capable of harm at this scale, it would have fled rather than frozen. It is afraid of you. The fact that it is also curious is the more interesting data point. You watch it and consider what it wants.",
         "scholar": "Remarkable. You have read three accounts of corrupted imps in your preparatory research, and none of them mentioned this: the creature is clearly aware of you, and it is not running.\n\nYou stop walking and begin observing. The posture suggests recent stillness adopted deliberately — it heard you and chose to hold position rather than flee, which implies either insufficient threat assessment or something more complex. The corruption manifests in its edges, a characteristic visual diffusion you have seen in your reference plates. But the behavior is anomalous. Most corrupted creatures in your sources either attack or scatter. This one appears to be waiting to see what you do.\n\nYou find your notebook before you find a decision. That is the correct order.",
@@ -82,6 +94,11 @@
       "subtitle": "Learn what losing means here.",
       "type": "combat_tutorial",
       "skippable": false,
+      "day": 1,
+      "time_of_day": "afternoon",
+      "teach_mechanic": "combat",
+      "mechanic_hint": "When you fight, you choose how hard to press. <strong>Strike</strong> deals damage. <strong>Defend</strong> reduces incoming hits. Watch your HP.",
+      "mechanic_target": "choice-fight",
       "setup": "A lone corrupted wolf blocks the road. It is larger than a normal wolf by a third. Its eyes are the wrong color — amber-gold with too much intelligence behind them. It has been watching you approach.",
       "win_scene": "It goes down on the third strike. Not dead — injured, backing away, that same amber intelligence watching you from a safer distance.\n\nThen it does something a wolf should not do. It hesitates. It turns toward you, ears flat, and holds the position for three full seconds — the posture of something that has been given a command and is choosing, just now, whether to execute it.\n\nIt chooses not to. It goes into the forest. You note that something told it to stop. You note that you do not know what that something is.",
       "win_variants": {
@@ -103,6 +120,11 @@
       "subtitle": "You are not alone.",
       "type": "narrative",
       "skippable": false,
+      "day": 1,
+      "time_of_day": "dusk",
+      "teach_mechanic": "companions",
+      "mechanic_hint": "Your <strong>Companions</strong> tab shows who is with you and their relationship level. It changes as you travel together.",
+      "mechanic_target": "tab-companions",
       "text": "The second portal tear opens at dusk — smaller than the original, less controlled, the edges fraying as it closes. Saoirse comes through first.\n\nShe doesn't say anything. She scans the tree line from left to right, then right to left, then looks at you and nods once. This is, you will come to understand, a complete sentence.\n\nMireille follows twenty seconds later, opening her field instruments before her feet are fully through. \"Interesting,\" she says, examining a reading. \"The portal dispersion pattern suggests targeted interference. Someone separated us deliberately.\" She pauses. \"Or something.\"\n\nTierlan comes through last, sideways, looking back over his shoulder at wherever he was for the previous hours. He takes in the waystation, the tree line, your expression, and the road ahead in approximately three seconds.\n\n\"Right,\" he says. \"So. Camp?\"\n\nYou make camp. The waystation is defensible, which is the only thing that matters tonight.",
       "variants": {
         "warrior": "The portal tear opens at dusk and you are already facing it. You have been facing the likely re-entry point for the last forty minutes, because the alternative was facing a direction that offered you nothing actionable.\n\nSaoirse comes through first. She clears the threshold in a single step, weapon-hand loose, eyes already on the perimeter. She scans left to right, then catches your eyes and nods once. Warrior to warrior. The situation is understood. You both let it be understood without saying anything about it.\n\nMireille follows, instruments already live, and delivers her analysis before she has taken a second step: targeted portal interference, deliberate separation. You file this. It means something organized you, and something organized is a threat with a chain of command, and a chain of command has a point of failure somewhere.\n\nTierlan arrives last and sideways, and his three-second assessment of the scene produces the only practical question left to ask.\n\n\"Camp?\" he says.\n\nYou take the waystation because it is defensible. You assign watches without being asked. This is what you know how to do when everything else is unclear.",
@@ -114,9 +136,14 @@
     {
       "id": "act_6_waystation_night",
       "title": "The First Night",
-      "subtitle": "The tutorial is complete.",
-      "type": "tutorial_complete",
+      "subtitle": "Rest heals. Learn how.",
+      "type": "rest_tutorial",
       "skippable": false,
+      "day": 1,
+      "time_of_day": "night",
+      "teach_mechanic": "rest",
+      "mechanic_hint": "Use <strong>Rest</strong> at camp to recover HP and reduce fatigue. You must manage supplies — resting costs one day of food.",
+      "mechanic_target": "choice-rest",
       "text": "The fire is smaller than you'd like. Tierlan found the best watchpoint before anyone else thought to look for one, which means the next three hours belong to him and the tree line.\n\nMireille is writing. She has been writing since before her instruments finished calibrating. The notebook will be full before the Marches are.\n\nSaoirse sits across the fire and doesn't say anything, which is already starting to feel like a consistent feature of her company. She passed you a ration without comment. She checked the perimeter without being asked. She is watching the dark with the particular attention of someone who has watched a great many darks and learned exactly what to look for in each of them.\n\nYou are in the Marches. Whatever brought you through that portal is still here. Whatever the wolf was checking you for, you passed — or failed, depending on what it was looking for.\n\nThe corruption in the bruises has settled into something that could almost be warmth, if warmth felt like that.\n\nThe road is ahead.",
       "variants": {
         "warrior": "The fire is small and positioned correctly — Tierlan found the watchpoint with the angles you would have chosen, and you note this about him without saying anything. The watch rotation fell into place without negotiation, which is the best thing you can say about a group of people you have known for less than a day.\n\nYou sit with the waystation wall at your back and take stock. The day's engagements: one wolf, which you assessed wrong at least twice before you stopped assessing wrong. One corrupted creature that showed no aggression. One room with evidence of a retreat that went well enough. The corruption in your bruises is the detail you keep returning to — you have trained against corruption, you know what exposure does, and what it is doing now does not match the literature. It feels like the bruises have learned something. You are not sure what.\n\nSaoirse passes you a ration without breaking her watch of the tree line. The gesture has the quality of a professional courtesy. You accept it the same way.\n\nWhatever organized that wolf is still here. Tomorrow you will know more about what it wants. Tonight you will sleep correctly and wake ready. This is what you know how to do.",
@@ -125,8 +152,66 @@
       },
       "mechanical": {
         "rest_full": true,
-        "note": "Full rest applied. Prologue complete. Main game begins."
+        "note": "Full rest applied. Day advances to 2."
       }
+    },
+    {
+      "id": "act_7_lone_wolf",
+      "title": "Something Is Tracking You",
+      "subtitle": "Day 2. A real fight.",
+      "type": "combat_real",
+      "skippable": false,
+      "day": 2,
+      "time_of_day": "morning",
+      "teach_mechanic": "combat_full",
+      "mechanic_hint": "This is a real combat encounter. Your choices and stats determine the outcome. Winning or losing both advance the story — but losing costs corruption.",
+      "mechanic_target": "choice-fight",
+      "setup_text": "The companions broke camp at first light. Two hours east on the road, the forest thins into a clearing that the maps don't include — thirty meters of bare stone and frost, no cover, and at the far edge a figure that is not a wolf but moves like one.\n\nA Marches Stalker. Corrupted, bonded to the terrain, fast. It has been following you since before you noticed it, which means it has been following you since yesterday.\n\nSaoirse takes one step forward and stops when you put a hand up. She checks the tree line instead. This one is yours.",
+      "setup_variants": {
+        "warrior": "Two hours into the morning march, the road opens into a clearing the maps show as solid forest. Thirty meters of exposed stone. At the far edge: a Marches Stalker, crouched and patient, with the quality of attention of something that has been watching you long enough to form opinions.\n\nIt has tracked you through the night. You know this the way you know terrain — by what the ground tells you, the parallel trail in the frost that has been maintaining distance since yesterday's waystation. It wanted you to see it now. The choice to engage in the open is yours.\n\nSaoirse takes a half-step forward. You raise one hand. She stops. Reads the situation. Moves to the tree line to cover your flank. She does not need to be told.",
+        "scholar": "The clearing is an anomaly — your records show no such gap in the Wolf-Road forest cover for this grid. Something or someone cleared it. The frost on the stone is uniform, undisturbed, which means whatever is standing at the far edge came from the opposite direction.\n\nA Marches Stalker. Your preparatory reading described them as territorial but not aggressive unless cornered. This one is neither cornered nor, apparently, respecting that research.\n\nMireille's instrument pings twice behind you. She is already reading it. \"The corruption signature matches what we found in the wolf,\" she says quietly. \"Same pattern. Same source.\"\n\nSame source. You had written 'someone' in your notes. This is what 'someone' sends.",
+        "scout": "You spotted the parallel trail in yesterday's frost before you cleared the waystation. It has been maintaining seventy meters of distance through the night, which means it is disciplined rather than merely cautious. You have been tracking something that was tracking you back.\n\nNow it is in a clearing it chose, at a distance it chose, at a time it chose. It is not ambushing you. It is presenting itself. The distinction matters: you are being offered a fight, not taken by one.\n\nYou signal Tierlan to the right flank before you speak to anyone. He is already moving."
+      },
+      "enemy_id": "marches_stalker",
+      "enemy_name": "Marches Stalker",
+      "enemy_hp": 22,
+      "enemy_base_damage": 4,
+      "combat_corruption_on_loss": 2.0,
+      "win_text": "The Stalker goes still the moment it loses the ground — not injured enough to explain the cessation, simply done. It turns its head to one side, tracking something you cannot see or hear, and then it withdraws into the forest with the deliberate economy of a creature that has received new instructions.\n\nIt did not fight to win. You understand this in the moment after, the way you understand things you do not want to understand.\n\nSaoirse appears at your shoulder. She does not say anything. She watches the tree line for thirty seconds, then nods once and moves on.",
+      "win_variants": {
+        "warrior": "The Stalker goes still before the final exchange — not a retreat, a cessation, as if something told it to stop. You are already mid-strike when it disengages, and you have to pull the blow because an opponent that is no longer fighting is not something you want on your conscience.\n\nIt turns its head. Not at you. At something past you, something in the direction from which it came. Then it goes, the same deliberate withdrawal you saw in the wolf yesterday. Same pattern. Same receiver.\n\nSaoirse is at your shoulder by the time the tree line closes over it. She watches the forest for a count of thirty. Her hand is still on her weapon.\n\n\"That was a message,\" she says. The first full sentence she has offered in twenty-four hours. You both know what it means.",
+        "scholar": "The Stalker's disengagement is abrupt and total — one moment it is pressing, the next it is still, with the quality of a mechanism that has been switched off rather than an animal that has decided to retreat. The differentiation is significant. You are already recording it when it withdraws.\n\nMireille is beside you within seconds. \"Same cessation pattern as the wolf,\" she says, before you have voiced the observation. \"Something called it off.\" She pauses. \"Something that was watching the fight. Something that now has new information about you.\"\n\nYou write: 'Day 2, morning. Second controlled withdrawal. Assessment still in progress. Ours or theirs?' You underline the question mark.",
+        "scout": "The Stalker stops fighting when it is still capable of continuing. This is the data point you carry forward: it was not beaten to the point of withdrawal. Something withdrew it. You caught the exact moment — a cessation that started in the head rather than the body, the quality of an animal receiving a command mid-engagement.\n\nTierlan materializes from the tree line to your right. He watched the whole exchange from cover and his expression is the specific one you have learned means he is filing a large amount of information without making it visible.\n\n\"Disciplined,\" he says. One word. A complete analysis."
+      },
+      "loss_text": "The Stalker is better than you today. This is the accounting: faster, more coordinated, and it did not fight like something trying to win. It fought like something trying to establish a fact, and the fact is now established.\n\nYou are on the frost. Your HP is not zero — it stopped before that, with the same deliberate patience as the wolf yesterday. It stands over you for four seconds. You count them. Then it goes.\n\nThe corruption enters through the new wounds like it belongs there. Saoirse helps you to your feet without comment. Her grip is stronger than you remember.",
+      "loss_variants": {
+        "warrior": "You lost. The honest accounting: you lost to something that was not trying to kill you, which makes the loss more unsettling rather than less. It beat you to a specific point — below, not out — and then it stopped, the same deliberate cessation you saw in the wolf. Same protocol. Same patience.\n\nYou are on the frost. The Stalker stands over you for four seconds of the most structured attention you have received from a non-human entity in your career. Then it withdraws.\n\nSaoirse helps you up. Her grip finds the angle that does not pull against the wounds, which means she assessed the damage before she reached for you. She does not say anything. The tree line is clear. The road continues.\n\nThe corruption is in the new wounds before you have fully processed the loss. It feels, as it did yesterday, like something settling in.",
+        "scholar": "The defeat provides data. You attempt to find comfort in this and partially succeed.\n\nThe Stalker's combat patterns matched the wolf's: systematic assessment, escalating pressure, deliberate cessation at a specific threshold below fatal. This is a protocol, not predation. Someone has designed a test with a specific stopping criterion, and that criterion is apparently 'down but not dead.'\n\nYou are on the frost. The Stalker completes its four-second assessment and leaves. Mireille is beside you before you have finished sitting up, instruments already recording your biometrics. \"Corruption uptake is accelerating,\" she says. \"The wounds are acting as entry points.\" She says it clinically. You appreciate the clinical framing.\n\nThe corruption in the new wounds is warmer than the bruises were yesterday. The warmth is becoming familiar. You note this with concern.",
+        "scout": "You read the fight right this time and lost anyway, which is a specific and instructive kind of defeat. The Stalker was operating to a standard you have not encountered before — disciplined, patient, willing to absorb damage in order to hold position — and when it had established what it came to establish, it stopped.\n\nFour seconds standing over you. You read the posture: not predatory, not triumphant. Something receiving a reading. Then it goes.\n\nTierlan has your arm before you ask. He found the angle that doesn't pull the shoulder, which means he scouted the landing before he reached for you. He doesn't make anything of it.\n\nThe corruption in the new wounds has a different character from yesterday's — faster to settle, warmer, as if the tissue already knows the process. You note this. You note that you are beginning to accumulate notes of a kind you did not expect to be taking."
+      }
+    },
+    {
+      "id": "act_8_day3_threshold",
+      "title": "Day 3. Something Is Coming.",
+      "subtitle": "The tutorial is complete.",
+      "type": "tutorial_complete",
+      "skippable": false,
+      "day": 3,
+      "time_of_day": "midday",
+      "teach_mechanic": "map",
+      "mechanic_hint": "The <strong>Map</strong> shows your route through the Marches. Each node is a region to travel through. Your choices affect what you encounter.",
+      "mechanic_target": "choice-map",
+      "text": "Day 3 arrives with the quality of something that has been waiting.\n\nThe road has changed overnight — not physically, but in the way the forest relates to it. The trees are farther back. The light reaches the stone more directly. The organized silence of the first two days has been replaced by something less organized and therefore more honest: actual quiet, the kind that means nothing is currently watching you, rather than the kind that means something has decided to be patient.\n\nYou have been in the Marches for three days. You have been watched, tested, and assessed. Something out there has been building a picture of you — your capabilities, your responses, your limits. Whatever comes next, it will come informed.\n\nSaoirse walks beside you and watches the road ahead. Mireille has stopped writing, which is the most unusual thing that has happened in three days. Tierlan has moved to the front of the group without announcing it.\n\nThe road continues east. At dusk, you will learn who has been watching.",
+      "variants": {
+        "warrior": "Three days of assessment. You have been a soldier long enough to know what assessment looks like, and what you have experienced in the Marches is not random corruption — it is a systematic evaluation with the structure of a campaign: probing, escalating pressure, deliberate restraint at key moments.\n\nSomeone is building intelligence on you. Someone with enough reach to coordinate corrupted creatures, enough patience to take three days, and enough interest in your specific person to not simply kill you.\n\nYou walk the road with this knowledge and find that knowing it doesn't help as much as you would like it to. Saoirse has taken the forward position without being asked. This means she has read the same situation and arrived at the same conclusion: something is coming, and the road is the only option available.\n\nYou have been in worse positions than 'walking toward a known threat.' You have, in fact, been in almost no other kind.",
+        "scholar": "Three days of data. You have more than you know what to do with, and several observations that your existing frameworks have no category for. The corruption's behavior. The creatures' coordination. The deliberate restraint — two encounters that stopped short of maximum damage. Two assessments conducted through controlled proxies.\n\nSomeone is running an experiment. You are the subject variable.\n\nMireille has stopped writing, which means she has reached the limit of what instruments can tell her without a new input. She needs the next data point as much as you do, and the next data point will provide itself at dusk. You walk toward it with the specific discomfort of a researcher who understands the methodology of the experiment they are inside.\n\nThe obsidian shard has been warm for three days. It is warmer today. You note the progression.",
+        "scout": "Three days. You have a complete read on the environment now: the organized silence, the assessment protocol, the deliberate restraint at the point of maximum advantage. This is not wilderness predation. This is surveillance with a specific objective, conducted by something patient and resourceful enough to run two test encounters without tipping the full hand.\n\nYou know what it looks like when you are being prepared for something. You have run enough approach operations to recognize the structure from the inside.\n\nAt dusk, the preparation ends. The objective arrives.\n\nTierlan is at the front without discussion. Saoirse has taken the rear. Mireille is between you and Tierlan, instruments dark — she stopped recording, which means she considers the current data sufficient for whatever comes next. You are, all four of you, as ready as three days of relentless assessment have made you.\n\nThe road runs east. You follow it."
+      },
+      "mechanical": {
+        "rest_full": false,
+        "note": "Tutorial complete. Prologue ends. Kasyrra encounter triggers at dusk."
+      },
+      "kasyrra_trigger": true
     }
   ],
   "skip_text": "The road begins where it began for those who came before you. The waystation is behind you. Your companions are with you. Kasyrra found you three days ago and left a mark you cannot explain. The Marches are ahead.",

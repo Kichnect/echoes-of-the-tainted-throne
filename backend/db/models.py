@@ -145,6 +145,9 @@ class Champion(Base):
     build                = Column(String(16), default="average")    # lean/average/broad
     prologue_done        = Column(Boolean, default=False)
 
+    # Height system
+    height_cm_base       = Column(Float, default=175.0)  # set at character creation
+
     # Misc flags
     kasyrra_mark_applied = Column(Boolean, default=False)
     opening_scene_done   = Column(Boolean, default=False)
@@ -159,6 +162,12 @@ class Champion(Base):
     save       = relationship("SaveGame", back_populates="champion")
     statuses   = relationship("ActiveStatus", back_populates="champion", cascade="all, delete-orphan")
     event_log  = relationship("EventLogEntry", back_populates="champion", cascade="all, delete-orphan")
+
+    @property
+    def height_cm(self) -> float:
+        """Current height in cm: base minus stage-based reduction."""
+        stage_loss = {0: 0, 1: 2, 2: 8, 3: 18, 4: 32}.get(self.stage or 0, 0)
+        return round((self.height_cm_base or 175.0) - stage_loss, 1)
 
     @property
     def stage_name(self) -> str:
@@ -439,6 +448,8 @@ def _migrate_db():
         "ALTER TABLE champions ADD COLUMN prologue_done INTEGER DEFAULT 0",
         # Wave 5 — Weather System
         "ALTER TABLE world_states ADD COLUMN weather_days_remaining INTEGER DEFAULT 2",
+        # Fix 6 — Height system
+        "ALTER TABLE champions ADD COLUMN height_cm_base REAL DEFAULT 175.0",
     ]
     with engine.connect() as conn:
         for sql in migrations:

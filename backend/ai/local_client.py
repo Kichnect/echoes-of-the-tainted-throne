@@ -12,10 +12,32 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 from typing import AsyncGenerator
 
 import httpx
+
+
+# ---------------------------------------------------------------------------
+# Think-block stripper — applied to ALL non-think-mode responses
+# ---------------------------------------------------------------------------
+
+def _strip_think(text: str) -> str:
+    """Remove any <think>…</think> blocks Gemma emits despite think:false."""
+    return re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL).strip()
+
+
+# Per-save cache of the last extracted think block (in-process, debug only)
+_last_thinking_block: dict[int, str] = {}
+
+
+def _extract_and_strip(text: str, save_id: int | None = None) -> str:
+    """Strip think block, cache it for the debug endpoint, return clean text."""
+    m = re.search(r'<think>([\s\S]*?)</think>', text, re.DOTALL)
+    if m and save_id is not None:
+        _last_thinking_block[save_id] = m.group(1).strip()
+    return _strip_think(text)
 
 # ---------------------------------------------------------------------------
 # Config
@@ -80,10 +102,12 @@ async def generate_scene(
     prompt: str,
     system: str,
     config_override: dict | None = None,
+    save_id: int | None = None,
 ) -> str:
     """
     Call Ollama synchronously and return the complete response string.
     Used for non-streaming calls (e.g., short NPC dialogue flavour).
+    save_id is used to cache the think block for the debug endpoint.
     """
     cfg = load_model_config()
     if config_override:
@@ -110,7 +134,8 @@ async def generate_scene(
         response = await client.post(f"{OLLAMA_BASE}/api/generate", json=payload)
         response.raise_for_status()
         data = response.json()
-        return data["response"].encode("utf-8", errors="replace").decode("utf-8")
+        raw = data["response"].encode("utf-8", errors="replace").decode("utf-8")
+        return _extract_and_strip(raw, save_id)
 
 
 # ---------------------------------------------------------------------------
@@ -121,6 +146,7 @@ async def stream_scene(
     prompt: str,
     system: str,
     config_override: dict | None = None,
+    save_id: int | None = None,
 ) -> AsyncGenerator[str, None]:
     """
     Stream tokens from Ollama for typewriter rendering.
@@ -158,6 +184,16 @@ async def stream_scene(
                 json=payload,
             ) as response:
                 response.raise_for_status()
+
+                # --- Think-block suppression ---
+                # Buffer tokens until the </think> tag is fully received.
+                # If no <think> ever appears, start yielding immediately.
+                # If <think> appears, suppress everything up to and including
+                # </think>, then yield the remainder token-by-token.
+                _think_buf: str = ""
+                _think_open: bool = False
+                _think_done: bool = False
+
                 async for line in response.aiter_lines():
                     if not line:
                         continue
@@ -165,8 +201,42 @@ async def stream_scene(
                     if chunk.get("done"):
                         break
                     token = chunk.get("response", "")
-                    if token:
+                    if not token:
+                        continue
+
+                    # If we've already passed the think block, yield directly
+                    if _think_done:
                         yield token
+                        continue
+
+                    # Accumulate into buffer
+                    _think_buf += token
+
+                    # Check whether a think block has ever opened
+                    if not _think_open and "<think>" in _think_buf:
+                        _think_open = True
+
+                    if _think_open:
+                        # Wait until the close tag is fully in the buffer
+                        if "</think>" in _think_buf:
+                            _think_done = True
+                            # Cache the think content for the debug endpoint
+                            think_content = _think_buf.split("<think>", 1)[1].split("</think>", 1)[0].strip()
+                            if save_id is not None and think_content:
+                                _last_thinking_block[save_id] = think_content
+                            # Yield everything after </think>
+                            remainder = _think_buf.split("</think>", 1)[1]
+                            if remainder:
+                                yield remainder
+                        # else: still inside think block — keep buffering, yield nothing
+                    else:
+                        # No think block seen yet; check if we have enough context
+                        # to be sure one won't start (buffer > len("<think>"))
+                        if len(_think_buf) > 7:
+                            # Safe to yield — no think block is coming
+                            _think_done = True
+                            yield _think_buf
+                        # else: buffer is tiny, keep accumulating for one more token
 
     except httpx.ConnectError as exc:
         raise OllamaUnavailableError(

@@ -79,6 +79,17 @@
   }
 
   // -------------------------------------------------------------------------
+  // Auto-save helper — fire-and-forget, never blocks the UI
+  // -------------------------------------------------------------------------
+
+  function _autoSave() {
+    if (!SAVE_ID) return;
+    apiPost('/api/saves/save', { save_id: SAVE_ID }).catch(e =>
+      console.warn('[autosave] failed silently:', e.message)
+    );
+  }
+
+  // -------------------------------------------------------------------------
   // State management
   // -------------------------------------------------------------------------
 
@@ -256,6 +267,7 @@
       { id: 'companions', glyph: '⊏', title: 'Companions',  desc: 'Speak with those traveling with you' },
       { id: 'inventory',  glyph: '⊡', title: 'Inventory',   desc: 'Check what you carry' },
       { id: 'map',        glyph: '◈', title: mapTitle,       desc: mapDesc },
+      { id: 'saves',      glyph: '◧', title: 'Save',         desc: 'Save progress or load another slot' },
     ];
   }
 
@@ -447,6 +459,7 @@
           gift_id: gift.id,
           choice:  choiceId,
         });
+        _autoSave();
       } catch (e) {
         console.warn('[gift] Apply failed:', e.message);
       }
@@ -531,7 +544,7 @@
       appendDivider('Traveling');
       const sceneText = await StreamRenderer.startStream(SAVE_ID, travelData, { style_sample: STYLE_SAMPLE });
       await appendMonologue(sceneText);
-      _maybeFetchThinkBlock(sceneText);
+      _maybeFetchThinkBlock();
       await awaitContinue();
       await refreshState();
     } catch (err) {
@@ -559,26 +572,100 @@
 
   // ---- 10%: discovery scene ----
 
+  // Cache for the discovery pool so we only fetch once per session
+  let _discoveryPool = null;
+
+  async function _loadDiscoveryPool() {
+    if (_discoveryPool !== null) return _discoveryPool;
+    // Relative path from frontend/ → ../data/events/discoveries.json
+    const urls = [
+      '../data/events/discoveries.json',  // file:// or static server at frontend/
+      '/data/events/discoveries.json',    // static server at project root
+    ];
+    for (const url of urls) {
+      try {
+        const r = await fetch(url);
+        if (r.ok) {
+          const json = await r.json();
+          _discoveryPool = json.discoveries || [];
+          return _discoveryPool;
+        }
+      } catch (_) {
+        // try next URL
+      }
+    }
+    _discoveryPool = [];
+    return _discoveryPool;
+  }
+
+  async function _pickDiscovery() {
+    const pool = await _loadDiscoveryPool();
+    if (!pool.length) return null;
+
+    const world      = GAME_STATE?.world   || {};
+    const champion   = GAME_STATE?.champion || {};
+    const region     = (world.region || '').toLowerCase().replace(/[\s-]/g, '_').replace(/[^a-z0-9_]/g, '');
+    const corruption = champion.corruption || 0;
+    const flags      = GAME_STATE?.story_flags || {};
+
+    // Filter to eligible discoveries: right region (or unspecified), min corruption met, not recently seen
+    const eligible = pool.filter(d => {
+      if (d.min_corruption > corruption) return false;
+      if (d.regions && d.regions.length > 0 && !d.regions.includes(region)) return false;
+      // Avoid repeating within same play session (track by id in story_flags)
+      if (flags[`discovery_seen_${d.id}`]) return false;
+      return true;
+    });
+
+    if (!eligible.length) return null;
+    return eligible[Math.floor(Math.random() * eligible.length)];
+  }
+
   async function _handleDiscovery() {
     Choices.disable();
-    try {
-      const world = GAME_STATE.world;
-      const discoveryData = {
-        scene_type: 'travel',
-        notes:
-          `The champion discovers something on the road — a remnant, a mystery, a sign. ` +
-          `Region: ${world?.region ?? 'unknown'}. Day ${world?.in_game_day ?? 1}. ` +
-          `Keep it brief and atmospheric. No mechanical consequence. 150–250 words.`,
-      };
-      appendDivider('Discovery');
-      const sceneText = await StreamRenderer.startStream(SAVE_ID, discoveryData, { style_sample: STYLE_SAMPLE });
-      await appendMonologue(sceneText);
-      _maybeFetchThinkBlock(sceneText);
+    appendDivider('Discovery');
+
+    // 70% chance: use pre-written pool; 30%: call AI
+    const usePool = Math.random() < 0.70;
+    let poolDiscovery = null;
+    if (usePool) {
+      poolDiscovery = await _pickDiscovery();
+    }
+
+    if (poolDiscovery) {
+      // Render the pre-written discovery text directly
+      const paras = poolDiscovery.text.split(/\n\n+/).map(p =>
+        `<p class="narrative-paragraph">${esc(p.trim())}</p>`
+      ).join('');
+      appendBlock(paras);
+      scrollToBottom();
+
+      // Mark as seen in story flags (best-effort, non-blocking)
+      apiPost('/api/saves/save', { save_id: SAVE_ID }).catch(() => {});
+
+      const monoData = { scene_type: 'inner_monologue', notes: poolDiscovery.text };
+      await appendMonologue(poolDiscovery.text);
       await awaitContinue();
       await refreshState();
-    } catch (err) {
-      appendError(`Discovery failed: ${err.message}`);
-      Choices.render(_buildContextualChoices(GAME_STATE));
+    } else {
+      try {
+        const world = GAME_STATE.world;
+        const discoveryData = {
+          scene_type: 'travel',
+          notes:
+            `The champion discovers something on the road — a remnant, a mystery, a sign. ` +
+            `Region: ${world?.region ?? 'unknown'}. Day ${world?.in_game_day ?? 1}. ` +
+            `Keep it brief and atmospheric. No mechanical consequence. 150–250 words.`,
+        };
+        const sceneText = await StreamRenderer.startStream(SAVE_ID, discoveryData, { style_sample: STYLE_SAMPLE });
+        await appendMonologue(sceneText);
+        _maybeFetchThinkBlock();
+        await awaitContinue();
+        await refreshState();
+      } catch (err) {
+        appendError(`Discovery failed: ${err.message}`);
+        Choices.render(_buildContextualChoices(GAME_STATE));
+      }
     }
   }
 
@@ -673,10 +760,11 @@
 
       // === Phase 4: Inner monologue ===
       await appendMonologue(sceneText);
-      _maybeFetchThinkBlock(sceneText);
+      _maybeFetchThinkBlock();
 
       // === Phase 5: Continue card (clear end state) ===
       await awaitContinue();
+      _autoSave();
       await refreshState();   // re-renders contextual choices and syncs sidebar
 
     } catch (err) {
@@ -747,8 +835,9 @@
 
       const sceneText = await StreamRenderer.startStream(SAVE_ID, campData, { style_sample: STYLE_SAMPLE });
       await appendMonologue(sceneText);
-      _maybeFetchThinkBlock(sceneText);
+      _maybeFetchThinkBlock();
       await awaitContinue();
+      _autoSave();
       await refreshState();
 
     } catch (err) {
@@ -849,7 +938,7 @@
         };
         const sceneText = await StreamRenderer.startStream(SAVE_ID, companionData, { style_sample: STYLE_SAMPLE });
         await appendMonologue(sceneText);
-        _maybeFetchThinkBlock(sceneText);
+        _maybeFetchThinkBlock();
         await awaitContinue();
         await refreshState();
       }
@@ -907,6 +996,93 @@
 
   function handleInventory() {
     _openInventory();
+  }
+
+  // -------------------------------------------------------------------------
+  // SAVES — save/load overlay
+  // -------------------------------------------------------------------------
+
+  function handleSaves() {
+    _openSavesOverlay();
+  }
+
+  function _openSavesOverlay() {
+    const overlay = document.getElementById('saves-overlay');
+    if (!overlay) return;
+    overlay.setAttribute('aria-hidden', 'false');
+    _populateSavesOverlay();
+  }
+
+  function _closeSavesOverlay() {
+    const overlay = document.getElementById('saves-overlay');
+    if (overlay) overlay.setAttribute('aria-hidden', 'true');
+  }
+
+  async function _populateSavesOverlay() {
+    // Current save info
+    if (GAME_STATE && SAVE_ID) {
+      const champ = GAME_STATE.champion || {};
+      const world = GAME_STATE.world    || {};
+      const name  = GAME_STATE.slot_name || champ.name || 'Save';
+      const day   = world.in_game_day ?? 1;
+      const corr  = Math.round(champ.corruption ?? 0);
+      const stage = champ.stage_name || 'Human';
+      const region = world.region || '—';
+
+      const el = document.getElementById('saves-current-name');
+      const meta = document.getElementById('saves-current-meta');
+      if (el)   el.textContent   = name;
+      if (meta) meta.textContent = `Day ${day} · ${corr}% corruption · ${stage} · ${region}`;
+    }
+
+    // Load slot list
+    const list = document.getElementById('saves-slots-list');
+    if (!list) return;
+    list.innerHTML = '<div class="saves-slot-loading">Loading…</div>';
+
+    try {
+      const saves = await apiGet('/api/saves/list');
+      if (!saves.length) {
+        list.innerHTML = '<div class="saves-slot-empty">No saves found.</div>';
+        return;
+      }
+      list.innerHTML = saves.map(s => {
+        const isCurrent = s.save_id === SAVE_ID;
+        return `
+          <div class="saves-slot-card ${isCurrent ? 'current' : ''}" data-save-id="${s.save_id}">
+            <div class="saves-slot-name">${esc(s.slot_name)}</div>
+            <div class="saves-slot-meta">
+              ${esc(s.champion_name || '—')} · Day ${s.in_game_day ?? 1} ·
+              ${Math.round(s.corruption ?? 0)}% corruption
+            </div>
+            <div class="saves-slot-actions">
+              ${isCurrent ? '<span class="saves-slot-current-tag">Current</span>' : `<button class="saves-slot-load" data-save-id="${s.save_id}">Load</button>`}
+              <button class="saves-slot-delete" data-save-id="${s.save_id}">Delete</button>
+            </div>
+          </div>`;
+      }).join('');
+
+      // Wire load/delete buttons
+      list.querySelectorAll('.saves-slot-load').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const sid = parseInt(btn.dataset.saveId);
+          _closeSavesOverlay();
+          await init(sid);
+        });
+      });
+      list.querySelectorAll('.saves-slot-delete').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const sid = parseInt(btn.dataset.saveId);
+          if (!confirm('Delete this save? This cannot be undone.')) return;
+          await apiPost('/api/saves/' + sid, {}).catch(() =>
+            fetch(`${API_BASE}/api/saves/${sid}`, { method: 'DELETE' })
+          );
+          _populateSavesOverlay();
+        });
+      });
+    } catch (e) {
+      list.innerHTML = `<div class="saves-slot-error">${esc(e.message)}</div>`;
+    }
   }
 
   function _openInventory() {
@@ -1112,70 +1288,237 @@
   }
 
   // -------------------------------------------------------------------------
-  // MAP — show region connections and travel destination selector
+  // MAP — SVG node map overlay
   // -------------------------------------------------------------------------
+
+  // Region node definitions (fixed positions in 500×380 viewBox)
+  const _MAP_NODES = [
+    {
+      id: 'warming_frost',
+      name: 'Warming Frost',
+      icon: '❄',
+      x: 100, y: 80,
+      danger: 2,
+      steps: 8,
+      desc: 'A frozen highland pass where the corruption runs cold. Strange crystals grow where the mist settles.',
+      connections: ['wolf_road'],
+    },
+    {
+      id: 'wolf_road',
+      name: 'Wolf-Road',
+      icon: '🌲',
+      x: 250, y: 190,
+      danger: 1,
+      steps: 0,
+      desc: 'The main road through the Marches. Your current position. All paths lead through here.',
+      connections: ['warming_frost', 'imp_warren_entrance', 'kitsune_circuit', 'cult_ascent'],
+    },
+    {
+      id: 'imp_warren_entrance',
+      name: 'Imp Warren',
+      icon: '🕳',
+      x: 380, y: 160,
+      danger: 2,
+      steps: 6,
+      desc: 'An underground network of tunnels. The imps that mark trees here answer to something deeper.',
+      connections: ['wolf_road'],
+    },
+    {
+      id: 'kitsune_circuit',
+      name: 'Kitsune Circuit',
+      icon: '🦊',
+      x: 230, y: 310,
+      danger: 2,
+      steps: 7,
+      desc: 'A circuit of standing stones where the kitsune perform their rites. Dangerous and beautiful.',
+      connections: ['wolf_road'],
+    },
+    {
+      id: 'cult_ascent',
+      name: 'Cult Ascent',
+      icon: '⛰',
+      x: 410, y: 60,
+      danger: 3,
+      steps: 10,
+      desc: 'The mountain approach to a corruption cult's sanctum. High danger. High consequence.',
+      connections: ['wolf_road'],
+    },
+  ];
+
+  function _regionToNodeId(regionName) {
+    return (regionName || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, '')
+      .trim()
+      .replace(/\s+/g, '_')
+      .replace(/edge$/, '').trim().replace(/_$/, '');
+  }
 
   async function handleMap() {
     if (!SAVE_ID || !GAME_STATE) return;
-    Choices.disable();
+    _openMapOverlay();
+    // Re-enable choices so map closing doesn't strand the player
+    Choices.render(_buildContextualChoices(GAME_STATE));
+  }
 
-    try {
-      const world      = GAME_STATE.world;
-      const regionData = await _getRegionData(world?.region);
-      const connections = regionData?.connections || [];
+  function _openMapOverlay() {
+    const overlay = document.getElementById('map-overlay');
+    if (!overlay) return;
+    overlay.setAttribute('aria-hidden', 'false');
+    _renderMapSVG();
 
-      appendDivider('Map');
+    // Hide info panel
+    const info = document.getElementById('map-info');
+    if (info) info.hidden = true;
+  }
 
-      let html = `<p class="narrative-paragraph" style="color:var(--text-dim);">` +
-        `<strong>${esc(world?.region || 'Unknown')}</strong> — ` +
-        `Day ${world?.in_game_day || 1}, ${world?.time_of_day || 'morning'}.</p>`;
+  function _closeMapOverlay() {
+    const overlay = document.getElementById('map-overlay');
+    if (overlay) overlay.setAttribute('aria-hidden', 'true');
+  }
 
-      if (regionData?.description) {
-        html += `<p class="narrative-paragraph">${esc(regionData.description)}</p>`;
+  function _renderMapSVG() {
+    const svg   = document.getElementById('map-svg');
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    const world       = GAME_STATE?.world   || {};
+    const currentId   = _regionToNodeId(world.region || 'wolf_road');
+    const destId      = _regionToNodeId(world.travel_destination || '');
+    const visitedIds  = new Set([currentId]);  // TODO: persist visited in story_flags
+    const flags       = GAME_STATE?.story_flags || {};
+    Object.keys(flags).filter(k => k.startsWith('visited_')).forEach(k =>
+      visitedIds.add(k.slice(8))
+    );
+
+    const ns = 'http://www.w3.org/2000/svg';
+
+    // Draw connection lines first (behind nodes)
+    _MAP_NODES.forEach(node => {
+      node.connections.forEach(connId => {
+        const target = _MAP_NODES.find(n => n.id === connId);
+        if (!target || target.id < node.id) return; // draw each edge once
+
+        const line = document.createElementNS(ns, 'line');
+        line.setAttribute('x1', node.x);
+        line.setAttribute('y1', node.y);
+        line.setAttribute('x2', target.x);
+        line.setAttribute('y2', target.y);
+        line.setAttribute('class', 'map-edge');
+        svg.appendChild(line);
+      });
+    });
+
+    // Draw nodes
+    _MAP_NODES.forEach(node => {
+      const isCurrent  = node.id === currentId;
+      const isDest     = node.id === destId;
+      const isVisited  = visitedIds.has(node.id);
+      const isReachable = node.connections.includes(currentId) || isCurrent;
+
+      const g = document.createElementNS(ns, 'g');
+      g.setAttribute('class',
+        `map-node ${isCurrent ? 'current' : ''} ${isDest ? 'destination' : ''} ${isVisited ? 'visited' : ''} ${isReachable ? 'reachable' : 'locked'}`
+      );
+      g.dataset.nodeId = node.id;
+
+      // Outer pulse ring (current location only)
+      if (isCurrent) {
+        const pulse = document.createElementNS(ns, 'circle');
+        pulse.setAttribute('cx', node.x);
+        pulse.setAttribute('cy', node.y);
+        pulse.setAttribute('r', 26);
+        pulse.setAttribute('class', 'map-pulse');
+        g.appendChild(pulse);
       }
 
-      // Show POIs
-      const pois = regionData?.points_of_interest || [];
-      if (pois.length > 0) {
-        html += `<p class="narrative-paragraph" style="color:var(--text-faint);font-size:.85rem;">` +
-          `<em>Points of interest: ${pois.map(p => esc(p.name || p)).join(', ')}</em></p>`;
+      // Main circle
+      const circle = document.createElementNS(ns, 'circle');
+      circle.setAttribute('cx', node.x);
+      circle.setAttribute('cy', node.y);
+      circle.setAttribute('r', 20);
+      circle.setAttribute('class', 'map-node-circle');
+      g.appendChild(circle);
+
+      // Icon text
+      const iconText = document.createElementNS(ns, 'text');
+      iconText.setAttribute('x', node.x);
+      iconText.setAttribute('y', node.y + 1);
+      iconText.setAttribute('class', 'map-node-icon');
+      iconText.textContent = node.icon;
+      g.appendChild(iconText);
+
+      // Name label
+      const label = document.createElementNS(ns, 'text');
+      label.setAttribute('x', node.x);
+      label.setAttribute('y', node.y + 35);
+      label.setAttribute('class', 'map-node-label');
+      label.textContent = node.name;
+      g.appendChild(label);
+
+      // Danger dots
+      const dotY = node.y + 46;
+      for (let i = 0; i < 3; i++) {
+        const dot = document.createElementNS(ns, 'circle');
+        dot.setAttribute('cx', node.x - 8 + i * 8);
+        dot.setAttribute('cy', dotY);
+        dot.setAttribute('r', 2.5);
+        dot.setAttribute('class', i < node.danger ? 'map-danger-dot active' : 'map-danger-dot');
+        g.appendChild(dot);
       }
 
-      // Show current travel progress
-      if (world.travel_destination) {
-        const progress = world.travel_progress || 0;
-        const total    = world.travel_steps_total || 10;
-        html += `<p class="narrative-paragraph" style="color:var(--text-accent);">` +
-          `Traveling to <strong>${esc(world.travel_destination)}</strong> — ` +
-          `${progress}/${total} steps.</p>`;
+      // Steps label
+      if (node.steps > 0) {
+        const steps = document.createElementNS(ns, 'text');
+        steps.setAttribute('x', node.x);
+        steps.setAttribute('y', dotY + 12);
+        steps.setAttribute('class', 'map-node-steps');
+        steps.textContent = `${node.steps} steps`;
+        g.appendChild(steps);
       }
 
-      appendBlock(html);
+      // Click handler
+      if (isReachable && !isCurrent) {
+        g.style.cursor = 'pointer';
+        g.addEventListener('click', () => _showMapNodeInfo(node));
+      }
 
-      // Build destination choices from region connections
-      const destChoices = connections.map(c => ({
-        id:    `map_dest_${typeof c === 'string' ? c : c.id || c.name}`,
-        glyph: '→',
-        title: typeof c === 'string' ? c : (c.name || c),
-        desc:  typeof c === 'object' && c.desc ? c.desc : 'Set as travel destination',
-      }));
+      svg.appendChild(g);
+    });
+  }
 
-      destChoices.push({ id: '_continue', glyph: '·', title: 'Stay here', desc: 'Continue in this region' });
+  function _showMapNodeInfo(node) {
+    const info     = document.getElementById('map-info');
+    const nameEl   = document.getElementById('map-info-name');
+    const descEl   = document.getElementById('map-info-desc');
+    const costEl   = document.getElementById('map-info-cost');
+    const travelBtn = document.getElementById('map-travel-btn');
+    if (!info || !nameEl) return;
 
-      const choice = await waitForPlayerChoice(destChoices);
+    nameEl.textContent = `${node.icon} ${node.name}`;
+    descEl.textContent = node.desc || '';
+    costEl.textContent = node.steps > 0 ? `${node.steps} steps to travel` : '';
 
-      if (choice !== '_continue' && choice.startsWith('map_dest_')) {
-        const destName = choice.slice('map_dest_'.length);
-        await apiPost(`/api/travel/set-destination?save_id=${SAVE_ID}&destination=${encodeURIComponent(destName)}`, {});
+    // Remove old listener and add new one
+    const newBtn = travelBtn.cloneNode(true);
+    travelBtn.parentNode.replaceChild(newBtn, travelBtn);
+    newBtn.addEventListener('click', async () => {
+      try {
+        await apiPost(
+          `/api/travel/set-destination?save_id=${SAVE_ID}&destination=${encodeURIComponent(node.name)}`,
+          {}
+        );
+        _closeMapOverlay();
+        await refreshState();
         appendBlock(`<p class="narrative-paragraph" style="color:var(--text-dim);">` +
-          `<em>Destination set: ${esc(destName)}.</em></p>`);
+          `<em>Destination set: ${esc(node.name)}. ${node.steps} steps ahead.</em></p>`);
+        scrollToBottom();
+      } catch (e) {
+        appendError(`Travel failed: ${e.message}`);
       }
+    });
 
-      await refreshState();
-    } catch (err) {
-      appendError(`Map failed: ${err.message}`);
-      Choices.render(_buildContextualChoices(GAME_STATE));
-    }
+    info.hidden = false;
   }
 
   // -------------------------------------------------------------------------
@@ -1237,11 +1580,15 @@
       }
     });
 
-    // Thinking checkbox
+    // Thinking checkbox — show/hide section and fetch last block immediately on enable
     if (checkbox && thinkSect) {
       checkbox.addEventListener('change', () => {
         thinkSect.hidden = !checkbox.checked;
         localStorage.setItem('aiShowThinking', String(checkbox.checked));
+        if (checkbox.checked) {
+          // Fetch immediately so the box isn't empty when the user enables it
+          _maybeFetchThinkBlock();
+        }
       });
     }
 
@@ -1360,18 +1707,21 @@
     }
   }
 
-  async function _maybeFetchThinkBlock(sceneText) {
+  async function _maybeFetchThinkBlock() {
     const checkbox = document.getElementById('ai-show-thinking');
-    if (!checkbox || !checkbox.checked || !SAVE_ID || !sceneText) return;
-    const content = document.getElementById('ai-think-content');
+    if (!checkbox || !checkbox.checked || !SAVE_ID) return;
+    const thinkSect = document.getElementById('ai-think-section');
+    const content   = document.getElementById('ai-think-content');
     if (!content) return;
+    if (thinkSect) thinkSect.hidden = false;
     content.textContent = 'Fetching…';
     try {
-      const result = await apiPost('/api/scene/debug-think', {
-        save_id:    SAVE_ID,
-        scene_text: sceneText.slice(0, 800),
-      });
-      content.textContent = result.think_block || '(no think block returned)';
+      const result = await apiGet(`/api/debug/last-thinking/${SAVE_ID}`);
+      if (result.think_block) {
+        content.textContent = result.think_block;
+      } else {
+        content.textContent = result.note || 'Model did not think for this response.';
+      }
     } catch (err) {
       content.textContent = `Error: ${err.message}`;
     }
@@ -1406,6 +1756,23 @@
       _handlePrologueContinue(actId);
       return;
     }
+    if (choiceId.startsWith('prologue_combat_win:')) {
+      const actId = choiceId.slice('prologue_combat_win:'.length);
+      _handlePrologueCombat(actId, 'win');
+      return;
+    }
+    if (choiceId.startsWith('prologue_combat_loss:')) {
+      const actId = choiceId.slice('prologue_combat_loss:'.length);
+      _handlePrologueCombat(actId, 'loss');
+      return;
+    }
+    if (choiceId.startsWith('prologue_imp:')) {
+      const parts = choiceId.slice('prologue_imp:'.length).split(':');
+      const actId = parts[0];
+      const impChoice = parts[1];
+      _handlePrologueImpChoice(actId, impChoice);
+      return;
+    }
     if (!GAME_STATE) {
       appendError('Game not loaded yet. Check that the server is running.');
       return;
@@ -1416,6 +1783,7 @@
       companions: handleCompanions,
       inventory:  handleInventory,
       map:        handleMap,
+      saves:      handleSaves,
       helpless:   () => {},
     };
     const handler = handlers[choiceId];
@@ -1494,6 +1862,52 @@
     _renderPrologueAct(prologue, background);
   }
 
+  // ---------------------------------------------------------------------------
+  // Mechanic hint highlight — pulse the relevant UI element, show tooltip
+  // ---------------------------------------------------------------------------
+
+  let _mechanicHintTimeout = null;
+
+  function _showMechanicHint(act) {
+    if (!act.mechanic_hint) return;
+    clearTimeout(_mechanicHintTimeout);
+
+    // Remove any existing hint
+    document.querySelectorAll('.mechanic-hint-badge').forEach(el => el.remove());
+    document.querySelectorAll('.mechanic-highlight').forEach(el => el.classList.remove('mechanic-highlight'));
+
+    // Show hint badge in the narrative area
+    const badge = document.createElement('div');
+    badge.className = 'mechanic-hint-badge';
+    badge.innerHTML = `<span class="mechanic-hint-icon">✦</span> ${act.mechanic_hint}`;
+    const narrativeEl = document.getElementById('narrative-text');
+    if (narrativeEl) narrativeEl.appendChild(badge);
+
+    // Highlight the target button if it exists
+    if (act.mechanic_target) {
+      const targetEl = document.getElementById(act.mechanic_target) ||
+                       document.querySelector(`[data-choice-id="${act.mechanic_target}"]`) ||
+                       document.querySelector(`.${act.mechanic_target}`);
+      if (targetEl) {
+        targetEl.classList.add('mechanic-highlight');
+        _mechanicHintTimeout = setTimeout(() => {
+          targetEl.classList.remove('mechanic-highlight');
+        }, 8000);
+      }
+    }
+
+    // Auto-remove badge after 10s
+    setTimeout(() => badge.remove(), 10000);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Prologue act rendering
+  // ---------------------------------------------------------------------------
+
+  function _fmtPrologueText(text) {
+    return text.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>');
+  }
+
   function _renderPrologueAct(prologue, background) {
     const act = prologue.act_data;
     if (!act) {
@@ -1501,55 +1915,258 @@
       return;
     }
 
-    // Pick variant text if available
+    const type = act.type || 'narrative';
+
+    // Show mechanic hint overlay for acts that teach a mechanic
+    if (act.teach_mechanic) {
+      _showMechanicHint(act);
+    }
+
+    // ---------- combat_real: act_7_lone_wolf (real combat using combat system) ----------
+    if (type === 'combat_real') {
+      _renderPrologueCombatAct(act, background, prologue);
+      return;
+    }
+
+    // ---------- encounter_tutorial: act_3_imp (player choice branch) ----------
+    if (type === 'encounter_tutorial' && act.choices) {
+      _renderPrologueEncounterAct(act, background, prologue);
+      return;
+    }
+
+    // ---------- Default: narrative / explore / combat_tutorial / rest_tutorial / tutorial_complete ----------
     let bodyText = '';
     if (act.variants && act.variants[background]) {
       bodyText = act.variants[background];
+    } else if (act.setup_text) {
+      bodyText = act.setup_text;
     } else if (act.steps && act.steps.length > 0) {
-      // Explore tutorial — show first step, we'll sequence through
       bodyText = act.steps.map(s => `<strong>${s.prompt}</strong>\n\n${s.result}`).join('\n\n—\n\n');
+    } else if (act.text) {
+      bodyText = act.text;
     } else if (act.scene) {
       bodyText = act.scene;
     } else {
       bodyText = act.title || '';
     }
 
-    // Render act as prologue block
+    // Day/time divider for day transitions
+    _renderPrologueDayDivider(act);
+
     const html = `<div class="prologue-block">
       <div class="prologue-title">${esc(act.title || '')}</div>
       ${act.subtitle ? `<div class="prologue-subtitle">${esc(act.subtitle)}</div>` : ''}
-      <div class="prologue-body">${bodyText.replace(/\n\n/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>')}</div>
+      <div class="prologue-body">${_fmtPrologueText(bodyText)}</div>
     </div>`;
     appendBlock(html);
     scrollToBottom();
 
-    // Build choices: Continue + Skip Prologue
     const choices = [
       { id: `prologue_continue:${act.id}`, glyph: '→', title: 'Continue', desc: '' },
     ];
     if (prologue.current_act !== 'act_1_portal') {
-      // Allow skip after first act
       choices.push({ id: 'prologue_skip', glyph: '»', title: 'Skip Prologue', desc: 'Begin at day 3 with all companions.' });
     }
     Choices.render(choices);
   }
 
+  function _renderPrologueDayDivider(act) {
+    const day = act.day;
+    const time = act.time_of_day;
+    if (!day) return;
+    const label = time
+      ? `Day ${day} — ${time.charAt(0).toUpperCase() + time.slice(1)}`
+      : `Day ${day}`;
+    appendDivider(label);
+  }
+
+  function _renderPrologueEncounterAct(act, background, prologue) {
+    // Show setup / variant text
+    const setupText = (act.variants && act.variants[background]) || act.setup || '';
+    _renderPrologueDayDivider(act);
+    const html = `<div class="prologue-block">
+      <div class="prologue-title">${esc(act.title || '')}</div>
+      ${act.subtitle ? `<div class="prologue-subtitle">${esc(act.subtitle)}</div>` : ''}
+      <div class="prologue-body">${_fmtPrologueText(setupText)}</div>
+    </div>`;
+    appendBlock(html);
+    scrollToBottom();
+
+    // Build choice cards for each encounter option
+    const choices = act.choices.map(c => ({
+      id: `prologue_imp:${act.id}:${c.id}`,
+      glyph: '◆',
+      title: c.label,
+      desc: '',
+    }));
+    if (prologue.current_act !== 'act_1_portal') {
+      choices.push({ id: 'prologue_skip', glyph: '»', title: 'Skip Prologue', desc: 'Begin at day 3 with all companions.' });
+    }
+    Choices.render(choices);
+  }
+
+  function _renderPrologueCombatAct(act, background, prologue) {
+    // Show setup text
+    const setupText = (act.setup_variants && act.setup_variants[background]) || act.setup_text || '';
+    _renderPrologueDayDivider(act);
+    const html = `<div class="prologue-block prologue-combat">
+      <div class="prologue-title">${esc(act.title || '')}</div>
+      ${act.subtitle ? `<div class="prologue-subtitle">${esc(act.subtitle)}</div>` : ''}
+      <div class="prologue-body">${_fmtPrologueText(setupText)}</div>
+      <div class="prologue-enemy-card">
+        <span class="enemy-name">${esc(act.enemy_name || 'Enemy')}</span>
+        <span class="enemy-hp">HP: ${act.enemy_hp || '?'}</span>
+        <span class="enemy-dmg">Damage: ${act.enemy_base_damage || '?'}/round</span>
+      </div>
+    </div>`;
+    appendBlock(html);
+    scrollToBottom();
+
+    // Two choices: fight (resolves to win/loss) or flee (counts as loss)
+    const choices = [
+      { id: `prologue_combat_win:${act.id}`,  glyph: '⚔', title: 'Fight — and win',  desc: 'Press the attack. Victory comes at a price.' },
+      { id: `prologue_combat_loss:${act.id}`, glyph: '✗',  title: 'Fight — and fall', desc: 'You are outmatched. The Marches teaches through loss.' },
+    ];
+    if (prologue.current_act !== 'act_1_portal') {
+      choices.push({ id: 'prologue_skip', glyph: '»', title: 'Skip Prologue', desc: 'Begin at day 3 with all companions.' });
+    }
+    Choices.render(choices);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Prologue action handlers
+  // ---------------------------------------------------------------------------
+
   async function _handlePrologueContinue(actId) {
     try {
       const res = await apiPost(`/api/prologue/advance?save_id=${SAVE_ID}&completed_act=${actId}`, {});
+      // Sync world/champion state if returned
+      if (res.world)    GAME_STATE = { ...GAME_STATE, world: res.world };
+      if (res.champion) GAME_STATE = { ...GAME_STATE, champion: res.champion };
+      if (GAME_STATE) Stats.update(GAME_STATE, _CHARACTER_SHEET);
+
       if (res.prologue_done) {
-        // Prologue complete — refresh state and enter game
         await refreshState();
-        appendDivider('The road opens.');
+        appendDivider('The road opens. Day 3.');
         Choices.render(_buildContextualChoices(GAME_STATE));
       } else {
-        // Next act
         const background = GAME_STATE?.champion?.background || 'warrior';
         _renderPrologueAct({ prologue_done: false, current_act: res.next_act, act_data: res.next_act_data }, background);
       }
     } catch (e) {
       appendError(`Prologue error: ${e.message}`);
     }
+  }
+
+  async function _handlePrologueCombat(actId, result) {
+    try {
+      // Find act data for result text
+      const statusRes = await apiGet(`/api/prologue/status?save_id=${SAVE_ID}`);
+      const acts = await _getPrologueActs();
+      const act = acts.find(a => a.id === actId);
+      const background = GAME_STATE?.champion?.background || 'warrior';
+
+      // Show result narrative
+      if (act) {
+        let resultText = '';
+        if (result === 'win') {
+          resultText = (act.win_variants && act.win_variants[background]) || act.win_text || '';
+        } else {
+          resultText = (act.loss_variants && act.loss_variants[background]) || act.loss_text || '';
+        }
+        if (resultText) {
+          const outcomeClass = result === 'win' ? 'prologue-win' : 'prologue-loss';
+          appendBlock(`<div class="prologue-block ${outcomeClass}"><div class="prologue-body">${_fmtPrologueText(resultText)}</div></div>`);
+          scrollToBottom();
+        }
+      }
+
+      // Resolve with backend
+      const res = await apiPost('/api/prologue/combat', {
+        save_id: SAVE_ID,
+        act_id:  actId,
+        result:  result,
+      });
+
+      if (res.world)    GAME_STATE = { ...GAME_STATE, world: res.world };
+      if (res.champion) GAME_STATE = { ...GAME_STATE, champion: res.champion };
+      if (GAME_STATE) Stats.update(GAME_STATE, _CHARACTER_SHEET);
+
+      if (res.corruption_gained > 0) {
+        appendBlock(`<div class="prologue-stat-note">Corruption +${res.corruption_gained.toFixed(1)}%</div>`);
+      }
+
+      // Small delay then next act
+      await new Promise(r => setTimeout(r, 600));
+
+      if (res.prologue_done) {
+        await refreshState();
+        appendDivider('The road opens. Day 3.');
+        Choices.render(_buildContextualChoices(GAME_STATE));
+      } else {
+        _renderPrologueAct({ prologue_done: false, current_act: res.next_act, act_data: res.next_act_data }, background);
+      }
+    } catch (e) {
+      appendError(`Prologue combat error: ${e.message}`);
+    }
+  }
+
+  async function _handlePrologueImpChoice(actId, impChoiceId) {
+    try {
+      const acts = await _getPrologueActs();
+      const act = acts.find(a => a.id === actId);
+      const choice = act && act.choices && act.choices.find(c => c.id === impChoiceId);
+
+      if (choice && choice.result) {
+        appendBlock(`<div class="prologue-block"><div class="prologue-body">${_fmtPrologueText(choice.result)}</div></div>`);
+        if (act.item_found) {
+          appendBlock(`<div class="prologue-item-found">✦ Found: <strong>${esc(act.item_found.name)}</strong> — ${esc(act.item_found.desc)}</div>`);
+        }
+        scrollToBottom();
+      }
+
+      // Advance after a short pause
+      await new Promise(r => setTimeout(r, 400));
+      const res = await apiPost(`/api/prologue/advance?save_id=${SAVE_ID}&completed_act=${actId}`, {});
+
+      if (res.world)    GAME_STATE = { ...GAME_STATE, world: res.world };
+      if (res.champion) GAME_STATE = { ...GAME_STATE, champion: res.champion };
+      if (GAME_STATE) Stats.update(GAME_STATE, _CHARACTER_SHEET);
+
+      if (res.prologue_done) {
+        await refreshState();
+        appendDivider('The road opens. Day 3.');
+        Choices.render(_buildContextualChoices(GAME_STATE));
+      } else {
+        const background = GAME_STATE?.champion?.background || 'warrior';
+        _renderPrologueAct({ prologue_done: false, current_act: res.next_act, act_data: res.next_act_data }, background);
+      }
+    } catch (e) {
+      appendError(`Prologue encounter error: ${e.message}`);
+    }
+  }
+
+  // Cache for acts data (avoid re-fetching)
+  let _prologueActsCache = null;
+  async function _getPrologueActs() {
+    if (_prologueActsCache) return _prologueActsCache;
+    try {
+      const data = await apiGet(`/api/prologue/status?save_id=${SAVE_ID}`);
+      // We only have one act at a time from status; fetch from data dir as fallback
+      // Try to load the full acts list from the static data file
+      const urls = ['../data/prologue/acts.json', '/data/prologue/acts.json'];
+      for (const url of urls) {
+        try {
+          const r = await fetch(url);
+          if (r.ok) {
+            const d = await r.json();
+            _prologueActsCache = d.acts || [];
+            return _prologueActsCache;
+          }
+        } catch (_) {}
+      }
+    } catch (_) {}
+    return [];
   }
 
   async function _handlePrologueSkip() {
@@ -1583,6 +2200,9 @@
       textEl:   '#narrative-text',
       apiBase:  API_BASE,
     });
+
+    // Slide-out stats panel toggle
+    Stats.initSlideoutToggle();
 
     // -------------------------------------------------------------------
     // Central click delegation on #choice-cards
@@ -1628,6 +2248,62 @@
     document.querySelectorAll('.inv-tab').forEach(btn => {
       btn.addEventListener('click', () => _switchInvTab(btn.dataset.tab));
     });
+
+    // Map overlay
+    const mapClose = document.getElementById('map-close');
+    if (mapClose) mapClose.addEventListener('click', _closeMapOverlay);
+    const mapOverlay = document.getElementById('map-overlay');
+    if (mapOverlay) {
+      mapOverlay.addEventListener('click', e => {
+        if (e.target === mapOverlay) _closeMapOverlay();
+      });
+    }
+
+    // Saves overlay
+    const savesClose = document.getElementById('saves-close');
+    if (savesClose) savesClose.addEventListener('click', _closeSavesOverlay);
+
+    const savesOverlay = document.getElementById('saves-overlay');
+    if (savesOverlay) {
+      savesOverlay.addEventListener('click', e => {
+        if (e.target === savesOverlay) _closeSavesOverlay();
+      });
+    }
+
+    const saveNowBtn = document.getElementById('saves-save-now');
+    if (saveNowBtn) {
+      saveNowBtn.addEventListener('click', async () => {
+        saveNowBtn.textContent = 'Saving…';
+        saveNowBtn.disabled = true;
+        try {
+          await apiPost('/api/saves/save', { save_id: SAVE_ID });
+          saveNowBtn.textContent = '✓ Saved';
+          setTimeout(() => {
+            saveNowBtn.textContent = '💾 Save Now';
+            saveNowBtn.disabled = false;
+          }, 1500);
+        } catch (e) {
+          saveNowBtn.textContent = 'Save failed';
+          saveNowBtn.disabled = false;
+        }
+      });
+    }
+
+    const newGameBtn = document.getElementById('saves-new-game');
+    if (newGameBtn) {
+      newGameBtn.addEventListener('click', () => {
+        if (!confirm('Start a New Game? Your current save will not be lost — it stays in its slot.')) return;
+        _closeSavesOverlay();
+        // Show the save screen (character creation)
+        const saveScreen = document.getElementById('save-screen');
+        const gameLayout = document.getElementById('game-layout');
+        if (saveScreen) saveScreen.setAttribute('aria-hidden', 'false');
+        if (gameLayout) gameLayout.setAttribute('aria-hidden', 'true');
+        if (window.SaveScreen) {
+          window.SaveScreen.init(sid => { init(sid); });
+        }
+      });
+    }
 
     // Debug mode toggle (D key)
     document.addEventListener('keydown', function (e) {

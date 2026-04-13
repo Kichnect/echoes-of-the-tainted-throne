@@ -329,35 +329,71 @@ const StreamRenderer = (() => {
    *   Stage N             → amber (only when followed by stage name)
    *   [Item Name]         → item span (teal)
    */
-  function _colorizeNarrative(html) {
-    // **bold** or *italic-bold*
+  /**
+   * postProcess — runs on each completed escaped-HTML paragraph string.
+   * Applies colored emphasis for game events, names, and locations.
+   * Called from _renderText() after _escapeHtml().
+   */
+  function postProcess(html) {
+    // Markdown bold/italic (author markup in pre-written scenes)
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
 
-    // Damage numbers: −N HP (red) or +N HP (green)
-    html = html.replace(/(−|\u2212|-)(\d+)\s*HP/g,
-      '<span class="nar-damage">−$2 HP</span>');
+    // Damage: (-N HP) format Gemma tends to use
+    html = html.replace(/\((-\d+)\s*HP\)/g,
+      '<span class="hit-damage">($1 HP)</span>');
+    // Also catch: −N HP / -N HP without parens
+    html = html.replace(/(−|\u2212|-)(\d+)\s*HP(?!\))/g,
+      '<span class="hit-damage">−$2 HP</span>');
     html = html.replace(/\+(\d+)\s*HP/g,
       '<span class="nar-heal">+$1 HP</span>');
 
-    // Corruption gains: +N.N% corruption (purple)
-    html = html.replace(/\+(\d+\.?\d*)\s*%?\s*corruption/gi,
-      '<span class="nar-corruption">+$1% corruption</span>');
+    // Corruption gains
+    html = html.replace(/\(\+(\d+\.?\d*)\s*corruption\)/gi,
+      '<span class="hit-corruption">(+$1 corruption)</span>');
+    html = html.replace(/\+(\d+\.?\d*)\s*%?\s*corruption(?!\))/gi,
+      '<span class="hit-corruption">+$1% corruption</span>');
 
-    // Submission gains: +N submission (rose)
-    html = html.replace(/\+(\d+\.?\d*)\s*submission/gi,
-      '<span class="nar-submission">+$1 submission</span>');
+    // Submission gains
+    html = html.replace(/\(\+(\d+\.?\d*)\s*submission\)/gi,
+      '<span class="hit-submission">(+$1 submission)</span>');
+    html = html.replace(/\+(\d+\.?\d*)\s*submission(?!\))/gi,
+      '<span class="hit-submission">+$1 submission</span>');
 
-    // Stage transition: "Stage N" followed by en-dash or colon (amber)
-    html = html.replace(/\b(Stage\s+[0-4])\b(?=\s*[—–:\.])/g,
-      '<span class="nar-stage">$1</span>');
+    // XP gains
+    html = html.replace(/\(\+(\d+)\s*XP\)/gi,
+      '<span class="hit-xp">(+$1 XP)</span>');
 
-    // [Item Name] in square brackets (teal)
+    // Stage references
+    html = html.replace(/\b(Stage\s+[0-4])\b/g,
+      '<span class="hit-stage">$1</span>');
+
+    // [Item Name] in square brackets
     html = html.replace(/\[([^\]]+)\]/g,
       '<span class="nar-item">[$1]</span>');
 
+    // Kasyrra name — special amber-purple
+    html = html.replace(/\bKasyrra\b/g,
+      '<span class="name-kasyrra">Kasyrra</span>');
+
+    // Companion names → bold
+    ['Saoirse', 'Mireille', 'Tierlan'].forEach(name => {
+      html = html.replace(new RegExp(`\\b${name}\\b`, 'g'),
+        `<strong>${name}</strong>`);
+    });
+
+    // Location names → italic teal
+    ['Wolf-Road', 'Warming Frost', 'Imp Warren',
+     'Kitsune Circuit', 'Cult Ascent'].forEach(loc => {
+      html = html.replace(new RegExp(loc, 'g'),
+        `<em class="location-name">${loc}</em>`);
+    });
+
     return html;
   }
+
+  // Keep _colorizeNarrative as an alias for backwards compat
+  const _colorizeNarrative = postProcess;
 
   function _escapeHtml(str) {
     return str

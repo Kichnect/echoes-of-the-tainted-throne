@@ -1,0 +1,64 @@
+{
+  "discoveries": [
+    {
+      "id": "warden_post",
+      "text": "A Warden Order marker stone stands half-buried in the road's shoulder — old enough to have sunk two inches into the earth, new enough that the carved glyph still reads cleanly. Someone checked this post within the last season. Someone left it standing.",
+      "min_corruption": 0,
+      "regions": ["wolf_road", "warming_frost"]
+    },
+    {
+      "id": "abandoned_camp",
+      "text": "A camp site, cold for at least a week. Two bedrolls, both left behind — unusual. The fire ring is intact, the provisions gone. Whatever happened here ended fast enough that they ran without their gear but slow enough that they had time to bank the fire.",
+      "min_corruption": 0,
+      "regions": ["wolf_road", "warming_frost", "imp_warren_entrance"]
+    },
+    {
+      "id": "corrupted_stream",
+      "text": "The stream running under the road crossing runs clear on the upstream side and carries a faint violet tinge downstream, the color of old bruises. No dead fish. No dead anything. Whatever is in the water, the local creatures have learned to live around it.",
+      "min_corruption": 0,
+      "regions": ["wolf_road", "warming_frost"]
+    },
+    {
+      "id": "obsidian_cairn",
+      "text": "A cairn of stacked stones at the road's edge, three feet high. The top stone is obsidian — local stone is limestone. Someone carried that obsidian a long distance to place it here, and went to the trouble of making the stack neat. The cairn is warm to the touch on a cold morning.",
+      "min_corruption": 10,
+      "regions": ["wolf_road", "warming_frost", "imp_warren_entrance"]
+    },
+    {
+      "id": "hollow_tree",
+      "text": "The oak at the road's bend is hollowed at the base — not by rot, but by something that burned outward from the inside. The charring follows a pattern too regular to be accidental. Inside: a length of copper wire, deliberately coiled. It vibrates slightly when held.",
+      "min_corruption": 0,
+      "regions": ["wolf_road", "warming_frost"]
+    },
+    {
+      "id": "cultist_altar",
+      "text": "A small altar in a clearing just off the road, crudely assembled from road stones. The offerings are recent: flowers still holding color, a folded cloth, a personal item — a ring, size for a woman's finger. Someone has been praying here. The direction the altar faces is toward the Marches' center, not toward any known temple.",
+      "min_corruption": 5,
+      "regions": ["cult_ascent", "warming_frost"]
+    },
+    {
+      "id": "imp_markings",
+      "text": "The trees flanking this section of road are marked at regular intervals — small incised symbols, chest height, in a script you do not recognize. The marks are recent and identical, which means they were made by something with consistent intent and a consistent hand. Whatever marked these trees, it walked this road more than once.",
+      "min_corruption": 0,
+      "regions": ["wolf_road", "imp_warren_entrance"]
+    },
+    {
+      "id": "corruption_bloom",
+      "text": "A patch of moss on the north-facing boulder has grown in the wrong color — deep violet where it should be grey-green, the edges fading to normal at the border of the rock's shadow. You have read about this. You did not expect to see it this early in the road.",
+      "min_corruption": 15,
+      "regions": ["wolf_road", "warming_frost", "imp_warren_entrance", "cult_ascent"]
+    },
+    {
+      "id": "kitsune_trace",
+      "text": "A single fox track pressed into the mud at the road's edge — except the print has five toes, and no fox has five toes. The stride pattern suggests something that moves on three legs when at ease and four when alert. The track leads into the tree line and does not continue on the other side.",
+      "min_corruption": 0,
+      "regions": ["kitsune_circuit", "warming_frost"]
+    },
+    {
+      "id": "old_battle_scar",
+      "text": "The road surface here was repaired with the wrong stone — a darker basalt filling a crater-shaped gap twenty feet across. The original paving stones are stacked neatly at the roadside, some of them fused at the edges. Whatever happened here was large enough to need a repair crew. No records in any document you have seen mention a battle on this road.",
+      "min_corruption": 0,
+      "regions": ["wolf_road", "warming_frost", "cult_ascent"]
+    }
+  ]
+}

@@ -13,6 +13,7 @@
 
   let _selectedBg   = 'warrior';
   let _selectedAttr = 'female-leaning';
+  const _STAGE_LOSS = { 0: 0, 1: 2, 2: 8, 3: 18, 4: 32 };
 
   // -------------------------------------------------------------------------
   // Public interface (called from DOMContentLoaded in game.js)
@@ -74,6 +75,9 @@
         sin:               cc.sin,
         tone_preference:   cc.tone,
         champion_secret:   cc.secret || null,
+        height_cm:         cc.height_cm || 175,
+        face_desc:         cc.face_desc || '',
+        personality:       cc.personality || 'stoic',
       }),
     });
     if (!res.ok) {
@@ -183,7 +187,7 @@
     const cc = {
       name:          '',
       gender:        'male',
-      hair_color:    'brown',
+      hair_color:    'black',
       eye_color:     'brown',
       build:         'average',
       background:    'warrior',
@@ -191,7 +195,42 @@
       attraction:    'female-leaning',
       secret:        '',
       tone:          'conflict',
+      height_cm:     175,
+      face_desc:     '',
+      personality:   'stoic',
     };
+
+    // -----------------------------------------------------------------------
+    // Live preview updater
+    // -----------------------------------------------------------------------
+    function _updatePreview() {
+      const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      const nameVal = (document.getElementById('cc-name') || {}).value || cc.name || '—';
+      setTxt('cc-prev-name',        nameVal || '—');
+      setTxt('cc-prev-height',      cc.height_cm + 'cm');
+      setTxt('cc-prev-build',       _capitalize(cc.build));
+      setTxt('cc-prev-hair',        _capitalize(cc.hair_color));
+      setTxt('cc-prev-eyes',        _capitalize(cc.eye_color));
+      setTxt('cc-prev-bg',          _capitalize(cc.background));
+      setTxt('cc-prev-sin',         _capitalize(cc.sin));
+      setTxt('cc-prev-personality', _capitalize(cc.personality));
+      setTxt('cc-prev-tone',        _capitalize(cc.tone));
+      const stage4h = Math.round(cc.height_cm - (_STAGE_LOSS[4] || 32));
+      setTxt('cc-prev-stage4-h', stage4h);
+      // Face desc row
+      const faceRow = document.getElementById('cc-prev-face-row');
+      const faceVal = document.getElementById('cc-prev-face');
+      const faceInput = (document.getElementById('cc-face-desc') || {}).value || cc.face_desc || '';
+      if (faceRow && faceVal) {
+        faceRow.hidden = !faceInput;
+        faceVal.textContent = faceInput;
+      }
+    }
+
+    function _capitalize(s) {
+      if (!s) return '';
+      return s.charAt(0).toUpperCase() + s.slice(1).replace(/-/g, ' ');
+    }
 
     // Wire pill/card single-select groups
     function _wireGroup(containerId, stateKey) {
@@ -207,14 +246,60 @@
       });
     }
 
-    _wireGroup('cc-gender-choices',  'gender');
-    _wireGroup('cc-hair-choices',    'hair_color');
-    _wireGroup('cc-eye-choices',     'eye_color');
-    _wireGroup('cc-build-choices',   'build');
-    _wireGroup('background-choices', 'background');
-    _wireGroup('cc-sin-choices',     'sin');
-    _wireGroup('attraction-choices', 'attraction');
-    _wireGroup('cc-tone-choices',    'tone');
+    function _wireGroupWithPreview(containerId, stateKey) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.querySelectorAll('[data-val],[data-bg],[data-attr]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.active').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const val = btn.dataset.val || btn.dataset.bg || btn.dataset.attr;
+          cc[stateKey] = val;
+          _updatePreview();
+        });
+      });
+    }
+
+    _wireGroupWithPreview('cc-gender-choices',        'gender');
+    _wireGroupWithPreview('cc-hair-choices',          'hair_color');
+    _wireGroupWithPreview('cc-eye-choices',           'eye_color');
+    _wireGroupWithPreview('cc-build-choices',         'build');
+    _wireGroupWithPreview('background-choices',       'background');
+    _wireGroupWithPreview('cc-sin-choices',           'sin');
+    _wireGroupWithPreview('attraction-choices',       'attraction');
+    _wireGroupWithPreview('cc-tone-choices',          'tone');
+    _wireGroupWithPreview('cc-personality-choices',   'personality');
+
+    // Height slider
+    const heightSlider = document.getElementById('cc-height');
+    const heightDisplay = document.getElementById('cc-height-display');
+    const heightStage4 = document.getElementById('cc-height-stage4-display');
+    if (heightSlider) {
+      heightSlider.addEventListener('input', () => {
+        const h = parseInt(heightSlider.value);
+        cc.height_cm = h;
+        if (heightDisplay) heightDisplay.textContent = h;
+        if (heightStage4) heightStage4.textContent = h - (_STAGE_LOSS[4] || 32);
+        _updatePreview();
+      });
+    }
+
+    // Face description input
+    const faceDescInput = document.getElementById('cc-face-desc');
+    const faceCountEl   = document.getElementById('cc-face-count');
+    if (faceDescInput) {
+      faceDescInput.addEventListener('input', () => {
+        cc.face_desc = faceDescInput.value.slice(0, 60);
+        if (faceCountEl) faceCountEl.textContent = faceDescInput.value.length;
+        _updatePreview();
+      });
+    }
+
+    // Name input → preview
+    const nameInput = document.getElementById('cc-name');
+    if (nameInput) {
+      nameInput.addEventListener('input', () => _updatePreview());
+    }
 
     function _showStep(n) {
       for (let i = 1; i <= TOTAL_STEPS; i++) {
@@ -228,6 +313,7 @@
       if (confirm) confirm.textContent = n < TOTAL_STEPS ? 'Next →' : 'Begin';
       if (n === TOTAL_STEPS) _renderSummary();
       currentStep = n;
+      _updatePreview();
     }
 
     function _renderSummary() {
@@ -236,13 +322,18 @@
       const SIN_SYMBOLS = {pride:'♦',lust:'♥',sloth:'♠',wrath:'♣',envy:'★',greed:'$',gluttony:'●'};
       const name = (document.getElementById('cc-name') || {}).value || '(unnamed)';
       cc.name = name;
-      cc.secret = (document.getElementById('cc-secret') || {}).value || '';
+      cc.secret   = (document.getElementById('cc-secret')   || {}).value || '';
+      cc.face_desc = (document.getElementById('cc-face-desc') || {}).value || '';
+      const stage4h = Math.round(cc.height_cm - (_STAGE_LOSS[4] || 32));
       el.innerHTML = `
         <div class="cc-summary-row"><span class="cc-sum-label">Name</span><span>${_escHtml(name)}</span></div>
         <div class="cc-summary-row"><span class="cc-sum-label">Gender</span><span>${_escHtml(cc.gender)}</span></div>
+        <div class="cc-summary-row"><span class="cc-sum-label">Height</span><span>${cc.height_cm}cm <span class="cc-sum-dim">(→ ${stage4h}cm at Stage 4)</span></span></div>
         <div class="cc-summary-row"><span class="cc-sum-label">Appearance</span><span>${_escHtml(cc.hair_color)} hair, ${_escHtml(cc.eye_color)} eyes, ${_escHtml(cc.build)} build</span></div>
+        ${cc.face_desc ? `<div class="cc-summary-row"><span class="cc-sum-label">Face</span><span>${_escHtml(cc.face_desc)}</span></div>` : ''}
         <div class="cc-summary-row"><span class="cc-sum-label">Background</span><span>${_escHtml(cc.background)}</span></div>
         <div class="cc-summary-row"><span class="cc-sum-label">Sin</span><span>${SIN_SYMBOLS[cc.sin] || ''} ${_escHtml(cc.sin)}</span></div>
+        <div class="cc-summary-row"><span class="cc-sum-label">Personality</span><span>${_escHtml(cc.personality)}</span></div>
         <div class="cc-summary-row"><span class="cc-sum-label">Attraction</span><span>${_escHtml(cc.attraction)}</span></div>
         <div class="cc-summary-row"><span class="cc-sum-label">Tone</span><span>${_escHtml(cc.tone)}</span></div>
         ${cc.secret ? `<div class="cc-summary-row"><span class="cc-sum-label">Secret</span><span><em>set</em></span></div>` : ''}
@@ -273,7 +364,9 @@
           _showStep(currentStep + 1);
         } else {
           // Final confirm — collect final fields and create save
-          cc.secret = (document.getElementById('cc-secret') || {}).value || '';
+          cc.secret    = (document.getElementById('cc-secret')   || {}).value || '';
+          cc.face_desc = (document.getElementById('cc-face-desc') || {}).value || '';
+          cc.height_cm = parseInt((document.getElementById('cc-height') || {}).value || 175);
           confirm.disabled = true;
           confirm.textContent = 'Creating…';
           try {

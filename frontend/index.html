@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <!-- Character creation modal — 6 steps -->
+  <!-- Character creation modal — 6 steps with live preview -->
   <div class="char-create-modal" id="char-create-modal" hidden>
     <div class="char-create-panel">
 
@@ -43,6 +43,10 @@
         <span class="cc-dot" data-step="5"></span>
         <span class="cc-dot" data-step="6"></span>
       </div>
+
+      <div class="cc-layout">
+        <!-- Left: form steps -->
+        <div class="cc-form-col">
 
       <!-- STEP 1 — Identity -->
       <div class="cc-step active" id="cc-step-1">
@@ -109,6 +113,26 @@
               <div class="bg-choice-desc">Built for combat. The corruption will reshape this.</div>
             </button>
           </div>
+        </div>
+
+        <div class="char-create-field">
+          <label class="char-create-label" for="cc-height">
+            Height: <span id="cc-height-display">175</span>cm
+          </label>
+          <input class="cc-range" type="range" id="cc-height"
+                 min="150" max="200" value="175" step="1">
+          <div class="cc-range-labels">
+            <span>150cm</span><span>175cm</span><span>200cm</span>
+          </div>
+          <div class="char-create-hint">The corruption reduces this over time. Stage 4 brings you to <span id="cc-height-stage4-display">143</span>cm.</div>
+        </div>
+
+        <div class="char-create-field">
+          <label class="char-create-label" for="cc-face-desc">Face description <span class="cc-optional">(optional)</span></label>
+          <input class="char-create-input" type="text" id="cc-face-desc"
+                 placeholder="e.g. sharp cheekbones, a scar through the left brow" maxlength="60" autocomplete="off">
+          <div class="cc-char-count"><span id="cc-face-count">0</span>/60</div>
+          <div class="char-create-hint">Used verbatim by the AI. Leave blank for auto-description.</div>
         </div>
       </div>
 
@@ -203,7 +227,7 @@
         </div>
       </div>
 
-      <!-- STEP 5 — The Secret -->
+      <!-- STEP 5 — The Secret + Personality + Tone -->
       <div class="cc-step" id="cc-step-5" hidden>
         <div class="char-create-title">The Secret</div>
         <div class="char-create-field">
@@ -211,6 +235,29 @@
           <input class="char-create-input" type="text" id="cc-secret"
                  placeholder="Optional. Mireille may figure it out." maxlength="100" autocomplete="off">
           <div class="char-create-hint">Leave blank to skip. It will haunt the story if you fill it in.</div>
+        </div>
+
+        <div class="char-create-field" style="margin-top:1rem">
+          <div class="char-create-label">Personality</div>
+          <div class="char-create-hint" style="margin-bottom:0.6rem">Flavors inner monologue and companion dialogue.</div>
+          <div class="cc-personality-grid" id="cc-personality-choices">
+            <button class="cc-personality-card active" data-val="stoic">
+              <div class="cc-personality-name">Stoic</div>
+              <div class="cc-personality-desc">Endures without complaint. Processes change through action, not feeling.</div>
+            </button>
+            <button class="cc-personality-card" data-val="warm">
+              <div class="cc-personality-name">Warm</div>
+              <div class="cc-personality-desc">Connects easily. Vulnerability is expressed, not hidden.</div>
+            </button>
+            <button class="cc-personality-card" data-val="analytical">
+              <div class="cc-personality-name">Analytical</div>
+              <div class="cc-personality-desc">Catalogues everything. Understanding is how this one copes.</div>
+            </button>
+            <button class="cc-personality-card" data-val="reckless">
+              <div class="cc-personality-name">Reckless</div>
+              <div class="cc-personality-desc">Acts before thinking. The corruption has more to work with.</div>
+            </button>
+          </div>
         </div>
 
         <div class="char-create-field" style="margin-top:1rem">
@@ -249,8 +296,32 @@
       </div>
 
       <div class="char-create-error" id="cc-error" hidden></div>
-    </div>
-  </div>
+
+        </div><!-- /cc-form-col -->
+
+        <!-- Right: live preview panel -->
+        <div class="cc-preview-col" id="cc-preview-col">
+          <div class="cc-preview-label">Preview</div>
+          <div class="cc-preview-card" id="cc-preview">
+            <div class="cc-prev-name" id="cc-prev-name">—</div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Height</span><span class="cc-prev-val" id="cc-prev-height">175cm</span></div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Build</span><span class="cc-prev-val" id="cc-prev-build">Average</span></div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Hair</span><span class="cc-prev-val" id="cc-prev-hair">Brown</span></div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Eyes</span><span class="cc-prev-val" id="cc-prev-eyes">Brown</span></div>
+            <div class="cc-prev-row" id="cc-prev-face-row" hidden><span class="cc-prev-key">Face</span><span class="cc-prev-val" id="cc-prev-face"></span></div>
+            <div class="cc-prev-divider"></div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Background</span><span class="cc-prev-val" id="cc-prev-bg">Warrior</span></div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Sin</span><span class="cc-prev-val" id="cc-prev-sin">Pride</span></div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Personality</span><span class="cc-prev-val" id="cc-prev-personality">Stoic</span></div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Tone</span><span class="cc-prev-val" id="cc-prev-tone">Conflict</span></div>
+            <div class="cc-prev-divider"></div>
+            <div class="cc-prev-note" id="cc-prev-note">Stage 4: <span id="cc-prev-stage4-h">—</span>cm</div>
+          </div>
+        </div><!-- /cc-preview-col -->
+
+      </div><!-- /cc-layout -->
+    </div><!-- /char-create-panel -->
+  </div><!-- /char-create-modal -->
 </div>
 
 <!-- =========================================================================
@@ -511,7 +582,80 @@
       </section>
 
     </div><!-- /.sidebar-inner -->
+
+    <!-- Slide-out toggle arrow -->
+    <button class="stats-slideout-toggle" id="stats-slideout-toggle"
+            aria-label="Toggle extended stats" aria-expanded="false">◁</button>
+
   </aside>
+
+  <!-- Extended stats slide-out panel (sits inside game-layout, outside sidebar flow) -->
+  <div class="stats-slideout" id="stats-slideout" aria-hidden="true">
+    <div class="slideout-inner">
+
+      <div class="slideout-section">
+        <div class="slideout-label">Feminization</div>
+        <div class="slideout-bar-row">
+          <span class="slideout-val" id="sl-fem-val">0%</span>
+          <div class="slideout-bar-track">
+            <div class="slideout-bar-fill sl-fem" id="sl-fem-fill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slideout-section">
+        <div class="slideout-label">Submission</div>
+        <div class="slideout-bar-row">
+          <span class="slideout-val" id="sl-sub-val">0</span>
+          <div class="slideout-bar-track">
+            <div class="slideout-bar-fill sl-sub" id="sl-sub-fill" style="width:0%"></div>
+          </div>
+        </div>
+        <div class="slideout-sublabel" id="sl-sub-label">Resistant</div>
+      </div>
+
+      <div class="slideout-section">
+        <div class="slideout-label">Attraction</div>
+        <div class="slideout-attraction" id="sl-attraction">—</div>
+      </div>
+
+      <div class="slideout-divider"></div>
+
+      <div class="slideout-section">
+        <div class="slideout-label">Sin</div>
+        <div class="slideout-sin" id="sl-sin">—</div>
+        <div class="slideout-sublabel" id="sl-sin-desc"></div>
+      </div>
+
+      <div class="slideout-section">
+        <div class="slideout-label">Tone</div>
+        <div class="slideout-tone" id="sl-tone">—</div>
+      </div>
+
+      <div class="slideout-divider"></div>
+
+      <div class="slideout-section">
+        <div class="slideout-label">Background</div>
+        <div class="slideout-val-text" id="sl-background">—</div>
+      </div>
+
+      <div class="slideout-section">
+        <div class="slideout-label">Height</div>
+        <div class="slideout-val-text" id="sl-height">—</div>
+      </div>
+
+      <div class="slideout-section">
+        <div class="slideout-label">Hair</div>
+        <div class="slideout-val-text" id="sl-hair">—</div>
+      </div>
+
+      <div class="slideout-section">
+        <div class="slideout-label">Eyes</div>
+        <div class="slideout-val-text" id="sl-eyes">—</div>
+      </div>
+
+    </div><!-- /.slideout-inner -->
+  </div><!-- /.stats-slideout -->
 
 </div><!-- /.game-layout -->
 
@@ -561,6 +705,71 @@
           <p class="inv-empty">No entries unlocked yet.</p>
         </div>
       </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     Map Overlay (SVG node map)
+     ========================================================================= -->
+
+<div class="map-overlay" id="map-overlay" aria-hidden="true">
+  <div class="map-panel">
+
+    <div class="map-header">
+      <span class="map-title">The Marches</span>
+      <button class="map-close" id="map-close" aria-label="Close map">×</button>
+    </div>
+
+    <div class="map-body">
+      <!-- SVG rendered by JS -->
+      <svg class="map-svg" id="map-svg" viewBox="0 0 500 380" xmlns="http://www.w3.org/2000/svg">
+      </svg>
+    </div>
+
+    <!-- Node info popup -->
+    <div class="map-info" id="map-info" hidden>
+      <div class="map-info-name" id="map-info-name">—</div>
+      <div class="map-info-desc" id="map-info-desc"></div>
+      <div class="map-info-cost" id="map-info-cost"></div>
+      <button class="map-travel-btn" id="map-travel-btn">Travel Here</button>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- =========================================================================
+     Saves Overlay
+     ========================================================================= -->
+
+<div class="saves-overlay" id="saves-overlay" aria-hidden="true">
+  <div class="saves-panel">
+
+    <div class="saves-header">
+      <span class="saves-title">Save &amp; Load</span>
+      <button class="saves-close" id="saves-close" aria-label="Close">×</button>
+    </div>
+
+    <!-- Current save info -->
+    <div class="saves-current" id="saves-current">
+      <div class="saves-current-name" id="saves-current-name">—</div>
+      <div class="saves-current-meta" id="saves-current-meta">Day — · — corruption · —</div>
+      <div class="saves-autosave-note" id="saves-autosave-note">Auto-save after every major event</div>
+    </div>
+
+    <!-- Actions -->
+    <div class="saves-actions">
+      <button class="saves-action-btn primary" id="saves-save-now">💾 Save Now</button>
+      <button class="saves-action-btn danger"  id="saves-new-game">⊕ New Game</button>
+    </div>
+
+    <!-- Slot list -->
+    <div class="saves-slots-label">All Save Slots</div>
+    <div class="saves-slots-list" id="saves-slots-list">
+      <div class="saves-slot-loading">Loading…</div>
     </div>
 
   </div>

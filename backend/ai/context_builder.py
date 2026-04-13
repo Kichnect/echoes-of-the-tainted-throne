@@ -118,8 +118,19 @@ def _champion_block(c: "Champion") -> str:
     stat_note_str = ", ".join(stat_notes) if stat_notes else "Within normal range"
 
     height_note = ""
-    if c.height_offset_in < 0:
-        height_note = f"\nHeight Change: {abs(c.height_offset_in):.0f}\" shorter than baseline"
+    try:
+        h = c.height_cm  # uses property with stage reduction
+        base = getattr(c, 'height_cm_base', 175.0) or 175.0
+        height_note = f"\nHeight: {h:.0f}cm"
+        if h < base:
+            height_note += f" (baseline {base:.0f}cm — reduced by transformation)"
+        if h < 160:
+            height_note += " — notably shorter than most adults"
+        if h < 150:
+            height_note += " — distinctly small; companions help with height-dependent tasks"
+    except Exception:
+        if c.height_offset_in < 0:
+            height_note = f"\nHeight Change: {abs(c.height_offset_in):.0f}\" shorter than baseline"
 
     return f"""=== CHAMPION ===
 Name: {c.name}
@@ -183,14 +194,32 @@ Attraction Arc: {sheet.attraction_current} (score {getattr(sheet, 'attraction_ar
 # Sin + Tone block
 # ---------------------------------------------------------------------------
 
+_PERSONALITY_NOTES: dict[str, str] = {
+    "stoic":      "Endures without complaint. Inner monologue is sparse, observational, action-oriented.",
+    "warm":       "Connects easily. Processes change through feeling and relationship. More vulnerable interiority.",
+    "analytical": "Catalogues everything. Processes change through understanding. Clinical framing that cracks under pressure.",
+    "reckless":   "Acts before thinking. Less filtered inner monologue. The corruption has more to work with.",
+}
+
+
 def _sin_tone_block(c: "Champion") -> str:
     """
-    Inject sin and tone preference into every AI context.
+    Inject sin, tone preference, and personality into every AI context.
     Gemma uses this to calibrate scene intensity and inner monologue framing.
     """
+    # Get personality from story_flags
+    personality = "stoic"
+    try:
+        flags = (c.save.story_flags or {}) if hasattr(c, "save") and c.save else {}
+        personality = flags.get("personality", "stoic") or "stoic"
+    except Exception:
+        pass
+    personality_note = _PERSONALITY_NOTES.get(personality, _PERSONALITY_NOTES["stoic"])
+
     try:
         from sin_system import inject_sin_context
-        return f"=== CHAMPION NATURE ===\n{inject_sin_context(c)}"
+        base = inject_sin_context(c)
+        return f"=== CHAMPION NATURE ===\n{base}\nPersonality: {personality} — {personality_note}"
     except Exception:
         sin = getattr(c, "sin", "pride") or "pride"
         tone = getattr(c, "tone_preference", "conflict") or "conflict"
@@ -202,7 +231,8 @@ def _sin_tone_block(c: "Champion") -> str:
         return (
             f"=== CHAMPION NATURE ===\n"
             f"Sin: {sin}\n"
-            f"Transformation Tone: {tone_labels.get(tone, tone_labels['conflict'])}"
+            f"Transformation Tone: {tone_labels.get(tone, tone_labels['conflict'])}\n"
+            f"Personality: {personality} — {personality_note}"
         )
 
 

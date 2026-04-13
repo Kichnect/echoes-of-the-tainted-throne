@@ -28,6 +28,7 @@ Endpoints:
 
 import json
 from contextlib import asynccontextmanager
+from datetime import datetime
 
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.responses import StreamingResponse
@@ -114,6 +115,10 @@ class NewSaveRequestV2(BaseModel):
     sin: str               = "pride"           # pride/lust/sloth/wrath/envy/greed/gluttony
     tone_preference: str   = "conflict"        # dread/conflict/relief
     champion_secret: str | None = None
+    # Extended character creation fields (Wave 2)
+    height_cm: float       = 175.0             # 150–200cm
+    face_desc: str         = ""                # freeform up to 60 chars
+    personality: str       = "stoic"           # stoic/warm/analytical/reckless
 
 
 class DeleteSaveRequest(BaseModel):
@@ -213,7 +218,10 @@ def _champion_dict(c: Champion) -> dict:
         "hair_color":      getattr(c, "hair_color", "brown") or "brown",
         "eye_color":       getattr(c, "eye_color", "brown") or "brown",
         "build":           getattr(c, "build", "average") or "average",
+        "background":      getattr(c, "background", "warrior") or "warrior",
         "prologue_done":   bool(getattr(c, "prologue_done", False)),
+        "height_cm":       getattr(c, "height_cm", 175.0),
+        "height_cm_base":  getattr(c, "height_cm_base", 175.0),
     }
 
 
@@ -611,13 +619,26 @@ async def new_save(req: NewSaveRequestV2, db: Session = Depends(get_db)):
     if req.champion_secret:
         save.story_flags = {**(save.story_flags or {}), "champion_secret": req.champion_secret}
 
+    # Apply height from character creation
+    height_cm_base = max(150.0, min(200.0, float(req.height_cm or 175.0)))
+    champion.height_cm_base = height_cm_base
+
+    # Apply personality to story_flags (used by AI context)
+    save.story_flags = {
+        **(save.story_flags or {}),
+        "personality": req.personality or "stoic",
+    }
+
     # Create character sheet with appearance details
     sheet_data = build_stage_0_sheet(save.id)
-    # Build face description from appearance choices
-    face_desc = (
-        f"{req.hair_color} hair, {req.eye_color} eyes"
-        + (", angular jaw" if req.gender == "male" else ", soft features")
-    )
+    # Build face description: use custom input if provided, else auto-generate
+    if req.face_desc and req.face_desc.strip():
+        face_desc = req.face_desc.strip()[:60]
+    else:
+        face_desc = (
+            f"{req.hair_color} hair, {req.eye_color} eyes"
+            + (", angular jaw" if req.gender == "male" else ", soft features")
+        )
     sheet = CharacterSheet(
         save_id=save.id,
         gender_attraction=req.gender_attraction,
@@ -690,6 +711,15 @@ async def delete_save(save_id: int, db: Session = Depends(get_db)):
     db.delete(save)
     db.commit()
     return {"deleted": True, "save_id": save_id}
+
+
+@app.post("/api/saves/save")
+async def touch_save(req: DeleteSaveRequest, db: Session = Depends(get_db)):
+    """Touch the save's updated_at timestamp. Called after combat/rest/gift."""
+    save = _load_save_or_404(req.save_id, db)
+    save.updated_at = datetime.utcnow()
+    db.commit()
+    return {"saved": True, "save_id": req.save_id}
 
 
 @app.get("/api/saves/{save_id}/equipment")
@@ -829,6 +859,51 @@ async def prologue_advance(save_id: int, completed_act: str, db: Session = Depen
         "next_act":       next_act_id,
         "next_act_data":  next_act,
         "prologue_done":  next_act_id is None,
+        "world":          _world_dict(save.world),
+        "champion":       _champion_dict(save.champion),
+    }
+
+
+class PrologueCombatRequest(BaseModel):
+    save_id: int
+    act_id: str
+    result: str   # "win" or "loss"
+
+
+@app.post("/api/prologue/combat")
+async def prologue_combat(req: PrologueCombatRequest, db: Session = Depends(get_db)):
+    """
+    Resolve a prologue combat act (act_7_lone_wolf).
+    Applies corruption on loss, then advances to the next act.
+    Returns next act data and updated state.
+    """
+    from prologue import advance_prologue_act, load_prologue_acts
+    save = _load_save_or_404(req.save_id, db)
+    acts_data = load_prologue_acts()
+    acts = acts_data.get("acts", [])
+    act = next((a for a in acts if a["id"] == req.act_id), None)
+
+    if act is None:
+        raise HTTPException(status_code=404, detail=f"Prologue act '{req.act_id}' not found")
+
+    corruption_gained = 0.0
+    if req.result == "loss":
+        corruption_gained = float(act.get("combat_corruption_on_loss", 2.0))
+        save.champion.corruption = min(100.0, (save.champion.corruption or 0.0) + corruption_gained)
+
+    next_act_id = advance_prologue_act(save, req.act_id, db)
+    db.commit()
+
+    next_act = next((a for a in acts if a["id"] == next_act_id), None) if next_act_id else None
+    return {
+        "act_id":           req.act_id,
+        "result":           req.result,
+        "corruption_gained": corruption_gained,
+        "next_act":         next_act_id,
+        "next_act_data":    next_act,
+        "prologue_done":    next_act_id is None,
+        "world":            _world_dict(save.world),
+        "champion":         _champion_dict(save.champion),
     }
 
 
@@ -1304,7 +1379,7 @@ async def stream_scene_route(req: SceneRequest, db: Session = Depends(get_db)):
 
     async def event_generator():
         try:
-            async for token in stream_scene(prompt, system_prompt):
+            async for token in stream_scene(prompt, system_prompt, save_id=req.save_id):
                 yield f"data: {json.dumps({'token': token})}\n\n"
         except Exception as exc:
             yield f"data: {json.dumps({'error': str(exc)})}\n\n"
@@ -1429,6 +1504,20 @@ async def debug_last_prompt(save_id: int):
     if not prompt:
         return {"save_id": save_id, "prompt": None, "note": "No prompt cached yet for this save this session."}
     return {"save_id": save_id, "prompt": prompt}
+
+
+@app.get("/api/debug/last-thinking/{save_id}")
+async def debug_last_thinking(save_id: int):
+    """Return the last extracted think block for this save (in-process cache)."""
+    from ai.local_client import _last_thinking_block
+    block = _last_thinking_block.get(save_id)
+    if not block:
+        return {
+            "save_id": save_id,
+            "think_block": None,
+            "note": "Model did not think (thinking disabled or no think block captured yet).",
+        }
+    return {"save_id": save_id, "think_block": block}
 
 
 def _load_system_prompt(prompt_name: str) -> str:

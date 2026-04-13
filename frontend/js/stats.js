@@ -77,6 +77,7 @@ const Stats = (() => {
     _updateStatuses(champion);
     _updateCompanions(companions);
     _updateWorld(world, gameState.travel);
+    _updateSlideout(champion, sheet);
   }
 
   // Sin symbol map
@@ -384,6 +385,101 @@ const Stats = (() => {
   }
 
   // ---------------------------------------------------------------------------
+  // Extended stats slide-out panel
+  // ---------------------------------------------------------------------------
+
+  const SIN_DESCRIPTIONS = {
+    pride:    'Seeks mastery — transformation as proof of worth',
+    lust:     'Drawn to pleasure — corruption reads as desire',
+    sloth:    'Yields to ease — the path of least resistance',
+    wrath:    'Fights the change — every yielding costs something',
+    envy:     'Covets what corruption offers — half-resisting',
+    greed:    'Collects power — views each stage as acquisition',
+    gluttony: 'Consumes and is consumed — excess in all things',
+  };
+
+  const TONE_LABELS = {
+    dread:    'Dread — transformation as loss',
+    conflict: 'Conflict — compelling and distressing',
+    relief:   'Relief — disturbed by how little they resist',
+  };
+
+  const SUB_LABELS = [
+    [76, 'Devoted'],
+    [51, 'Yielding'],
+    [26, 'Wavering'],
+    [ 0, 'Resistant'],
+  ];
+
+  function _updateSlideout(c, sheet) {
+    // Feminization
+    const fem = c.feminization ?? 0;
+    _setText('sl-fem-val', `${fem}%`);
+    const slFemFill = document.getElementById('sl-fem-fill');
+    if (slFemFill) slFemFill.style.width = `${Math.min(100, fem)}%`;
+
+    // Submission
+    const sub = Math.round(c.submission_score || 0);
+    _setText('sl-sub-val', sub);
+    const slSubFill = document.getElementById('sl-sub-fill');
+    if (slSubFill) slSubFill.style.width = `${Math.min(100, sub)}%`;
+    const subLabel = SUB_LABELS.find(([min]) => sub >= min)?.[1] ?? 'Resistant';
+    _setText('sl-sub-label', subLabel);
+
+    // Attraction arc
+    const arcLabel = c.attraction_current || c.gender_attraction || '';
+    const arcInfo  = ATTRACTION_LABELS[(arcLabel || '').toLowerCase()] || { label: arcLabel || '—', color: '#888' };
+    const slArc = document.getElementById('sl-attraction');
+    if (slArc) {
+      slArc.textContent = arcInfo.label;
+      slArc.style.color = arcInfo.color;
+    }
+
+    // Sin
+    const sin = (c.sin || '').toLowerCase();
+    const sinEl = document.getElementById('sl-sin');
+    if (sinEl) {
+      sinEl.textContent = sin ? sin.charAt(0).toUpperCase() + sin.slice(1) : '—';
+      sinEl.style.color = SIN_COLORS[sin] || '#888';
+    }
+    _setText('sl-sin-desc', SIN_DESCRIPTIONS[sin] || '');
+
+    // Tone
+    const tone = (c.tone_preference || '').toLowerCase();
+    _setText('sl-tone', TONE_LABELS[tone] || (tone ? tone : '—'));
+
+    // Background + physical from sheet
+    _setText('sl-background', c.background
+      ? c.background.charAt(0).toUpperCase() + c.background.slice(1)
+      : '—');
+
+    if (sheet) {
+      const heightCm = sheet.height_cm;
+      _setText('sl-height', heightCm ? `${heightCm} cm` : (sheet.height || '—'));
+      _setText('sl-hair', sheet.hair_color || '—');
+      _setText('sl-eyes', sheet.eye_color  || '—');
+    } else {
+      _setText('sl-height', '—');
+      _setText('sl-hair',   '—');
+      _setText('sl-eyes',   '—');
+    }
+  }
+
+  // Slide-out toggle — called once on DOMContentLoaded from game.js
+  function initSlideoutToggle() {
+    const btn    = document.getElementById('stats-slideout-toggle');
+    const panel  = document.getElementById('stats-slideout');
+    if (!btn || !panel) return;
+
+    btn.addEventListener('click', () => {
+      const open = panel.getAttribute('aria-hidden') === 'false';
+      panel.setAttribute('aria-hidden', String(open));
+      btn.setAttribute('aria-expanded', String(!open));
+      btn.textContent = open ? '◁' : '▷';
+    });
+  }
+
+  // ---------------------------------------------------------------------------
   // Helpers
   // ---------------------------------------------------------------------------
 
@@ -399,7 +495,7 @@ const Stats = (() => {
       .replace(/>/g, '&gt;');
   }
 
-  return { update };
+  return { update, initSlideoutToggle };
 
 })();
 
