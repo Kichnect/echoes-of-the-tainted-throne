@@ -175,7 +175,7 @@
 }
 
 .char-create-panel {
-  width: min(520px, 90vw);
+  width: min(820px, 94vw);
   max-height: 90vh;
   overflow-y: auto;
   background: var(--bg-panel);
@@ -184,7 +184,7 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
+  gap: 1.2rem;
 }
 
 .char-create-title {
@@ -672,13 +672,9 @@ body.debug-mode .choice-card[data-debug-weight="neutral"]::after { color: var(--
    Two-column creation layout
    -------------------------------------------------------------------------- */
 
-.char-create-panel {
-  width: min(880px, 94vw) !important;
-}
-
 .cc-layout {
   display: grid;
-  grid-template-columns: 1fr 220px;
+  grid-template-columns: 1fr 210px;
   gap: 1.6rem;
   align-items: start;
 }
@@ -760,14 +756,53 @@ body.debug-mode .choice-card[data-debug-weight="neutral"]::after { color: var(--
 }
 
 /* --------------------------------------------------------------------------
-   Height slider
+   Height slider — fully themed, no browser defaults bleeding through
    -------------------------------------------------------------------------- */
 
 .cc-range {
+  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
-  margin: 0.4rem 0 0.2rem;
-  accent-color: var(--accent-gold);
+  height: 4px;
+  background: var(--border-mid);
+  border-radius: 2px;
+  outline: none;
+  margin: 0.6rem 0 0.3rem;
   cursor: pointer;
+}
+
+/* Webkit (Chrome, Safari, Edge) thumb */
+.cc-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #c9a84c;
+  border: 2px solid #8a6a20;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.cc-range::-webkit-slider-thumb:hover {
+  background: #d4a017;
+  transform: scale(1.15);
+}
+
+/* Firefox thumb */
+.cc-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #c9a84c;
+  border: 2px solid #8a6a20;
+  cursor: pointer;
+}
+
+/* Webkit track fill (left of thumb) */
+.cc-range::-webkit-slider-runnable-track {
+  height: 4px;
+  background: var(--border-mid);
+  border-radius: 2px;
 }
 
 .cc-range-labels {
@@ -777,7 +812,7 @@ body.debug-mode .choice-card[data-debug-weight="neutral"]::after { color: var(--
   font-size: 0.6rem;
   color: var(--text-faint);
   letter-spacing: 0.05em;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.2rem;
 }
 
 /* --------------------------------------------------------------------------

@@ -34,7 +34,7 @@
   <div class="char-create-modal" id="char-create-modal" hidden>
     <div class="char-create-panel">
 
-      <!-- Step progress dots -->
+      <!-- Step progress dots — always visible at top -->
       <div class="cc-step-dots" id="cc-step-dots">
         <span class="cc-dot active" data-step="1"></span>
         <span class="cc-dot" data-step="2"></span>
@@ -44,269 +44,258 @@
         <span class="cc-dot" data-step="6"></span>
       </div>
 
+      <!-- Two-column layout: steps on left, preview on right -->
       <div class="cc-layout">
-        <!-- Left: form steps -->
+
+        <!-- LEFT: all form steps -->
         <div class="cc-form-col">
 
-      <!-- STEP 1 — Identity -->
-      <div class="cc-step active" id="cc-step-1">
-        <div class="char-create-title">Your Champion</div>
+          <!-- STEP 1 — Identity -->
+          <div class="cc-step active" id="cc-step-1">
+            <div class="char-create-title">Your Champion</div>
 
-        <div class="char-create-field">
-          <label class="char-create-label" for="cc-name">Name</label>
-          <input class="char-create-input" type="text" id="cc-name"
-                 placeholder="Your champion's name" maxlength="32" autocomplete="off">
-        </div>
+            <div class="char-create-field">
+              <label class="char-create-label" for="cc-name">Name</label>
+              <input class="char-create-input" type="text" id="cc-name"
+                     placeholder="Your champion's name" maxlength="32" autocomplete="off">
+            </div>
 
-        <div class="char-create-field">
-          <div class="char-create-label">Gender</div>
-          <div class="cc-choice-row" id="cc-gender-choices">
-            <button class="cc-pill active" data-val="male">Male</button>
-            <button class="cc-pill" data-val="female">Female</button>
-            <button class="cc-pill" data-val="other">Other</button>
-          </div>
-          <div class="char-create-hint">The Champion's own gender. The arc does not care about this.</div>
-        </div>
+            <div class="char-create-field">
+              <div class="char-create-label">Gender</div>
+              <div class="cc-choice-row" id="cc-gender-choices">
+                <button class="cc-pill active" data-val="male">Male</button>
+                <button class="cc-pill" data-val="female">Female</button>
+                <button class="cc-pill" data-val="other">Other</button>
+              </div>
+              <div class="char-create-hint">The Champion's own gender. The arc does not care about this.</div>
+            </div>
 
-        <div class="char-create-field">
-          <div class="char-create-label">Hair</div>
-          <div class="cc-choice-row" id="cc-hair-choices">
-            <button class="cc-pill active" data-val="black">Black</button>
-            <button class="cc-pill" data-val="dark brown">Dark Brown</button>
-            <button class="cc-pill" data-val="brown">Brown</button>
-            <button class="cc-pill" data-val="auburn">Auburn</button>
-            <button class="cc-pill" data-val="red">Red</button>
-            <button class="cc-pill" data-val="blonde">Blonde</button>
-            <button class="cc-pill" data-val="silver">Silver</button>
-            <button class="cc-pill" data-val="white">White</button>
-          </div>
-        </div>
+            <div class="char-create-field">
+              <div class="char-create-label">Hair</div>
+              <div class="cc-choice-row" id="cc-hair-choices">
+                <button class="cc-pill active" data-val="black">Black</button>
+                <button class="cc-pill" data-val="dark brown">Dark Brown</button>
+                <button class="cc-pill" data-val="brown">Brown</button>
+                <button class="cc-pill" data-val="auburn">Auburn</button>
+                <button class="cc-pill" data-val="red">Red</button>
+                <button class="cc-pill" data-val="blonde">Blonde</button>
+                <button class="cc-pill" data-val="silver">Silver</button>
+                <button class="cc-pill" data-val="white">White</button>
+              </div>
+            </div>
 
-        <div class="char-create-field">
-          <div class="char-create-label">Eyes</div>
-          <div class="cc-choice-row" id="cc-eye-choices">
-            <button class="cc-pill active" data-val="brown">Brown</button>
-            <button class="cc-pill" data-val="green">Green</button>
-            <button class="cc-pill" data-val="blue">Blue</button>
-            <button class="cc-pill" data-val="grey">Grey</button>
-            <button class="cc-pill" data-val="amber">Amber</button>
-            <button class="cc-pill" data-val="violet">Violet</button>
-          </div>
-        </div>
+            <div class="char-create-field">
+              <div class="char-create-label">Eyes</div>
+              <div class="cc-choice-row" id="cc-eye-choices">
+                <button class="cc-pill active" data-val="brown">Brown</button>
+                <button class="cc-pill" data-val="green">Green</button>
+                <button class="cc-pill" data-val="blue">Blue</button>
+                <button class="cc-pill" data-val="grey">Grey</button>
+                <button class="cc-pill" data-val="amber">Amber</button>
+                <button class="cc-pill" data-val="violet">Violet</button>
+              </div>
+            </div>
 
-        <div class="char-create-field">
-          <div class="char-create-label">Build</div>
-          <div class="background-choices" id="cc-build-choices">
-            <button class="bg-choice" data-val="lean">
-              <div class="bg-choice-name">Lean</div>
-              <div class="bg-choice-bonus">+2 Grace</div>
-              <div class="bg-choice-desc">Quick and precise. Built for speed over power.</div>
-            </button>
-            <button class="bg-choice active" data-val="average">
-              <div class="bg-choice-name">Average</div>
-              <div class="bg-choice-bonus">Balanced</div>
-              <div class="bg-choice-desc">Neither extreme. Room to grow in any direction.</div>
-            </button>
-            <button class="bg-choice" data-val="broad">
-              <div class="bg-choice-name">Broad</div>
-              <div class="bg-choice-bonus">+2 Force</div>
-              <div class="bg-choice-desc">Built for combat. The corruption will reshape this.</div>
-            </button>
-          </div>
-        </div>
+            <div class="char-create-field">
+              <div class="char-create-label">Build</div>
+              <div class="background-choices" id="cc-build-choices">
+                <button class="bg-choice" data-val="lean">
+                  <div class="bg-choice-name">Lean</div>
+                  <div class="bg-choice-bonus">+2 Grace</div>
+                  <div class="bg-choice-desc">Quick and precise. Built for speed over power.</div>
+                </button>
+                <button class="bg-choice active" data-val="average">
+                  <div class="bg-choice-name">Average</div>
+                  <div class="bg-choice-bonus">Balanced</div>
+                  <div class="bg-choice-desc">Neither extreme. Room to grow in any direction.</div>
+                </button>
+                <button class="bg-choice" data-val="broad">
+                  <div class="bg-choice-name">Broad</div>
+                  <div class="bg-choice-bonus">+2 Force</div>
+                  <div class="bg-choice-desc">Built for combat. The corruption will reshape this.</div>
+                </button>
+              </div>
+            </div>
 
-        <div class="char-create-field">
-          <label class="char-create-label" for="cc-height">
-            Height: <span id="cc-height-display">175</span>cm
-          </label>
-          <input class="cc-range" type="range" id="cc-height"
-                 min="150" max="200" value="175" step="1">
-          <div class="cc-range-labels">
-            <span>150cm</span><span>175cm</span><span>200cm</span>
-          </div>
-          <div class="char-create-hint">The corruption reduces this over time. Stage 4 brings you to <span id="cc-height-stage4-display">143</span>cm.</div>
-        </div>
+            <div class="char-create-field">
+              <label class="char-create-label" for="cc-height">
+                Height: <span id="cc-height-display">175</span>cm
+              </label>
+              <input class="cc-range" type="range" id="cc-height"
+                     min="150" max="200" value="175" step="1">
+              <div class="cc-range-labels">
+                <span>150cm</span><span>175cm</span><span>200cm</span>
+              </div>
+              <div class="char-create-hint">The corruption reshapes this. Stage 4 brings you to <span id="cc-height-stage4-display">143</span>cm.</div>
+            </div>
 
-        <div class="char-create-field">
-          <label class="char-create-label" for="cc-face-desc">Face description <span class="cc-optional">(optional)</span></label>
-          <input class="char-create-input" type="text" id="cc-face-desc"
-                 placeholder="e.g. sharp cheekbones, a scar through the left brow" maxlength="60" autocomplete="off">
-          <div class="cc-char-count"><span id="cc-face-count">0</span>/60</div>
-          <div class="char-create-hint">Used verbatim by the AI. Leave blank for auto-description.</div>
-        </div>
-      </div>
+            <div class="char-create-field">
+              <label class="char-create-label" for="cc-face-desc">Face <span class="cc-optional">(optional)</span></label>
+              <input class="char-create-input" type="text" id="cc-face-desc"
+                     placeholder="e.g. sharp cheekbones, a scar through the left brow" maxlength="60" autocomplete="off">
+              <div class="cc-char-count"><span id="cc-face-count">0</span>/60</div>
+              <div class="char-create-hint">Used verbatim by the AI. Leave blank for auto.</div>
+            </div>
+          </div><!-- /cc-step-1 -->
 
-      <!-- STEP 2 — Background -->
-      <div class="cc-step" id="cc-step-2" hidden>
-        <div class="char-create-title">Your History</div>
-        <div class="char-create-field">
-          <div class="background-choices" id="background-choices">
-            <button class="bg-choice active" data-bg="warrior">
-              <div class="bg-choice-name">Warrior</div>
-              <div class="bg-choice-bonus">Force +2, HP +15</div>
-              <div class="bg-choice-desc">Military deployment gone wrong. You know how to fight. This is not a fight you know how to win.</div>
-            </button>
-            <button class="bg-choice" data-bg="scholar">
-              <div class="bg-choice-name">Scholar</div>
-              <div class="bg-choice-bonus">Presence +2, Essence +20</div>
-              <div class="bg-choice-desc">Academic expedition. You have notes on this phenomenon. They are insufficient.</div>
-            </button>
-            <button class="bg-choice" data-bg="scout">
-              <div class="bg-choice-name">Scout</div>
-              <div class="bg-choice-bonus">Grace +2</div>
-              <div class="bg-choice-desc">Recon mission into the Marches. You read terrain well. This terrain reads back.</div>
-            </button>
-          </div>
-        </div>
-      </div>
+          <!-- STEP 2 — Background -->
+          <div class="cc-step" id="cc-step-2" hidden>
+            <div class="char-create-title">Your History</div>
+            <div class="char-create-field">
+              <div class="background-choices" id="background-choices">
+                <button class="bg-choice active" data-bg="warrior">
+                  <div class="bg-choice-name">Warrior</div>
+                  <div class="bg-choice-bonus">Force +2, HP +15</div>
+                  <div class="bg-choice-desc">Military deployment gone wrong. You know how to fight. This is not a fight you know how to win.</div>
+                </button>
+                <button class="bg-choice" data-bg="scholar">
+                  <div class="bg-choice-name">Scholar</div>
+                  <div class="bg-choice-bonus">Presence +2, Essence +20</div>
+                  <div class="bg-choice-desc">Academic expedition. You have notes on this phenomenon. They are insufficient.</div>
+                </button>
+                <button class="bg-choice" data-bg="scout">
+                  <div class="bg-choice-name">Scout</div>
+                  <div class="bg-choice-bonus">Grace +2</div>
+                  <div class="bg-choice-desc">Recon mission into the Marches. You read terrain well. This terrain reads back.</div>
+                </button>
+              </div>
+            </div>
+          </div><!-- /cc-step-2 -->
 
-      <!-- STEP 3 — Sin -->
-      <div class="cc-step" id="cc-step-3" hidden>
-        <div class="char-create-title">Your Sin</div>
-        <div class="char-create-hint" style="margin-bottom:0.8rem">This flavors the corruption arc. Choose honestly.</div>
-        <div class="char-create-field">
-          <div class="cc-sin-grid" id="cc-sin-choices">
-            <button class="cc-sin-card active" data-val="pride">
-              <div class="cc-sin-symbol">♦</div>
-              <div class="cc-sin-name">Pride</div>
-              <div class="cc-sin-desc">Resists longer. Falls harder.</div>
-            </button>
-            <button class="cc-sin-card" data-val="lust">
-              <div class="cc-sin-symbol">♥</div>
-              <div class="cc-sin-name">Lust</div>
-              <div class="cc-sin-desc">Arousal rises faster. Encounters more intense.</div>
-            </button>
-            <button class="cc-sin-card" data-val="sloth">
-              <div class="cc-sin-symbol">♠</div>
-              <div class="cc-sin-name">Sloth</div>
-              <div class="cc-sin-desc">Corruption spreads faster. Companions compensate.</div>
-            </button>
-            <button class="cc-sin-card" data-val="wrath">
-              <div class="cc-sin-symbol">♣</div>
-              <div class="cc-sin-name">Wrath</div>
-              <div class="cc-sin-desc">Wins pay more. Losses cost more.</div>
-            </button>
-            <button class="cc-sin-card" data-val="envy">
-              <div class="cc-sin-symbol">★</div>
-              <div class="cc-sin-name">Envy</div>
-              <div class="cc-sin-desc">The attraction arc advances through observation.</div>
-            </button>
-            <button class="cc-sin-card" data-val="greed">
-              <div class="cc-sin-symbol">$</div>
-              <div class="cc-sin-name">Greed</div>
-              <div class="cc-sin-desc">Discoveries more common. Items more potent.</div>
-            </button>
-            <button class="cc-sin-card" data-val="gluttony">
-              <div class="cc-sin-symbol">●</div>
-              <div class="cc-sin-name">Gluttony</div>
-              <div class="cc-sin-desc">Everything amplifies — corruption and resistance.</div>
-            </button>
-          </div>
-        </div>
-      </div>
+          <!-- STEP 3 — Sin -->
+          <div class="cc-step" id="cc-step-3" hidden>
+            <div class="char-create-title">Your Sin</div>
+            <div class="char-create-hint" style="margin-bottom:0.8rem">This flavors the corruption arc. Choose honestly.</div>
+            <div class="char-create-field">
+              <div class="cc-sin-grid" id="cc-sin-choices">
+                <button class="cc-sin-card active" data-val="pride">
+                  <div class="cc-sin-symbol">♦</div>
+                  <div class="cc-sin-name">Pride</div>
+                  <div class="cc-sin-desc">Resists longer. Falls harder.</div>
+                </button>
+                <button class="cc-sin-card" data-val="lust">
+                  <div class="cc-sin-symbol">♥</div>
+                  <div class="cc-sin-name">Lust</div>
+                  <div class="cc-sin-desc">Arousal rises faster. Encounters more intense.</div>
+                </button>
+                <button class="cc-sin-card" data-val="sloth">
+                  <div class="cc-sin-symbol">♠</div>
+                  <div class="cc-sin-name">Sloth</div>
+                  <div class="cc-sin-desc">Corruption spreads faster. Companions compensate.</div>
+                </button>
+                <button class="cc-sin-card" data-val="wrath">
+                  <div class="cc-sin-symbol">♣</div>
+                  <div class="cc-sin-name">Wrath</div>
+                  <div class="cc-sin-desc">Wins pay more. Losses cost more.</div>
+                </button>
+                <button class="cc-sin-card" data-val="envy">
+                  <div class="cc-sin-symbol">★</div>
+                  <div class="cc-sin-name">Envy</div>
+                  <div class="cc-sin-desc">The attraction arc advances through observation.</div>
+                </button>
+                <button class="cc-sin-card" data-val="greed">
+                  <div class="cc-sin-symbol">$</div>
+                  <div class="cc-sin-name">Greed</div>
+                  <div class="cc-sin-desc">Discoveries more common. Items more potent.</div>
+                </button>
+                <button class="cc-sin-card" data-val="gluttony">
+                  <div class="cc-sin-symbol">●</div>
+                  <div class="cc-sin-name">Gluttony</div>
+                  <div class="cc-sin-desc">Everything amplifies — corruption and resistance.</div>
+                </button>
+              </div>
+            </div>
+          </div><!-- /cc-step-3 -->
 
-      <!-- STEP 4 — Attraction -->
-      <div class="cc-step" id="cc-step-4" hidden>
-        <div class="char-create-title">Attraction Starting Point</div>
-        <div class="char-create-hint" style="margin-bottom:0.8rem">All paths converge. The corruption has its own arc.</div>
-        <div class="char-create-field">
-          <div class="attraction-choices" id="attraction-choices">
-            <button class="attr-choice active" data-attr="female-leaning">
-              <div class="attr-choice-name">Drawn to women</div>
-              <div class="attr-choice-desc">Conventional. The arc will test this from the outside in.</div>
-            </button>
-            <button class="attr-choice" data-attr="bisexual-leaning-female">
-              <div class="attr-choice-name">Drawn to both</div>
-              <div class="attr-choice-desc">The arc already has something to work with.</div>
-            </button>
-            <button class="attr-choice" data-attr="uncertain">
-              <div class="attr-choice-name">Uncertain</div>
-              <div class="attr-choice-desc">Already questioning. The arc will clarify it.</div>
-            </button>
-          </div>
-        </div>
-      </div>
+          <!-- STEP 4 — Attraction -->
+          <div class="cc-step" id="cc-step-4" hidden>
+            <div class="char-create-title">Attraction Starting Point</div>
+            <div class="char-create-hint" style="margin-bottom:0.8rem">All paths converge. The corruption has its own arc.</div>
+            <div class="char-create-field">
+              <div class="attraction-choices" id="attraction-choices">
+                <button class="attr-choice active" data-attr="female-leaning">
+                  <div class="attr-choice-name">Drawn to women</div>
+                  <div class="attr-choice-desc">Conventional. The arc will test this from the outside in.</div>
+                </button>
+                <button class="attr-choice" data-attr="bisexual-leaning-female">
+                  <div class="attr-choice-name">Drawn to both</div>
+                  <div class="attr-choice-desc">The arc already has something to work with.</div>
+                </button>
+                <button class="attr-choice" data-attr="uncertain">
+                  <div class="attr-choice-name">Uncertain</div>
+                  <div class="attr-choice-desc">Already questioning. The arc will clarify it.</div>
+                </button>
+              </div>
+            </div>
+          </div><!-- /cc-step-4 -->
 
-      <!-- STEP 5 — The Secret + Personality + Tone -->
-      <div class="cc-step" id="cc-step-5" hidden>
-        <div class="char-create-title">The Secret</div>
-        <div class="char-create-field">
-          <label class="char-create-label" for="cc-secret">One thing you have never told anyone</label>
-          <input class="char-create-input" type="text" id="cc-secret"
-                 placeholder="Optional. Mireille may figure it out." maxlength="100" autocomplete="off">
-          <div class="char-create-hint">Leave blank to skip. It will haunt the story if you fill it in.</div>
-        </div>
+          <!-- STEP 5 — The Secret + Personality + Tone -->
+          <div class="cc-step" id="cc-step-5" hidden>
+            <div class="char-create-title">The Secret</div>
+            <div class="char-create-field">
+              <label class="char-create-label" for="cc-secret">One thing you have never told anyone</label>
+              <input class="char-create-input" type="text" id="cc-secret"
+                     placeholder="Optional. Mireille may figure it out." maxlength="100" autocomplete="off">
+              <div class="char-create-hint">Leave blank to skip. It will haunt the story if you fill it in.</div>
+            </div>
+            <div class="char-create-field">
+              <div class="char-create-label">Personality</div>
+              <div class="char-create-hint" style="margin-bottom:0.5rem">Flavors inner monologue and companion dialogue.</div>
+              <div class="cc-personality-grid" id="cc-personality-choices">
+                <button class="cc-personality-card active" data-val="stoic">
+                  <div class="cc-personality-name">Stoic</div>
+                  <div class="cc-personality-desc">Endures without complaint. Processes change through action, not feeling.</div>
+                </button>
+                <button class="cc-personality-card" data-val="warm">
+                  <div class="cc-personality-name">Warm</div>
+                  <div class="cc-personality-desc">Connects easily. Vulnerability is expressed, not hidden.</div>
+                </button>
+                <button class="cc-personality-card" data-val="analytical">
+                  <div class="cc-personality-name">Analytical</div>
+                  <div class="cc-personality-desc">Catalogues everything. Understanding is how this one copes.</div>
+                </button>
+                <button class="cc-personality-card" data-val="reckless">
+                  <div class="cc-personality-name">Reckless</div>
+                  <div class="cc-personality-desc">Acts before thinking. The corruption has more to work with.</div>
+                </button>
+              </div>
+            </div>
+            <div class="char-create-field">
+              <div class="char-create-label">How does your Champion experience change?</div>
+              <div class="cc-tone-choices" id="cc-tone-choices">
+                <button class="cc-tone-card" data-val="dread">
+                  <div class="cc-tone-name">With dread</div>
+                  <div class="cc-tone-desc">Scenes lean distressing. Inner monologue emphasizes loss and wrongness.</div>
+                </button>
+                <button class="cc-tone-card active" data-val="conflict">
+                  <div class="cc-tone-name">With conflict</div>
+                  <div class="cc-tone-desc">Compelling and distressing simultaneously. The most complex path.</div>
+                </button>
+                <button class="cc-tone-card" data-val="relief">
+                  <div class="cc-tone-name">With secret relief</div>
+                  <div class="cc-tone-desc">Disturbed by how little they resist. Denial of acceptance.</div>
+                </button>
+              </div>
+            </div>
+          </div><!-- /cc-step-5 -->
 
-        <div class="char-create-field" style="margin-top:1rem">
-          <div class="char-create-label">Personality</div>
-          <div class="char-create-hint" style="margin-bottom:0.6rem">Flavors inner monologue and companion dialogue.</div>
-          <div class="cc-personality-grid" id="cc-personality-choices">
-            <button class="cc-personality-card active" data-val="stoic">
-              <div class="cc-personality-name">Stoic</div>
-              <div class="cc-personality-desc">Endures without complaint. Processes change through action, not feeling.</div>
-            </button>
-            <button class="cc-personality-card" data-val="warm">
-              <div class="cc-personality-name">Warm</div>
-              <div class="cc-personality-desc">Connects easily. Vulnerability is expressed, not hidden.</div>
-            </button>
-            <button class="cc-personality-card" data-val="analytical">
-              <div class="cc-personality-name">Analytical</div>
-              <div class="cc-personality-desc">Catalogues everything. Understanding is how this one copes.</div>
-            </button>
-            <button class="cc-personality-card" data-val="reckless">
-              <div class="cc-personality-name">Reckless</div>
-              <div class="cc-personality-desc">Acts before thinking. The corruption has more to work with.</div>
-            </button>
-          </div>
-        </div>
-
-        <div class="char-create-field" style="margin-top:1rem">
-          <div class="char-create-label">How does your Champion experience change?</div>
-          <div class="cc-tone-choices" id="cc-tone-choices">
-            <button class="cc-tone-card" data-val="dread">
-              <div class="cc-tone-name">With dread</div>
-              <div class="cc-tone-desc">Scenes lean distressing. Inner monologue emphasizes loss and wrongness.</div>
-            </button>
-            <button class="cc-tone-card active" data-val="conflict">
-              <div class="cc-tone-name">With conflict</div>
-              <div class="cc-tone-desc">Compelling and distressing simultaneously. The most complex path.</div>
-            </button>
-            <button class="cc-tone-card" data-val="relief">
-              <div class="cc-tone-name">With secret relief</div>
-              <div class="cc-tone-desc">Disturbed by how little they resist. Denial of acceptance.</div>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 6 — Summary + Confirm -->
-      <div class="cc-step" id="cc-step-6" hidden>
-        <div class="char-create-title">Ready</div>
-        <div class="cc-summary" id="cc-summary">
-          <!-- Populated by JS -->
-        </div>
-        <div class="char-create-hint">The road does not wait.</div>
-      </div>
-
-      <!-- Navigation -->
-      <div class="char-create-actions">
-        <button class="char-create-cancel" id="cc-cancel">Cancel</button>
-        <button class="char-create-cancel" id="cc-back" hidden>← Back</button>
-        <button class="char-create-confirm" id="cc-confirm">Next →</button>
-      </div>
-
-      <div class="char-create-error" id="cc-error" hidden></div>
+          <!-- STEP 6 — Summary + Confirm -->
+          <div class="cc-step" id="cc-step-6" hidden>
+            <div class="char-create-title">Ready</div>
+            <div class="cc-summary" id="cc-summary"><!-- Populated by JS --></div>
+            <div class="char-create-hint">The road does not wait.</div>
+          </div><!-- /cc-step-6 -->
 
         </div><!-- /cc-form-col -->
 
-        <!-- Right: live preview panel -->
+        <!-- RIGHT: live preview (sticky) -->
         <div class="cc-preview-col" id="cc-preview-col">
           <div class="cc-preview-label">Preview</div>
           <div class="cc-preview-card" id="cc-preview">
             <div class="cc-prev-name" id="cc-prev-name">—</div>
             <div class="cc-prev-row"><span class="cc-prev-key">Height</span><span class="cc-prev-val" id="cc-prev-height">175cm</span></div>
             <div class="cc-prev-row"><span class="cc-prev-key">Build</span><span class="cc-prev-val" id="cc-prev-build">Average</span></div>
-            <div class="cc-prev-row"><span class="cc-prev-key">Hair</span><span class="cc-prev-val" id="cc-prev-hair">Brown</span></div>
+            <div class="cc-prev-row"><span class="cc-prev-key">Hair</span><span class="cc-prev-val" id="cc-prev-hair">Black</span></div>
             <div class="cc-prev-row"><span class="cc-prev-key">Eyes</span><span class="cc-prev-val" id="cc-prev-eyes">Brown</span></div>
             <div class="cc-prev-row" id="cc-prev-face-row" hidden><span class="cc-prev-key">Face</span><span class="cc-prev-val" id="cc-prev-face"></span></div>
             <div class="cc-prev-divider"></div>
@@ -315,11 +304,20 @@
             <div class="cc-prev-row"><span class="cc-prev-key">Personality</span><span class="cc-prev-val" id="cc-prev-personality">Stoic</span></div>
             <div class="cc-prev-row"><span class="cc-prev-key">Tone</span><span class="cc-prev-val" id="cc-prev-tone">Conflict</span></div>
             <div class="cc-prev-divider"></div>
-            <div class="cc-prev-note" id="cc-prev-note">Stage 4: <span id="cc-prev-stage4-h">—</span>cm</div>
+            <div class="cc-prev-note">Stage 4: <span id="cc-prev-stage4-h">143</span>cm</div>
           </div>
         </div><!-- /cc-preview-col -->
 
       </div><!-- /cc-layout -->
+
+      <!-- Navigation — outside the two-column layout, always visible at bottom -->
+      <div class="char-create-actions">
+        <button class="char-create-cancel" id="cc-cancel">Cancel</button>
+        <button class="char-create-cancel" id="cc-back" hidden>← Back</button>
+        <button class="char-create-confirm" id="cc-confirm">Next →</button>
+      </div>
+      <div class="char-create-error" id="cc-error" hidden></div>
+
     </div><!-- /char-create-panel -->
   </div><!-- /char-create-modal -->
 </div>
